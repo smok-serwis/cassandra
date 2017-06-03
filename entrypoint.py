@@ -1,5 +1,5 @@
 # coding=UTF-8
-import os
+import os, sys
 
 CFG_FILE = '/etc/cassandra/cassandra.yaml'
 SUBST_WITH_ENVS = [
@@ -9,6 +9,10 @@ SUBST_WITH_ENVS = [
 
 
 if __name__ == '__main__':
+
+    if 'I_ACCEPT_ORACLE_JAVA_LICENSE' not in os.environ:
+        sys.exit(1)
+
     # modify cassandra.yaml
     with open(CFG_FILE, 'rb') as fin:
         data = fin.read()
