@@ -10,7 +10,7 @@ This means that you accept the
 
 
 You don't need to make your images basing off this one.
-Just set envs as needed. See [entrypoint.py](/entrypoint.py) for details.
+Just set envs as needed. See [entrypoint.py](https://github.com/smok-serwis/cassandra/blob/master/entrypoint.py) for details.
 
 This exports two volumes - 
 one for data (_/var/lib/cassandra_),
