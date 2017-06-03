@@ -5,15 +5,15 @@ ADD webupd8team-java.list /etc/apt/sources.list.d/webupd8team-java.list
 RUN echo debconf shared/accepted-oracle-license-v1-1 select true |  debconf-set-selections && \
     apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys EEA14886 && \
     apt-get update && \
-    apt-get install -y --no-install-recommends python-minimal debconf-utils curl wget apt-utils oracle-java8-installer ca-certificates && \
+    apt-get install -y --no-install-recommends ntp python-minimal debconf-utils curl wget apt-utils oracle-java8-installer ca-certificates && \
     apt-get clean
 
 
 # Cassandra 3.0
-RUN  echo "deb http://debian.datastax.com/community stable main" > /etc/apt/sources.list.d/cassandra.sources.list && \
-     curl -L http://debian.datastax.com/debian/repo_key | apt-key add - && \
+ADD cassandra.sources.list /etc/apt/sources.list.d/cassandra.sources.list
+RUN  curl -L http://debian.datastax.com/debian/repo_key | apt-key add - && \
      apt-get update && \
-     apt-get install -y cassandra=3.0.9 dsc30 cassandra-tools ntp && \
+     apt-get install -y cassandra=3.0.9 dsc30 cassandra-tools && \
      apt-get clean
 
 # JMX agent
