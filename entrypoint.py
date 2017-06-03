@@ -23,6 +23,9 @@ if __name__ == '__main__':
     with open(CFG_FILE, 'wb') as fout:
         fout.write(data)
 
+    # NTP
+    os.system('service ntp start')
+
     # Run Cassandra proper
     os.execv("/usr/sbin/cassandra", ["/usr/sbin/cassandra", "-f"])
 
