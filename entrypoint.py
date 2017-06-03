@@ -21,6 +21,13 @@ if __name__ == '__main__':
     for k in SUBST_WITH_ENVS:
         data = data.replace('$'+k, os.environ[k])
 
+    i = 0
+    extras = []
+    while ('EXTRA%s' % (i, )) in os.environ:
+        extras.append('JVM_OPTS="$JVM_OPTS '+os.environ['EXTRA%s' % (i, )]+'"\n')
+
+    data = data.replace('$$$EXTRA_ARGS', ''.join(extras))
+
     with open(CFG_FILE, 'wb') as fout:
         fout.write(data)
 

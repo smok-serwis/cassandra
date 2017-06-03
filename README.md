@@ -12,9 +12,11 @@ Just set envs as needed. See [Dockerfile](/Dockerfile) for details.
 
 This exports two volumes - 
 one for data (_/var/lib/cassandra_),
-and one for commitlog (_/var/lib/cassandra/commitlog_). 
+and one for commitlog (_/var/lib/cassandra/commitlog_),
+and one for logs (_/var/log/cassandra_)
+
 Best mount them as bind.
 
-Use host networking, or your addresses might go crazy.
+Recommended options are `--network host --privileged`
 
-Run with `--cap add CAP_IPC_LOCK` and `--cap-add RLIMIT_MEMLOCK`.
+If you need to pass any extra options, just put them in environment variables `EXTRA1`, `EXTRA2` and so on.
