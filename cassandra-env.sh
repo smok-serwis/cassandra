@@ -1,3 +1,13 @@
+DESC="Cassandra"
+NAME=cassandra
+PIDFILE=/var/run/$NAME/$NAME.pid
+SCRIPTNAME=/etc/init.d/$NAME
+CONFDIR=/etc/cassandra
+WAIT_FOR_START=10
+CASSANDRA_HOME=/usr/share/cassandra
+CASSANDRA_CONF=$CONFDIR
+FD_LIMIT=100000
+
 
 # Determine the sort of JVM we'll be running on.
 java_ver_output=`"${JAVA:-java}" -version 2>&1`
@@ -218,3 +228,5 @@ JVM_OPTS="$JVM_OPTS -Djava.library.path=$CASSANDRA_HOME/lib/sigar-bin"
 JVM_OPTS="$JVM_OPTS $MX4J_ADDRESS"
 JVM_OPTS="$JVM_OPTS $MX4J_PORT"
 JVM_OPTS="$JVM_OPTS $JVM_EXTRA_OPTS"
+
+exec
