@@ -24,7 +24,7 @@ if __name__ == '__main__':
     with open(CFG_FILE, 'wb') as fout:
         fout.write(data)
 
-    # NTP
+    # NTP client - because time matters
     os.system('service ntp start')
 
     # Run Cassandra proper
