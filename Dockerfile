@@ -24,15 +24,13 @@ ADD jmx-exporter.yaml /etc/cassandra/jmx-exporter.yaml
 # Our config - base files
 ADD cassandra-env.sh /etc/cassandra/cassandra-env.sh
 ADD cassandra.yaml /etc/cassandra/cassandra.yaml
-ADD entrypoint.sh /entrypoint.sh
 
-# Customize config
-ADD customizecfg.py /tmp/customizecfg.py
+# Entry point
+ADD entrypoint.py /entrypoint.py
 RUN apt-get update && \
     apt-get install -y --no-install-recommends python && \
-    python /tmp/customizecfg.py && \
-    apt-get purge -y && \
     apt-get clean
+CMD ["/usr/bin/python", "/entrypoint.py"]
 
 # Exports
 
@@ -48,4 +46,15 @@ EXPOSE 9042
 ## Internode
 EXPOSE 7000
 
-CMD ["/entrypoint.sh"]
+# Defaults
+ENV MAX_HEAP_SIZE=4G
+ENV HEAP_NEWSIZE=100M
+ENV LISTEN_ADDRESS=127.0.0.1
+ENV BROADCAST_ADDRESS=127.0.0.1
+ENV RPC_ADDRESS=127.0.0.1
+ENV RPC_BROADCAST_ADDRESS=127.0.0.1
+ENV CLUSTER_NAME=TestCluster
+ENV SEED_NODES=127.0.0.1
+ENV STREAMING_SOCKET_TIMEOUT_IN_MS=360000000
+
+

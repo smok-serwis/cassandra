@@ -7,7 +7,7 @@
 
 # The name of the cluster. This is mainly used to prevent machines in
 # one logical cluster from joining another.
-cluster_name: 'SMOK4 Production'
+cluster_name: '$CLUSTER_NAME'
 
 # This defines the number of tokens randomly assigned to this node on the ring
 # The more tokens, relative to other nodes, the larger the proportion of data
@@ -332,7 +332,7 @@ seed_provider:
       parameters:
           # seeds is actually a comma-delimited list of addresses.
           # Ex: "<ip1>,<ip2>,<ip3>"
-          - seeds: "192.168.224.32"
+          - seeds: "$SEED_NODES"
 
 # For workloads with more data than can fit in memory, Cassandra's
 # bottleneck will be reads that need to fetch data from
@@ -462,13 +462,13 @@ ssl_storage_port: 7001
 # you can specify which should be chosen using listen_interface_prefer_ipv6. If false the first ipv4
 # address will be used. If true the first ipv6 address will be used. Defaults to false preferring
 # ipv4. If there is only one address it will be selected regardless of ipv4/ipv6.
-listen_address: 192.168.224.32
+listen_address: $LISTEN_ADDRESS
 # listen_interface: eth0
 # listen_interface_prefer_ipv6: false
 
 # Address to broadcast to other Cassandra nodes
 # Leaving this blank will set it to the same value as listen_address
-# broadcast_address: 1.2.3.4
+broadcast_address: $BROADCAST_ADDRESS
 
 # Internode authentication backend, implementing IInternodeAuthenticator;
 # used to allow/disallow connections from peer nodes.
@@ -528,7 +528,7 @@ start_rpc: false
 # you can specify which should be chosen using rpc_interface_prefer_ipv6. If false the first ipv4
 # address will be used. If true the first ipv6 address will be used. Defaults to false preferring
 # ipv4. If there is only one address it will be selected regardless of ipv4/ipv6.
-rpc_address: 192.168.224.32
+rpc_address: $RPC_ADDRESS
 # rpc_interface: eth1
 # rpc_interface_prefer_ipv6: false
 
@@ -539,7 +539,7 @@ rpc_port: 9160
 # be set to 0.0.0.0. If left blank, this will be set to the value of
 # rpc_address. If rpc_address is set to 0.0.0.0, broadcast_rpc_address must
 # be set.
-# broadcast_rpc_address: 1.2.3.4
+broadcast_rpc_address: $RPC_BROADCAST_ADDRESS
 
 # enable or disable keepalive on rpc/native connections
 rpc_keepalive: true
@@ -724,7 +724,7 @@ cross_node_timeout: false
 # of the current file. This _can_ involve re-streaming an important amount of
 # data, so you should avoid setting the value too low.
 # Default value is 3600000, which means streams timeout after an hour.
-# streaming_socket_timeout_in_ms: 3600000
+streaming_socket_timeout_in_ms: $STREAMING_SOCKET_TIMEOUT_IN_MS
 
 # phi value that must be reached for a host to be marked down.
 # most users should never need to adjust this.
