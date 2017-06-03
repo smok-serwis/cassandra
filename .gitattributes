@@ -2,3 +2,4 @@ cassandra-env.sh eol=lf
 cassandra.yaml eol=lf
 jmx-exporter.yaml eol=lf
 webupd8team-java.list eol=lf
+entrypoint.sh eol=lf

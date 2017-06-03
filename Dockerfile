@@ -24,6 +24,7 @@ ADD jmx-exporter.yaml /etc/cassandra/jmx-exporter.yaml
 # Our config - base files
 ADD cassandra-env.sh /etc/cassandra/cassandra-env.sh
 ADD cassandra.yaml /etc/cassandra/cassandra.yaml
+ADD entrypoint.sh /entrypoint.sh
 
 # Customize config
 ADD customizecfg.py /tmp/customizecfg.py
@@ -46,3 +47,5 @@ EXPOSE 9042
 
 ## Internode
 EXPOSE 7000
+
+CMD ["/entrypoint.sh"]
