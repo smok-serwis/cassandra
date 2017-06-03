@@ -43,7 +43,7 @@ EXPOSE 9042
 ## Internode
 EXPOSE 7000
 
-# Defaults
+# Defaults - these are used to alter cassandra.yaml before start
 ENV MAX_HEAP_SIZE=1G \
     HEAP_NEWSIZE=100M \
     LISTEN_ADDRESS=127.0.0.1 \

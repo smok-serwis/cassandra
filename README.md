@@ -10,7 +10,8 @@ This means that you accept the
 
 
 You don't need to make your images basing off this one.
-Just set envs as needed. See [entrypoint.py](/entrypoint.py) for details.
+`cassanra.yaml` will be set as you set particular environment variables.
+Just set envs as needed. See [Dockerfile](/Dockerfile) for details.
 
 This exports two volumes - 
 one for data (_/var/lib/cassandra_),
