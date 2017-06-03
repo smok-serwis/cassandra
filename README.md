@@ -19,3 +19,4 @@ Best mount them as bind.
 
 Use host networking, or your addresses might go crazy.
 
+Run with `--cap add CAP_IPC_LOCK` and `--cap-add RLIMIT_MEMLOCK`.
