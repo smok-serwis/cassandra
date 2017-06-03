@@ -17,9 +17,10 @@ if __name__ == '__main__':
     # modify cassandra.yaml
     with open(CFG_FILE, 'rb') as fin:
         data = fin.read()
-
     for k in SUBST_WITH_ENVS:
         data = data.replace('$'+k, os.environ[k])
+    with open(CFG_FILE, 'wb') as fout:
+        fout.write(data)
 
     i = 1
     extras = []
@@ -27,10 +28,13 @@ if __name__ == '__main__':
         extras.append('JVM_OPTS="$JVM_OPTS %s"\n' % (os.environ['EXTRA%s' % (i, )], ))
         i += 1
 
+    # modify cassandra-env.sh
+    with open('/etc/cassandra/cassandra-env.sh', 'rb') as fin:
+        data = fin.read()
     data = data.replace('$$$EXTRA_ARGS', ''.join(extras))
-
-    with open(CFG_FILE, 'wb') as fout:
+    with open('/etc/cassandra/cassandra-env.sh', 'wb') as fout:
         fout.write(data)
+
 
     # Run Cassandra proper
     os.execv("/usr/sbin/cassandra", ["/usr/sbin/cassandra", "-f"])
