@@ -1,21 +1,12 @@
 
-This installs Oracle Java. 
+This installs Oracle Java.
+ 
+You don't need to make your images basing off this one.
+Just set envs.
 
-Define environment variable `I_ACCEPT_ORACLE_JAVA_LICENSE` in order for this to work.
+See [entrypoint.py](/entrypoint.py) for details.
 
-## Required environment variables
+**Define environment variable `I_ACCEPT_ORACLE_JAVA_LICENSE` in order for this to work!!**
+This means that you accept the
+[Oracle Binary Code License Agreement for the Java SE Platform Products and JavaFX](http://www.oracle.com/technetwork/java/javase/terms/license/index.html).
 
-
-BROADCAST_ADDRESS',
-LISTEN_ADDRESS',
-    'RPC_ADDRESS',
-    ''
-]
-
-NEW_HEAP_SIZE - default 4 GB
-MAXIMUM_HEAP_SIZE - default 100 MB
-
-
-## Opt
-
-RPC_BROADCAST_ADDRESS def same as RPC_ADDRESS
