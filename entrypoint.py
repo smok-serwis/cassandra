@@ -11,6 +11,7 @@ SUBST_WITH_ENVS = [
 if __name__ == '__main__':
 
     if 'I_ACCEPT_ORACLE_JAVA_LICENSE' not in os.environ:
+        sys.stderr.write('No license accepted, no game.\n')
         sys.exit(1)
 
     # modify cassandra.yaml
