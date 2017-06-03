@@ -14,11 +14,11 @@ if __name__ == '__main__':
         data = fin.read()
 
     for k in SUBST_WITH_ENVS:
-        data = data.replace(os.environ[k])
+        data = data.replace('$'+k, os.environ[k])
 
     with open(CFG_FILE, 'wb') as fout:
         fout.write(data)
 
     # Run Cassandra proper
-    os.execl("/usr/sbin/cassandra", ["/usr/sbin/cassandra", "-f"])
+    os.execv("/usr/sbin/cassandra", ["/usr/sbin/cassandra", "-f"])
 
