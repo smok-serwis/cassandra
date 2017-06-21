@@ -10,6 +10,10 @@ RUN echo debconf shared/accepted-oracle-license-v1-1 select true |  debconf-set-
     apt-get install -y --no-install-recommends python-minimal debconf-utils apt-utils oracle-java8-installer && \
     apt-get clean
 
+# Install jemalloc
+RUN apt-get update && \
+    apt-get install -y libjemalloc1 && \
+    apt-get clean
 
 # Cassandra 3.0
 ADD cassandra.sources.list /etc/apt/sources.list.d/cassandra.sources.list
