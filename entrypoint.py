@@ -10,6 +10,14 @@ SUBST_WITH_ENVS = [
 
 if __name__ == '__main__':
 
+    if 'ADDRESS_FOR_ALL' in os.environ:
+        sys.stderr.write('ADDRESS_FOR_ALL set, substituting')
+        addr = os.environ['ADDRESS_FOR_ALL']
+        os.environ['RPC_ADDRESS'] = addr
+        os.environ['RPC_BROADCAST_ADDRESS'] = addr
+        os.environ['BROADCAST_ADDRESS'] = addr
+        os.environ['LISTEN_ADDRESS'] = addr
+
     if 'I_ACCEPT_ORACLE_JAVA_LICENSE' not in os.environ:
         sys.stderr.write('No license accepted, no game.\n')
         sys.exit(1)

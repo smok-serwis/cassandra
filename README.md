@@ -20,3 +20,8 @@ Best mount them as bind.
 Recommended options are `--network host --privileged`
 
 If you need to pass any extra options, just put them in environment variables `EXTRA1`, `EXTRA2` and so on.
+
+# Extras
+
+Set `ADDRESS_FOR_ALL` for a variable that will replace all _ADDRESS.
+
