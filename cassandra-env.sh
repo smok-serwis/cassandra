@@ -200,6 +200,9 @@ fi
 # to the location of the native libraries.
 JVM_OPTS="$JVM_OPTS -Djava.library.path=$CASSANDRA_HOME/lib/sigar-bin"
 
+# Log GC to /var/log/cassandra/gc.log and not stdout
+JVM_OPTS="$JVM_OPTS -Xloggc:/var/log/cassandra/gc.log"
+
 JVM_OPTS="$JVM_OPTS $MX4J_ADDRESS"
 JVM_OPTS="$JVM_OPTS $MX4J_PORT"
 JVM_OPTS="$JVM_OPTS $JVM_EXTRA_OPTS"
