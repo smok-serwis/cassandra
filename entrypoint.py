@@ -15,7 +15,7 @@ if __name__ == '__main__':
 
         addr = os.environ['ADDRESS_FOR_ALL']
 
-        if addr.upper() == 'AUTO':
+        if addr.upper() == 'DEVELOPMENT':
             import socket
             sys.stderr.write('Development mode, auto address')
             addr = socket.gethostbyname(socket.gethostname())
