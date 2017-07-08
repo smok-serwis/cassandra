@@ -12,7 +12,14 @@ if __name__ == '__main__':
 
     if 'ADDRESS_FOR_ALL' in os.environ:
         sys.stderr.write('ADDRESS_FOR_ALL set, substituting')
+
         addr = os.environ['ADDRESS_FOR_ALL']
+
+        if addr.upper() == 'AUTO':
+            import socket
+            sys.stderr.write('Development mode, auto address')
+            addr = socket.gethostbyname(socket.gethostname())
+
         os.environ['RPC_ADDRESS'] = addr
         os.environ['RPC_BROADCAST_ADDRESS'] = addr
         os.environ['BROADCAST_ADDRESS'] = addr
