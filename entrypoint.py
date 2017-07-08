@@ -19,13 +19,11 @@ if __name__ == '__main__':
             import socket
             sys.stderr.write('Development mode, auto address')
             addr = socket.gethostbyname(socket.gethostname())
-
             os.environ['SEED_NODES'] = addr
-
-        os.environ['RPC_ADDRESS'] = addr
-        os.environ['RPC_BROADCAST_ADDRESS'] = addr
-        os.environ['BROADCAST_ADDRESS'] = addr
-        os.environ['LISTEN_ADDRESS'] = addr
+            os.environ['RPC_ADDRESS'] = '0.0.0.0'
+            os.environ['RPC_BROADCAST_ADDRESS'] = addr
+            os.environ['BROADCAST_ADDRESS'] = addr
+            os.environ['LISTEN_ADDRESS'] = addr
 
     if 'I_ACCEPT_ORACLE_JAVA_LICENSE' not in os.environ:
         sys.stderr.write('No license accepted, no game.\n')
