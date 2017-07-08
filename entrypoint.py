@@ -20,6 +20,8 @@ if __name__ == '__main__':
             sys.stderr.write('Development mode, auto address')
             addr = socket.gethostbyname(socket.gethostname())
 
+            os.environ['SEED_NODES'] = addr
+
         os.environ['RPC_ADDRESS'] = addr
         os.environ['RPC_BROADCAST_ADDRESS'] = addr
         os.environ['BROADCAST_ADDRESS'] = addr
