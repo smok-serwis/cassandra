@@ -1,3 +1,27 @@
+FROM debian:jessie-slim
+
+
+# Oracle Java. Accept no substitutes.
+ADD webupd8team-java.list /etc/apt/sources.list.d/webupd8team-java.list
+RUN echo debconf shared/accepted-oracle-license-v1-1 select true |  debconf-set-selections && \
+    apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys EEA14886 && \
+    apt-get update && \
+    mkdir /usr/share/man/man1 && \
+    apt-get install -y --no-install-recommends python-minimal debconf-utils apt-utils oracle-java8-installer && \
+    apt-get clean
+
+# Install jemalloc
+RUN apt-get update && \
+    apt-get install -y libjemalloc1 && \
+    apt-get clean
+
+# Cassandra 3.0
+ADD cassandra.sources.list /etc/apt/sources.list.d/cassandra.sources.list
+ADD http://debian.datastax.com/debian/repo_key /tmp/repo_key
+RUN  cat /tmp/repo_key | apt-key add - && \
+     apt-get update && \
+     apt-get install --no-install-recommends -y cassandra=3.0.9 dsc30 cassandra-tools && \
+     apt-get clean
 
 
 # JMX agent
