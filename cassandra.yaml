@@ -90,7 +90,7 @@ batchlog_replay_throttle_in_kb: 1024
 #   users. It keeps usernames and hashed passwords in system_auth.credentials table.
 #   Please increase system_auth keyspace replication factor if you use this authenticator.
 #   If using PasswordAuthenticator, CassandraRoleManager must also be used (see below)
-authenticator: AllowAllAuthenticator
+authenticator: $AUTHENTICATOR
 
 # Authorization backend, implementing IAuthorizer; used to limit access/provide permissions
 # Out of the box, Cassandra provides org.apache.cassandra.auth.{AllowAllAuthorizer,
@@ -99,7 +99,7 @@ authenticator: AllowAllAuthenticator
 # - AllowAllAuthorizer allows any action to any user - set it to disable authorization.
 # - CassandraAuthorizer stores permissions in system_auth.permissions table. Please
 #   increase system_auth keyspace replication factor if you use this authorizer.
-authorizer: AllowAllAuthorizer
+authorizer: $AUTHORIZER
 
 # Part of the Authentication & Authorization backend, implementing IRoleManager; used
 # to maintain grants and memberships between roles.
@@ -401,7 +401,7 @@ memtable_allocation_type: heap_buffers
 # The default value is the smaller of 8192, and 1/4 of the total space
 # of the commitlog volume.
 #
-# commitlog_total_space_in_mb: 8192
+commitlog_total_space_in_mb: $COMMITLOG_TOTAL_SPACE_IN_MB
 
 # This sets the amount of memtable flush writer threads.  These will
 # be blocked by disk io, and each one will hold a memtable in memory
@@ -508,7 +508,7 @@ native_transport_port: 9042
 # native_transport_max_concurrent_connections_per_ip: -1
 
 # Whether to start the thrift rpc server.
-start_rpc: false
+start_rpc: $START_RPC
 
 # The address or interface to bind the Thrift RPC service and native transport
 # server to.
@@ -531,7 +531,7 @@ start_rpc: false
 rpc_address: $RPC_ADDRESS
 
 # port for Thrift to listen for clients on
-rpc_port: 9160
+rpc_port: $RPC_PORT
 
 # RPC address to broadcast to drivers and other Cassandra nodes. This cannot
 # be set to 0.0.0.0. If left blank, this will be set to the value of
@@ -621,8 +621,8 @@ auto_snapshot: true
 # Adjust the thresholds here if you understand the dangers and want to
 # scan more tombstones anyway.  These thresholds may also be adjusted at runtime
 # using the StorageService mbean.
-tombstone_warn_threshold: 1000
-tombstone_failure_threshold: 100000
+tombstone_warn_threshold: $TOMBSTONE_WARN_THRESHOLD
+tombstone_failure_threshold: $TOMBSTONE_FAIL_THRESHOLD
 
 # Granularity of the collation index of rows within a partition.
 # Increase if your rows are large, or if you have a very large
@@ -633,7 +633,7 @@ tombstone_failure_threshold: 100000
 #   2) but, Cassandra will keep the collation index in memory for hot
 #      rows (as part of the key cache), so a larger granularity means
 #      you can cache more hot rows
-column_index_size_in_kb: 64
+column_index_size_in_kb: $COLUMN_INDEX_SIZE_IN_KB
 
 
 # Log WARN on any batch size exceeding this value. 5kb per batch by default.
@@ -641,7 +641,7 @@ column_index_size_in_kb: 64
 batch_size_warn_threshold_in_kb: 5
 
 # Fail any batch exceeding this value. 50kb (10x warn threshold) by default.
-batch_size_fail_threshold_in_kb: 50
+batch_size_fail_threshold_in_kb: $BATCH_SIZE_FAIL_THRESHOLD_IN_KB 50
 
 # Number of simultaneous compactions to allow, NOT including
 # validation "compactions" for anti-entropy repair.  Simultaneous
@@ -809,7 +809,7 @@ dynamic_snitch_badness_threshold: 0.1
 # client requests to a node with a separate queue for each
 # request_scheduler_id. The scheduler is further customized by
 # request_scheduler_options as described below.
-request_scheduler: org.apache.cassandra.scheduler.NoScheduler
+request_scheduler: $REQUEST_SCHEDULER
 
 # Scheduler Options vary based on the type of scheduler
 # NoScheduler - Has no options
@@ -907,7 +907,7 @@ gc_warn_threshold_in_ms: 1000
 
 # UDFs (user defined functions) are disabled by default.
 # As of Cassandra 3.0 there is a sandbox in place that should prevent execution of evil code.
-enable_user_defined_functions: false
+enable_user_defined_functions: $ENABLE_USER_DEFINED_FUNCTIONS
 
 # Enables scripted UDFs (JavaScript UDFs).
 # Java UDFs are always enabled, if enable_user_defined_functions is true.

@@ -1,26 +1,48 @@
-FROM debian:jessie-slim
+FROM debian:stretch-slim
+
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends gnupg dirmngr debconf-utils apt-utils ca-certificates && \
+    APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=1 apt-key adv --keyserver keyserver.ubuntu.com --recv-keys EEA14886 && \
 
 
 # Oracle Java. Accept no substitutes.
-ADD webupd8team-java.list /etc/apt/sources.list.d/webupd8team-java.list
-RUN echo debconf shared/accepted-oracle-license-v1-1 select true |  debconf-set-selections && \
-    apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys EEA14886 && \
-    apt-get update && \
-    mkdir /usr/share/man/man1 && \
-    apt-get install -y --no-install-recommends python-minimal debconf-utils apt-utils oracle-java8-installer && \
+ADD oraclejava9.sources.list /etc/apt/sources.list.d/oraclejava9sources.list
+
+
+RUN APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=1 apt-key adv --keyserver keyserver.ubuntu.com --recv-keys EEA14886
+RUN APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=1 gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv C2518248EEA14886
+RUN APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=1 gpg --export --armor C2518248EEA14886 | apt-key add -
+RUN apt-get update && \
+    echo debconf shared/accepted-oracle-license-v1-1 select true |  debconf-set-selections && \
+    apt-get install -y -v --no-install-recommends python-minimal oracle-java9-installer && \
+    apt-get install -y -v oracle-java9-set-default && \
     apt-get clean
 
 # Install jemalloc
 RUN apt-get update && \
-    apt-get install -y libjemalloc1 && \
+    apt-get install -y --no-install-recommends libjemalloc1 && \
     apt-get clean
 
-# Cassandra 3.0
+LABEL CassandraVersion="3.0.9"
+
+
+# Install python-support that dsc30 whine about not having
+
+ADD http://launchpadlibrarian.net/109052632/python-support_1.0.15_all.deb /tmp/python-support_1.0.15_all.deb
+RUN apt-get update && \
+    apt-get install --upgrade -y python>=2.5 && \
+    dpkg -i /tmp/python-support_1.0.15_all.deb && \
+    apt-get clean
+
+# Cassandra
 ADD cassandra.sources.list /etc/apt/sources.list.d/cassandra.sources.list
 ADD http://debian.datastax.com/debian/repo_key /tmp/repo_key
-RUN  cat /tmp/repo_key | apt-key add - && \
+RUN  cat /tmp/repo_key | APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=1 apt-key add - && \
      apt-get update && \
-     apt-get install --no-install-recommends -y cassandra=3.0.9 dsc30 cassandra-tools && \
+     apt-get install -y --no-install-recommends cassandra dsc30 cassandra-tools && \
      apt-get clean
 
 
@@ -31,10 +53,12 @@ ADD jmx-exporter.yaml /etc/cassandra/jmx-exporter.yaml
 # Our config - base files
 ADD cassandra-env.sh /etc/cassandra/cassandra-env.sh
 ADD cassandra.yaml /etc/cassandra/cassandra.yaml
+ADD cassandra-rackdc.properties /etc/cassandra/cassandra-rackdc.properties
 
 # Entry point
 ADD entrypoint.py /entrypoint.py
-ENTRYPOINT ["/usr/bin/python", "/entrypoint.py"]
+RUN chmod ugo+x /entrypoint.py
+ENTRYPOINT ["/entrypoint.py"]
 
 # Exports
 

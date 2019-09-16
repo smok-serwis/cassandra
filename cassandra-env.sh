@@ -160,9 +160,11 @@ JVM_OPTS="$JVM_OPTS -Djava.net.preferIPv4Stack=true"
 # To enable remote JMX connections, uncomment lines below
 # with authentication and/or ssl enabled. See https://wiki.apache.org/cassandra/JmxSecurity
 #
+#$$STRIP_JMX_START
 if [ "x$LOCAL_JMX" = "x" ]; then
     LOCAL_JMX=yes
 fi
+#$$STRIP_JMX_STOP
 
 # Specifies the default port over which Cassandra will be available for
 # JMX connections.
