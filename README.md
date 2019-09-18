@@ -1,5 +1,7 @@
-# Oracle Java 9 + Cassandra 3.0.19 + Prometheus JMX exporter
-
+# Oracle Java 9 + Cassandra 3.0.9 + Prometheus JMX exporter
+ 
+ 
+Current version: [Cassandra v3.0.9](https://github.com/smok-serwis/cassandra/releases/tag/v3.0.8), how with more configurability through the envs!
 Even better than [v3.0.8](https://github.com/smok-serwis/cassandra/releases/tag/v3.0.8), how with more configurability through the envs!
 
 # Usage
