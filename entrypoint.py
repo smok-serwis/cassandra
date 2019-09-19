@@ -21,7 +21,7 @@ if __name__ == '__main__':
     with open(os.path.join(os.environ['JAVA_HOME'], 'release'), 'r') as fin:
         for line in fin:
             key, value_quoted = line.split('=', 1)
-            os.environ[key] = value_quoted.strip('=')
+            os.environ[key] = value_quoted.strip('"')
     
     if 'ADDRESS_FOR_ALL' in os.environ:
         logger.warning('ADDRESS_FOR_ALL set, substituting all addresses for this one')
