@@ -1,20 +1,30 @@
 #!/usr/bin/python
 # coding=UTF-8
+from __future__ import division
 import os
-import sys
 import socket
+import sys
+import logging
+
+logger = logging.getLogger(__name__)
 
 CFG_FILE = '/etc/cassandra/cassandra.yaml'
-SUBST_WITH_ENVS = [
+CFG_RACK_FILE = '/etc/cassandra/cassandra-rackdc.properties'
+CFG_ENV_FILE = '/etc/cassandra/cassandra-env.sh'
+SUBST_WITH_ENVS = set([
     'BROADCAST_ADDRESS', 'LISTEN_ADDRESS', 'RPC_ADDRESS', 'RPC_BROADCAST_ADDRESS',
-    'CLUSTER_NAME', 'SEED_NODES', 'STREAMING_SOCKET_TIMEOUT_IN_MS', 'NUM_TOKENS',
-    'AUTHENTICATOR', 'DISK_OPTIMIZATION_STRATEGY', 'AUTHORIZER', 'ENPOINT_SNITCH',
-    'TOMBSTONE_WARN_THRESHOLD', 'TOMBSTONE_FAIL_THRESHOLD'
-]
+    'SEED_NODES',
+])
 
 if __name__ == '__main__':
+    # Try to read environment variables from ${JAVA_HOME}/release
+    with open(os.path.join(os.environ['JAVA_HOME'], 'release'), 'r') as fin:
+        for line in fin:
+            key, value_quoted = line.split('=', 1)
+            os.environ[key] = value_quoted.strip('=')
+    
     if 'ADDRESS_FOR_ALL' in os.environ:
-        sys.stderr.write('ADDRESS_FOR_ALL set, substituting\n')
+        logger.warning('ADDRESS_FOR_ALL set, substituting all addresses for this one')
 
         addr = os.environ['ADDRESS_FOR_ALL']
         os.environ['SEED_NODES'] = addr
@@ -24,25 +34,50 @@ if __name__ == '__main__':
         os.environ['LISTEN_ADDRESS'] = addr
 
     if 'I_ACCEPT_ORACLE_JAVA_LICENSE' not in os.environ:
-        sys.stderr.write('No license accepted, no game.\n')
+        logger.error('Oracle Java license was not accepted')
         sys.exit(1)
 
-    # define sane defaults
-    os.environ.setdefaults('NUM_TOKENS', '256')
-    os.environ.setdefault('CASSANDRA_DC', 'dc1')
-    os.environ.setdefault('CASSANDRA_RACK', 'rack1')
-    os.environ.setdefault('DISK_OPTIMIZATION_STRATEGY', 'solid')
-    os.environ.setdefault('AUTHENTICATOR', 'AllowAllAuthenticator')
-    os.environ.setdefault('TOMBSTONE_WARN_THRESHOLD', '1000')
-    os.environ.setdefault('TOMBSTONE_FAIL_THRESHOLD', '100000')
-    os.environ.setdefault('COMMITLOG_TOTAL_SPACE_IN_MB', '4096')
-    os.environ.setdefault('START_RPC', 'false')
-    os.environ.setdefault('RPC_PORT', '9160')
-    os.environ.setdefault('COLUMN_SIZE_INDEX_IN_KB', '64')
-    os.environ.setdefault('REQUEST_SCHEDULER', 'org.apache.cassandra.scheduler.NoScheduler')
-    os.environ.setdefault('ENABLE_USER_DEFINED_FUNCTIONS', 'false')
 
-    # "auto"
+    def setdefault(*args, **kwargs):
+        if len(args) == 2:
+            name, value = args
+            SUBST_WITH_ENVS.add(name)
+            os.environ.setdefault(name, value)
+        else:
+            for key, value in kwargs.items():
+                setdefault(key, value)
+
+    # define sane defaults
+    setdefault(MAX_HEAP_SIZE='1G',
+               HEAP_NEWSIZE='100M',
+               BATCH_SIZE_FAIL_THRESHOLD_IN_KB='50',
+               CLUSTER_NAME='Test Cluster',
+               STREAMING_SOCKET_TIMEOUT_IN_MS='3600000',
+               NUM_TOKENS='256',
+               CASSANDRA_DC='dc1',
+               PARTITIONER='org.apache.cassandra.dht.Murmur3Partitioner',
+               ROW_CACHE_SIZE_IN_MB='0',
+               CASSANDRA_RACK='rack1',
+               AUTHORIZER='AllowAllAuthorizer',
+               ENDPOINT_SNITCH='SimpleSnitch',
+               DISK_OPTIMIZATION_STRATEGY='solid',
+               AUTHENTICATOR='AllowAllAuthenticator',
+               TOMBSTONE_WARN_THRESHOLD='1000',
+               TOMBSTONE_FAIL_THRESHOLD='100000',
+               COMMITLOG_TOTAL_SPACE_IN_MB='4096',
+               START_RPC='false',
+               RPC_PORT='9160',
+               COLUMN_INDEX_SIZE_IN_KB='64',
+               REQUEST_SCHEDULER='org.apache.cassandra.scheduler.NoScheduler',
+               ENABLE_USER_DEFINED_FUNCTIONS='false')
+    # Calculate commitlog total space in MB, as to quote cassandra.yaml:
+        # The default value is the smaller of 8192, and 1/4 of the total space
+        # of the commitlog volume.
+    commitlog = os.statvfs('/var/lib/cassandra/commitlog')
+    free_space_in_mb = min(8192, commitlog.f_frsize*commitlog.f_blocks // 1024 // 1024 // 4)
+    setdefault('COMMITLOG_TOTAL_SPACE_IN_MB', str(free_space_in_mb))
+
+    # Replace the "auto" keyword with current IP address
     for k in SUBST_WITH_ENVS:
         if os.environ.get(k, '').upper() == 'AUTO':
             os.environ[k] = socket.gethostbyname(socket.gethostname())
@@ -53,30 +88,33 @@ if __name__ == '__main__':
     for k in SUBST_WITH_ENVS:
         data = data.replace('$' + k, os.environ[k])
 
-    if 'ENABLE_INTERHOST_JMX' in os.environ:
-        data = data[:data.find('#$$STRIP_JMX_START')] + data[
-                                                        data.find('###$STRIP_JMX_STOP') + len('###$STRIP_JMX_STOP'):]
-
     with open(CFG_FILE, 'wb') as fout:
         fout.write(data)
 
-    i = 1
-    extras = []
-    while ('EXTRA%s' % (i,)) in os.environ:
-        extras.append('JVM_OPTS="$JVM_OPTS %s"\n' % (os.environ['EXTRA%s' % (i,)],))
-        i += 1
-
     # modify cassandra-env.sh
-    with open('/etc/cassandra/cassandra-env.sh', 'rb') as fin:
+    with open(CFG_ENV_FILE, 'rb') as fin:
         data = fin.read()
-    data = data.replace('$$$EXTRA_ARGS', ''.join(extras))
-    with open('/etc/cassandra/cassandra-env.sh', 'wb') as fout:
+        i = 1
+        extras = []
+        while ('EXTRA%s' % (i,)) in os.environ:
+            extras.append('JVM_OPTS="$JVM_OPTS %s"\n' % (os.environ['EXTRA%s' % (i,)],))
+            i += 1
+
+        data = data.replace('$$$EXTRA_ARGS', ''.join(extras))
+
+    if 'ENABLE_MX4J' in os.environ:
+        data = data.replace('#MX4J', 'MX4J')
+
+    with open(CFG_ENV_FILE, 'wb') as fout:
         fout.write(data)
-    with open('/etc/cassandra/cassandra-rackdc.properties', rb) as fin:
+
+    # modify cassandra-rackdc.properties
+    with open(CFG_RACK_FILE, 'rb') as fin:
         data = fin.read()
     data = data.replace('dc=dc1', 'dc=' + os.environ['CASSANDRA_DC'])
     data = data.replace('rack=rack1', 'rack=' + os.environ['CASSANDRA_RACK'])
-    with open('/etc/cassandra/cassandra-rackdc.properties', wb) as fout:
+    with open(CFG_RACK_FILE, 'wb') as fout:
         fout.write(data)
+
     # Run Cassandra proper
     os.execv("/usr/sbin/cassandra", ["/usr/sbin/cassandra", "-f"] + sys.argv[1:])
