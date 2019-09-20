@@ -1,1 +1,4 @@
-* eol=lf
+*.sh text eol=lf
+*.deb -text
+*.jar -text
+*.gz -text
