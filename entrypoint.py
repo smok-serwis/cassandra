@@ -52,7 +52,7 @@ if __name__ == '__main__':
                HEAP_NEWSIZE='100M',
                BATCH_SIZE_FAIL_THRESHOLD_IN_KB='50',
                CLUSTER_NAME='Test Cluster',
-               STREAMING_SOCKET_TIMEOUT_IN_MS='3600000',
+               STREAMING_SOCKET_TIMEOUT_IN_MS='360000000',
                NUM_TOKENS='256',
                CASSANDRA_DC='dc1',
                PARTITIONER='org.apache.cassandra.dht.Murmur3Partitioner',
@@ -104,6 +104,14 @@ if __name__ == '__main__':
 
     if 'ENABLE_MX4J' in os.environ:
         data = data.replace('#MX4J', 'MX4J')
+
+    if 'DISABLE_PROMETHEUS_EXPORTER' in os.environ:
+        data = data.split('\n')
+        newdata = []
+        for line in data:
+            if 'prometheus_javaagent' not in line:
+                newdata.append(line)
+        data = '\n'.join(newdata)
 
     with open(CFG_ENV_FILE, 'wb') as fout:
         fout.write(data)

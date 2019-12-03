@@ -2,3 +2,4 @@
 *.deb -text
 *.jar -text
 *.gz -text
+*.py text eol=lf

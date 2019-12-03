@@ -10,7 +10,10 @@ RUN apt-get update && \
 
 
 # Oracle Java. Accept no substitutes.
-ADD server-jre-8u221-linux-x64.tar.gz /usr/local/java/
+COPY server-jre-8u221-linux-x64.tar.gz /usr/local/java/
+RUN cd /usr/local/java && \
+    tar -xvf /usr/local/java/server-jre-8u221-linux-x64.tar.gz && \
+    rm -rf /usr/local/java/server-jre-8u221-linux-x64.tar.gz
 ENV JAVA_HOME=/usr/local/java/jdk1.8.0_221
 RUN update-alternatives --install "/usr/bin/java" "java" "${JAVA_HOME}/bin/java" 1 && \
     update-alternatives --install "/usr/bin/javac" "javac" "${JAVA_HOME}/bin/javac" 1
@@ -28,7 +31,7 @@ LABEL apache.cassandra.version="3.0.9"
 
 ADD python-support_1.0.15_all.deb /tmp/python-support_1.0.15_all.deb
 RUN apt-get update && \
-    apt-get install --upgrade -y python>=2.5 && \
+    apt-get install -y python>=2.5 && \
     dpkg -i /tmp/python-support_1.0.15_all.deb && \
     apt-get clean
 
@@ -42,7 +45,7 @@ RUN  cat /tmp/repo_key |  apt-key add - && \
 
 
 # JMX agent
-ADD jmx-exporter/jmx_prometheus_javaagent-0.9.jar /usr/share/cassandra/lib/jmx_prometheus_javaagent-0.9.jar
+ADD jmx-exporter/jmx_prometheus_javaagent-0.12.0.jar /usr/share/cassandra/lib/jmx_prometheus_javaagent-0.12.0.jar
 ADD jmx-exporter/mx4j-tools.jar /usr/share/cassandra/lib/mx4j-tools.jar
 ADD jmx-exporter/jmx-exporter.yaml /etc/cassandra/jmx-exporter.yaml
 
@@ -79,3 +82,4 @@ ENV LISTEN_ADDRESS=auto \
     RPC_ADDRESS=0.0.0.0 \
     RPC_BROADCAST_ADDRESS=auto \
     SEED_NODES=auto
+

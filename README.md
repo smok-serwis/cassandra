@@ -55,6 +55,7 @@ Following env's values will be placed in _cassandra.yaml_ verbatim (ie, withouti
 * **BATCH_SIZE_FAIL_THRESHOLD_IN_KB** - maximum size of the batch that Cassandra will fail. [RTFM](etc/cassandra/cassandra.yaml) 
 * **REQUEST_SCHEDULER** - defaults to _org.apache.cassandra.scheduler.NoScheduler_
 * **ENABLE_USER_DEFINED_FUNCTIONS'** - defaults to _false_
+* **DISABLE_PROMETHEUS_EXPORTER** - if set, Prometheus' exporter will be disabled
 
 # Optionals
 
