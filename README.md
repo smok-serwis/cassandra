@@ -13,7 +13,7 @@ This means that you accept the [Oracle Technology Network License Agreement for 
 
 
 You don't need to make your images basing off this one.
-`cassanra.yaml` will be set as you set particular environment variables.
+`cassandra.yaml` will be set as you set particular environment variables.
 Just set envs as needed. See [Dockerfile](/Dockerfile) and [entrypoint.py](/entrypoint.py) for details.
 
 This exports three volumes - 
@@ -56,6 +56,11 @@ Following env's values will be placed in _cassandra.yaml_ verbatim (ie, withouti
 * **REQUEST_SCHEDULER** - defaults to _org.apache.cassandra.scheduler.NoScheduler_
 * **ENABLE_USER_DEFINED_FUNCTIONS'** - defaults to _false_
 * **DISABLE_PROMETHEUS_EXPORTER** - if set, Prometheus' exporter will be disabled
+
+# Enabling JMX
+
+To enable JMX [without SSL] set the environment variable _LOCAL_JMX_ to _no_, and the
+environment variable _JMX_REMOTE_PASSWORD_ to target remote password.
 
 # Optionals
 

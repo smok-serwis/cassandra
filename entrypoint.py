@@ -102,6 +102,10 @@ if __name__ == '__main__':
 
         data = data.replace('$$$EXTRA_ARGS', ''.join(extras))
 
+    if os.environ.get('LOCAL_JMX', 'yes') == 'no':
+        with open('/etc/cassandra/jmxremote.password', 'w') as fout:
+            fout.write(os.environ['JMX_REMOTE_PASSWORD'])
+
     if 'ENABLE_MX4J' in os.environ:
         data = data.replace('#MX4J', 'MX4J')
 
