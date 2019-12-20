@@ -4,12 +4,14 @@
 Current version: [Cassandra v3.0.9](https://github.com/smok-serwis/cassandra/releases/tag/v3.0.8), how with more configurability through the envs!
 Even better than [v3.0.8](https://github.com/smok-serwis/cassandra/releases/tag/v3.0.8).
 
-Due to myriad of different licenses employed here, please take a look at the [license](/LICENSE.md).
+Due to myriad of different licenses employed here, please take a look at
+the [summary detailed here](/LICENSE.md).
 
 # Usage
 
 Since this uses Oracle(c) Java(tm) Server JRE 8u221, you need to **define environment variable `I_ACCEPT_ORACLE_JAVA_LICENSE` in order for container to run.**
 This means that you accept the [Oracle Technology Network License Agreement for Oracle Java SE](https://www.oracle.com/downloads/licenses/javase-license1.html).
+This is the only environment variable you need to set in order for this Cassandra to run.
 
 
 You don't need to make your images basing off this one.
@@ -23,7 +25,8 @@ This exports three volumes -
 
 Best mount them as bind.
 
-Recommended options are `--network host --privileged`
+Recommended options are `--network host --privileged`, althrough passing the external host
+IP in _BROADCAST_ADDRESSes_ and using _auto_ for normal addresses works fine with a bridge network.
 
 Any arguments passed to the entry point will be called as through a Cassandra was called. Any extra arguments
 will be passed there, after a `cassandra -f`.
@@ -55,7 +58,9 @@ Following env's values will be placed in _cassandra.yaml_ verbatim (ie, withouti
 * **BATCH_SIZE_FAIL_THRESHOLD_IN_KB** - maximum size of the batch that Cassandra will fail. [RTFM](etc/cassandra/cassandra.yaml) 
 * **REQUEST_SCHEDULER** - defaults to _org.apache.cassandra.scheduler.NoScheduler_
 * **ENABLE_USER_DEFINED_FUNCTIONS'** - defaults to _false_
+* **COMMITLOG_SEGMENT_SIZE** - size of a commit log segment, in MB. Defaults to 32
 * **DISABLE_PROMETHEUS_EXPORTER** - if set, Prometheus' exporter will be disabled
+* **COMMITLOG_SYNC** - [RTFM](etc/cassandra/cassandra.yaml). Defaults to _periodic_
 
 # Enabling JMX
 

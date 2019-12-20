@@ -9,7 +9,7 @@ to which you agree by setting the environment variable `I_ACCEPT_ORACLE_JAVA_LIC
 4. [**Python Support_1.0.15_all**](/python-support_1.0.15_all.deb) is (c) by the Debian community. Downloaded it from [here](http://launchpadlibrarian.net/109052632/python-support_1.0.15_all.deb). From what pkg-deb and grep say me it' licensed under [Lesser GNU GPL 2.1](https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html).
 5. [**MX4J Tools for Java**](https://mvnrepository.com/artifact/mx4j/mx4j-tools/3.0.1) thank you despite posting no license.
 
-# My license
+# The license for my software
 
                          Copyright (c) 2019 SMOK sp. z o. o.
 
@@ -215,7 +215,8 @@ to which you agree by setting the environment variable `I_ACCEPT_ORACLE_JAVA_LIC
    See the License for the specific language governing permissions and
    limitations under the License.
      
- # Legalese
+# Legalese
  
- If you feel that this software somehow infinges on your licenses, just give me a holler (or a cease and desist).
+If you feel that this software somehow impinges on your licenses,
+just give me a holler (or a cease and desist).
  

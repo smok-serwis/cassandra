@@ -65,7 +65,7 @@ ENTRYPOINT ["/entrypoint.py"]
 VOLUME /var/lib/cassandra /var/lib/cassandra/commitlog /var/log/cassandra
 
 ## JMX exporter port
-EXPOSE 7198
+EXPOSE 7199
 
 ## Native transport
 EXPOSE 9042

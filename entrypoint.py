@@ -69,7 +69,9 @@ if __name__ == '__main__':
                RPC_PORT='9160',
                COLUMN_INDEX_SIZE_IN_KB='64',
                REQUEST_SCHEDULER='org.apache.cassandra.scheduler.NoScheduler',
-               ENABLE_USER_DEFINED_FUNCTIONS='false')
+               ENABLE_USER_DEFINED_FUNCTIONS='false',
+               COMMITLOG_SEGMENT_SIZE='32',
+               COMMITLOG_SYNC='periodic')
     # Calculate commitlog total space in MB, as to quote cassandra.yaml:
         # The default value is the smaller of 8192, and 1/4 of the total space
         # of the commitlog volume.
