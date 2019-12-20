@@ -1,10 +1,11 @@
 #!/usr/bin/python
 # coding=UTF-8
 from __future__ import division
+
+import logging
 import os
 import socket
 import sys
-import logging
 
 logger = logging.getLogger(__name__)
 
@@ -22,7 +23,7 @@ if __name__ == '__main__':
         for line in fin:
             key, value_quoted = line.split('=', 1)
             os.environ[key] = value_quoted.strip('"')
-    
+
     if 'ADDRESS_FOR_ALL' in os.environ:
         logger.warning('ADDRESS_FOR_ALL set, substituting all addresses for this one')
 
@@ -38,14 +39,11 @@ if __name__ == '__main__':
         sys.exit(1)
 
 
-    def setdefault(*args, **kwargs):
-        if len(args) == 2:
-            name, value = args
-            SUBST_WITH_ENVS.add(name)
-            os.environ.setdefault(name, value)
-        else:
-            for key, value in kwargs.items():
-                setdefault(key, value)
+    def setdefault(**kwargs):
+        for key, value in kwargs.items():
+            SUBST_WITH_ENVS.add(key)
+            os.environ.setdefault(key, value)
+
 
     # define sane defaults
     setdefault(MAX_HEAP_SIZE='1G',
@@ -73,11 +71,11 @@ if __name__ == '__main__':
                COMMITLOG_SEGMENT_SIZE='32',
                COMMITLOG_SYNC='periodic')
     # Calculate commitlog total space in MB, as to quote cassandra.yaml:
-        # The default value is the smaller of 8192, and 1/4 of the total space
-        # of the commitlog volume.
+    # The default value is the smaller of 8192, and 1/4 of the total space
+    # of the commitlog volume.
     commitlog = os.statvfs('/var/lib/cassandra/commitlog')
-    free_space_in_mb = min(8192, commitlog.f_frsize*commitlog.f_blocks // 1024 // 1024 // 4)
-    setdefault('COMMITLOG_TOTAL_SPACE_IN_MB', str(free_space_in_mb))
+    free_space_in_mb = min(8192, commitlog.f_frsize * commitlog.f_blocks // 1024 // 1024 // 4)
+    setdefault(COMMITLOG_TOTAL_SPACE_IN_MB=str(free_space_in_mb))
 
     # Replace the "auto" keyword with current IP address
     for k in SUBST_WITH_ENVS:
