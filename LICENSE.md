@@ -2,7 +2,7 @@
 
 Since this software bundles a few elements, I tought I'd display the licenses here:
 
-1. [**Apache Cassandra**](https://cassandra.apache.org/) is (c) by The Apache Software Foundation, made available under [Apache License 2.0](/etc/cassandra/LICENSE.).
+1. [**Apache Cassandra**](https://cassandra.apache.org/) is (c) by The Apache Software Foundation, made available under [Apache License 2.0](/etc/cassandra/LICENSE.md).
 2. [**Oracle (c) Java(tm) Server JRE 8u221**](https://www.oracle.com/java/java9.html) is (c) by Oracle Corporation. Made under their [long license](https://www.oracle.com/downloads/licenses/javase-license1.html),
 to which you agree by setting the environment variable `I_ACCEPT_ORACLE_JAVA_LICENSE` to an arbitrary non-empty value.
 3. [**Prometheus JMX exporter**](/jmx-exporter) is (c) by the wonderful community of Prometheus, made available under the [license I brought here with me](/jmx-exporter.yaml/LICENSE.md).
