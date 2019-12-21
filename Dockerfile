@@ -64,7 +64,7 @@ RUN  cat /tmp/repo_key |  apt-key add - && \
 
 # JMX agent
 ADD jmx-exporter/jmx_prometheus_javaagent-0.12.0.jar /usr/share/cassandra/lib/jmx_prometheus_javaagent-0.12.0.jar
-COPY --from=mx4j /tmp/mx4j/target/mx4j-tools-3.0.2.jar /usr/share/cassandra/lib/mx4j-tools.jar
+COPY --from=mx4j /tmp/mx4j/target/mx4j-tools.jar /usr/share/cassandra/lib/mx4j-tools.jar
 ADD jmx-exporter/jmx-exporter.yaml /etc/cassandra/jmx-exporter.yaml
 
 # Our config - base files
