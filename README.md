@@ -91,7 +91,9 @@ You can add any number, starting from numbering them EXTRA1, without any limit.
 It's important that they are consecutive numbers. These will simply enlarge your `JVM_OPTS`. You can for example
 use it to [replace a dead node](https://docs.datastax.com/en/archived/cassandra/3.0/cassandra/operations/opsReplaceNode.html).
 
-# MX4J and caveat emptor.
+# MX4J
+
+T
 
 So far MX4J doesn't seem to work. It follows with such a traceback:
 ```

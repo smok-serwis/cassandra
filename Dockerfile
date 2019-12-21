@@ -1,3 +1,21 @@
+FROM smokserwis/build:jdk8 AS mx4j
+
+WORKDIR /tmp
+
+# Prepare Maven
+RUN wget http://ftp.man.poznan.pl/apache/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.zip && \
+    unzip apache-maven-3.6.3-bin.zip && \
+    rm -f apache-maven-3.6.3-bin.zip
+
+ENV MAVEN_HOME=/tmp/apache-maven-3.6.3 \
+    M2_HOME=/tmp/apache-maven-3.6.3 \
+    PATH="/tmp/apache-maven-3.6.3/bin:$PATH"
+
+ADD jmx-exporter/mx4j/ /tmp/mx4j/
+
+RUN cd /tmp/mx4j && \
+    mvn package
+
 FROM debian:stretch-slim
 
 
@@ -46,7 +64,7 @@ RUN  cat /tmp/repo_key |  apt-key add - && \
 
 # JMX agent
 ADD jmx-exporter/jmx_prometheus_javaagent-0.12.0.jar /usr/share/cassandra/lib/jmx_prometheus_javaagent-0.12.0.jar
-ADD jmx-exporter/mx4j-tools.jar /usr/share/cassandra/lib/mx4j-tools.jar
+COPY --from=mx4j /tmp/mx4j/target/mx4j-tools-3.0.2.jar /usr/share/cassandra/lib/mx4j-tools.jar
 ADD jmx-exporter/jmx-exporter.yaml /etc/cassandra/jmx-exporter.yaml
 
 # Our config - base files
