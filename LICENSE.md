@@ -3,7 +3,7 @@
 Since this software bundles a few elements, I tought I'd display the licenses here:
 
 1. [**Apache Cassandra**](https://cassandra.apache.org/) is (c) by The Apache Software Foundation, made available under [Apache License 2.0](/etc/cassandra/LICENSE.md).
-2. [**Oracle (c) Java(tm) Server JRE 8u221**](https://www.oracle.com/java/java9.html) is (c) by Oracle Corporation. Made under their [long license](https://www.oracle.com/downloads/licenses/javase-license1.html),
+2. [**Oracle (c) Java(tm) Server JRE 8u221**](https://www.oracle.com/java/java9.html) is (c) by Oracle Corporation. Made under their [long license](/java-jre/LICENSE.md),
 to which you agree by setting the environment variable `I_ACCEPT_ORACLE_JAVA_LICENSE` to an arbitrary non-empty value.
 3. [**Prometheus JMX exporter**](/jmx-exporter) is (c) by the wonderful community of Prometheus, made available under the [license I brought here with me](/jmx-exporter/LICENSE.md).
 4. [**Python Support_1.0.15_all**](/python-support_1.0.15_all.deb) is (c) by the Debian community. Downloaded it from [here](http://launchpadlibrarian.net/109052632/python-support_1.0.15_all.deb). From what pkg-deb and grep say me it' licensed under [Lesser GNU GPL 2.1](https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html).

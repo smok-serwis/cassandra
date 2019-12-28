@@ -10,10 +10,8 @@ RUN apt-get update && \
 
 
 # Oracle Java. Accept no substitutes.
-COPY server-jre-8u221-linux-x64.tar.gz /usr/local/java/
-RUN cd /usr/local/java && \
-    tar -xvf /usr/local/java/server-jre-8u221-linux-x64.tar.gz && \
-    rm -rf /usr/local/java/server-jre-8u221-linux-x64.tar.gz
+ADD java-jre/server-jre-8u221-linux-x64.tar.gz /usr/local/java/
+
 ENV JAVA_HOME=/usr/local/java/jdk1.8.0_221
 RUN update-alternatives --install "/usr/bin/java" "java" "${JAVA_HOME}/bin/java" 1 && \
     update-alternatives --install "/usr/bin/javac" "javac" "${JAVA_HOME}/bin/javac" 1
