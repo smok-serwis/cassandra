@@ -11,6 +11,7 @@ import logging
 import os
 import socket
 import sys
+import subprocess
 
 logger = logging.getLogger(__name__)
 
@@ -43,6 +44,11 @@ if __name__ == '__main__':
         logger.error('Oracle Java license was not accepted')
         sys.exit(1)
 
+    # Replace the "auto" keyword with current IP address
+    for k in SUBST_WITH_ENVS:
+        if os.environ.get(k, '').upper() == 'AUTO':
+            os.environ[k] = socket.gethostbyname(socket.gethostname())
+
 
     def setdefault(**kwargs):
         for key, value in kwargs.items():
@@ -51,7 +57,8 @@ if __name__ == '__main__':
 
 
     # define sane defaults
-    setdefault(MAX_HEAP_SIZE='1G',
+    setdefault(HEALTHCHECK_ENABLE='0',
+               MAX_HEAP_SIZE='1G',
                HEAP_NEWSIZE='100M',
                BATCH_SIZE_FAIL_THRESHOLD_IN_KB='50',
                CLUSTER_NAME='Test Cluster',
@@ -82,10 +89,18 @@ if __name__ == '__main__':
     free_space_in_mb = min(8192, commitlog.f_frsize * commitlog.f_blocks // 1024 // 1024 // 4)
     setdefault(COMMITLOG_TOTAL_SPACE_IN_MB=str(free_space_in_mb))
 
-    # Replace the "auto" keyword with current IP address
-    for k in SUBST_WITH_ENVS:
-        if os.environ.get(k, '').upper() == 'AUTO':
-            os.environ[k] = socket.gethostbyname(socket.gethostname())
+    # Do the optional health check
+    if len(sys.argv) > 1:
+        if sys.argv[1] == 'healthcheck':
+            if os.environ['HEALTHCHECK_ENABLE'] == 0:
+                sys.exit(0)
+
+            try:
+                subprocess.check_call(['nodetool', 'status'])
+            except subprocess.CalledProcessError:
+                sys.exit(1)
+            else:
+                sys.exit(0)
 
     # modify cassandra.yaml
     with open(CFG_FILE, 'rb') as fin:

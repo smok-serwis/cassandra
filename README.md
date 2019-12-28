@@ -84,6 +84,16 @@ It will listen on port 8081.
 # Extra arguments
 This simply launches cassandra with a -f flag, and passes any extra arguments to that cassandra.
 
+# Health check
+
+This container spots a built-in healthcheck. It is done by invoking "nodetool status" and seeing it's exit code.
+This assumes that 30 minutes will be a sufficient time for your Cassandra to get up and read it's commit logs and initialize.
+If this is not the case, start the container with suitable `docker run --health-start-period`.
+
+To enable health check just set the environment variable `HEALTHCHECK_ENABLE` to `1`.
+
+If you choose not to enable the health check, the container will be always marked as healthy.
+
 ## Extra JVM_OPTS
 
 If you set an env called **EXTRA1** it will get automatically appended to [cassandra-env.sh](/cassandra-env.sh),
