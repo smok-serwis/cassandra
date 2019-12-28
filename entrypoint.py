@@ -1,5 +1,10 @@
 #!/usr/bin/python
 # coding=UTF-8
+"""
+Copyright (c) 2019 SMOK sp. z o. o.
+See LICENSE.md for details
+Author: Piotr Maślanka <pmaslanka@smok.co>
+"""
 from __future__ import division
 
 import logging

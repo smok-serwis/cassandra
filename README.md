@@ -41,6 +41,10 @@ Following env's values will be placed in _cassandra.yaml_ verbatim (ie, withouti
 * **SEED_NODES** - list of comma separated IP addresses to bootstrap the cluster from
 * **STREAMING_SOCKET_TIMEOUT_IN_MS** - prereably set it to a large large timeout to prevent disconnections during streaming large fixes. Minimally 24 hours. Default is one hour
 
+In general, if it's found in [cassandra.yaml](/etc/cassandra/cassandra.yaml) with a dollar sign preceding it, it is safe to assume
+that environment variable with a given name will be substituted for it.
+
+If you need quotes, bring them with you. See for example how `CLUSTER_NAME` is set.
 
 ## Extra parameters for [RTFM](etc/cassandra/cassandra.yaml)
 
