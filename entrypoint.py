@@ -10,8 +10,8 @@ from __future__ import division
 import logging
 import os
 import socket
-import sys
 import subprocess
+import sys
 
 logger = logging.getLogger(__name__)
 
