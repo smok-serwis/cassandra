@@ -27,7 +27,9 @@ Oracle is willing to authorize Your access to software associated with this Lice
 
 “Personal Applications” refers to Applications designed for individual personal use only, such as games or personal productivity tools.
 
-“Oracle Approved Product Use” refers to Your internal use of the Programs only to run: (a) the product(s) identified as Schedule A Products at https://java.com/oaa; and/or (b) software Applications developed using the products identified as Schedule B Products at java.com/oaa by an Oracle authorized licensee of such Schedule B Products. If You are unsure whether the Application You intend to run using the Programs is developed using a Schedule B Product, please contact your Application provider.
+“Oracle Approved Product Use” refers to Your internal use of the Programs only to run: 
+* the product(s) identified as Schedule A Products at https://java.com/oaa; and/or 
+* software Applications developed using the products identified as Schedule B Products at java.com/oaa by an Oracle authorized licensee of such Schedule B Products. If You are unsure whether the Application You intend to run using the Programs is developed using a Schedule B Product, please contact your Application provider.
 
 “Oracle Cloud Infrastructure Use (“OCI Use”)” refers to Your use of the Programs on Oracle's Cloud Infrastructure with the Oracle Cloud Infrastructure products identified in the Oracle PaaS and IaaS Universal Credits Service Descriptions available at http://oracle.com/contracts during the period in which You maintain a subscription for such Oracle Cloud Infrastructure products.
 
