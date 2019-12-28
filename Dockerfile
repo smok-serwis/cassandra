@@ -6,7 +6,8 @@ ENV APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=1
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends gnupg dirmngr debconf-utils apt-utils ca-certificates && \
-    apt-key adv --keyserver keyserver.ubuntu.com --recv-keys EEA14886
+    apt-key adv --keyserver keyserver.ubuntu.com --recv-keys EEA14886 && \
+    apt-get clean
 
 
 # Oracle Java. Accept no substitutes.
