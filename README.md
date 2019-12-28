@@ -10,7 +10,7 @@ the [summary detailed here](/LICENSE.md).
 # Usage
 
 Since this uses Oracle(c) Java(tm) Server JRE 8u221, you need to **define environment variable `I_ACCEPT_ORACLE_JAVA_LICENSE` in order for container to run.**
-This means that you accept the [Oracle Technology Network License Agreement for Oracle Java SE](https://www.oracle.com/downloads/licenses/javase-license1.html).
+This means that you accept the [Oracle Technology Network License Agreement for Oracle Java SE](/java-jre/LICENSE.md).
 This is the only environment variable you need to set in order for this Cassandra to run.
 
 
