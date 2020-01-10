@@ -45,7 +45,7 @@ RUN  cat /tmp/repo_key |  apt-key add - && \
 
 # JMX agent
 ADD jmx-exporter/jmx_prometheus_javaagent-0.12.0.jar /usr/share/cassandra/lib/jmx_prometheus_javaagent-0.12.0.jar
-ADD jmx-exporter/mx4j-tools.jar /usr/share/cassandra/lib/mx4j-tools.jar
+ADD jmx-exporter/jolokia-jvm-1.6.2-agent.jar /usr/share/cassandra/lib/jolokia-jvm-1.6.2-agent.jar
 ADD jmx-exporter/jmx-exporter.yaml /etc/cassandra/jmx-exporter.yaml
 
 # Our config - base files
@@ -68,6 +68,12 @@ VOLUME /var/lib/cassandra /var/lib/cassandra/commitlog /var/log/cassandra
 
 ## JMX exporter port
 EXPOSE 7199
+
+## Prometheus exporter port
+EXPOSE 7198
+
+## Jolokia exporter port
+EXPOSE 8080
 
 ## Native transport
 EXPOSE 9042

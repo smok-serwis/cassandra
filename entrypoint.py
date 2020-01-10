@@ -128,9 +128,6 @@ if __name__ == '__main__':
             fout.write(os.environ['JMX_REMOTE_PASSWORD'])
         os.chmod('/etc/cassandra/jmxremote.password', stat.S_IRUSR)
 
-    if 'ENABLE_MX4J' in os.environ:
-        data = data.replace('#MX4J', 'MX4J')
-
     if 'DISABLE_PROMETHEUS_EXPORTER' in os.environ:
         data = data.split('\n')
         newdata = []
