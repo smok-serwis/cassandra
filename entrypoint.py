@@ -93,7 +93,7 @@ if __name__ == '__main__':
     # Do the optional health check
     if len(sys.argv) > 1:
         if sys.argv[1] == 'healthcheck':
-            if os.environ['HEALTHCHECK_ENABLE'] == 0:
+            if os.environ.get('HEALTHCHECK_ENABLE', '0') == '0':
                 sys.exit(0)
 
             try:
