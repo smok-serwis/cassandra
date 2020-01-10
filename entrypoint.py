@@ -11,6 +11,7 @@ import logging
 import os
 import socket
 import subprocess
+import stat
 import sys
 
 logger = logging.getLogger(__name__)
@@ -125,6 +126,7 @@ if __name__ == '__main__':
     if os.environ.get('LOCAL_JMX', 'yes') == 'no':
         with open('/etc/cassandra/jmxremote.password', 'w') as fout:
             fout.write(os.environ['JMX_REMOTE_PASSWORD'])
+        os.chmod('/etc/cassandra/jmxremote.password', stat.S_IRUSR)
 
     if 'ENABLE_MX4J' in os.environ:
         data = data.replace('#MX4J', 'MX4J')
