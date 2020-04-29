@@ -96,12 +96,21 @@ if __name__ == '__main__':
             if os.environ.get('HEALTHCHECK_ENABLE', '0') == '0':
                 sys.exit(0)
 
-            try:
-                subprocess.check_call(['nodetool', 'status'])
-            except subprocess.CalledProcessError:
-                sys.exit(1)
+            if os.environ.get('LOCAL_JMX', 'yes') == 'no':
+                try:
+                    subprocess.check_call(['nodetool', 'status', '-u', 'monitorRole', '-p', os.environ['JMX_REMOTE_PASSWORD']])
+                except subprocess.CalledProcessError:
+                    sys.exit(1)
+                else:
+                    sys.exit(0)
             else:
-                sys.exit(0)
+                try:
+                    subprocess.check_call(['nodetool', 'status'])
+                except subprocess.CalledProcessError:
+                    sys.exit(1)
+                else:
+                    sys.exit(0)
+
 
     # modify cassandra.yaml
     with open(CFG_FILE, 'rb') as fin:
@@ -124,8 +133,9 @@ if __name__ == '__main__':
         data = data.replace('$$$EXTRA_ARGS', ''.join(extras))
 
     if os.environ.get('LOCAL_JMX', 'yes') == 'no':
-        with open('/etc/cassandra/jmxremote.password', 'w') as fout:
-            fout.write(os.environ['JMX_REMOTE_PASSWORD'])
+        with open('/etc/cassandra/jmxremote.password', 'w') as f_out:
+            f_out.write('controlRole %s' + os.environ['JMX_REMOTE_PASSWORD'] + '\n')
+            f_out.write('monitorRole %s' + os.environ['JMX_REMOTE_PASSWORD'] + '\n')
         os.chmod('/etc/cassandra/jmxremote.password', stat.S_IRUSR)
 
     if 'DISABLE_PROMETHEUS_EXPORTER' in os.environ:

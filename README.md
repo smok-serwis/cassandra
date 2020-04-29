@@ -71,6 +71,9 @@ If you need quotes, bring them with you. See for example how `CLUSTER_NAME` is s
 To enable JMX [without SSL] set the environment variable _LOCAL_JMX_ to _no_, and the
 environment variable _JMX_REMOTE_PASSWORD_ to target remote password.
 
+This way you will have two users created - `monitorRole` with read-only permissions, and `controlRole`
+with read-write JMX permissions, both having the password that you set.
+
 # Optionals
 
 Following env's would be nice to have, but are not required:
