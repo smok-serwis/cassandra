@@ -50,6 +50,7 @@ ADD jmx-exporter/jmx-exporter.yaml /etc/cassandra/jmx-exporter.yaml
 
 # Our config - base files
 ADD etc/cassandra/cassandra-env.sh /etc/cassandra/cassandra-env.sh
+ADD etc/cassandra/jmxremote.access /etc/cassandra/jmxremote.access
 ADD etc/cassandra/cassandra.yaml /etc/cassandra/cassandra.yaml
 ADD etc/cassandra/cassandra-rackdc.properties /etc/cassandra/cassandra-rackdc.properties
 
