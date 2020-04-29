@@ -135,8 +135,8 @@ if __name__ == '__main__':
 
     if os.environ.get('LOCAL_JMX', 'yes') == 'no':
         with open('/etc/cassandra/jmxremote.password', 'w') as f_out:
-            f_out.write('controlRole %s' + os.environ['JMX_REMOTE_PASSWORD'] + '\n')
-            f_out.write('monitorRole %s' + os.environ['JMX_REMOTE_PASSWORD'] + '\n')
+            f_out.write('controlRole ' + os.environ['JMX_REMOTE_PASSWORD'] + '\n')
+            f_out.write('monitorRole ' + os.environ['JMX_REMOTE_PASSWORD'] + '\n')
         os.chmod('/etc/cassandra/jmxremote.password', stat.S_IRUSR)
 
     if 'DISABLE_PROMETHEUS_EXPORTER' in os.environ:
