@@ -7,7 +7,6 @@ Since this software bundles a few elements, I tought I'd display the licenses he
 to which you agree by setting the environment variable `I_ACCEPT_ORACLE_JAVA_LICENSE` to an arbitrary non-empty value.
 3. [**Prometheus JMX exporter**](/jmx-exporter) is (c) by the wonderful community of Prometheus, made available under the [Apache License 2.0](/jmx-exporter/LICENSE.md).
 4. [**Python Support_1.0.15_all**](/python-support_1.0.15_all.deb) is (c) by the Debian community. Downloaded it from [here](http://launchpadlibrarian.net/109052632/python-support_1.0.15_all.deb). From what pkg-deb and grep say me it' licensed under [Lesser GNU GPL 2.1](https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html).
-5. [**MX4J Tools for Java**](https://mvnrepository.com/artifact/mx4j/mx4j-tools/3.0.1) thank you despite posting no license.
 
 # The license for [my software](/entrypoint.py)
 

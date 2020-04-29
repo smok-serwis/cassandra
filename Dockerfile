@@ -81,9 +81,6 @@ EXPOSE 9042
 ## Internode
 EXPOSE 7000
 
-## MX4J
-EXPOSE 8001
-
 # Defaults - these are used to alter cassandra.yaml before start
 ENV LISTEN_ADDRESS=auto \
     BROADCAST_ADDRESS=auto \

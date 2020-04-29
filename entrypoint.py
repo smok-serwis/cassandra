@@ -98,7 +98,8 @@ if __name__ == '__main__':
 
             if os.environ.get('LOCAL_JMX', 'yes') == 'no':
                 try:
-                    subprocess.check_call(['nodetool', 'status', '-u', 'monitorRole', '-p', os.environ['JMX_REMOTE_PASSWORD']])
+                    subprocess.check_call(['nodetool', 'status', '-u', 'monitorRole', '-p',
+                                           os.environ['JMX_REMOTE_PASSWORD']])
                 except subprocess.CalledProcessError:
                     sys.exit(1)
                 else:

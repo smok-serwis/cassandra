@@ -81,9 +81,6 @@ Following env's would be nice to have, but are not required:
 * **CASSANDRA_DC** - name of this DC that Cassandra is in. _dc1_ by default.
 * **CASSANDRA_RACK** - name of the rack that Cassandra is in, _rack1_ by default.
 
-If you set the environment value of **ENABLE_MX4J** to any value, Cassandra will have it's MX4J enabled.
-It will listen on port 8081.
-
 # Jolokia
 
 Jolokia is enabled by default and listens on port 8080.
