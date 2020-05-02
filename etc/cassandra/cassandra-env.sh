@@ -132,7 +132,7 @@ JVM_OPTS="$JVM_OPTS -XX:+UseThreadPriorities"
 # allows lowering thread priority without being root.  see
 # http://tech.stolsvik.com/2010/01/linux-java-thread-priorities-workaround.html
 JVM_OPTS="$JVM_OPTS -XX:ThreadPriorityPolicy=42"
-
+JVM_OPTS="$JVM_OPTS -XX:+ExitOnOutOfMemoryError"
 # set jvm HeapDumpPath with CASSANDRA_HEAPDUMP_DIR
 JVM_OPTS="$JVM_OPTS -XX:+HeapDumpOnOutOfMemoryError"
 if [ "x$CASSANDRA_HEAPDUMP_DIR" != "x" ]; then
@@ -178,7 +178,6 @@ if [ "$LOCAL_JMX" = "yes" ]; then
   JVM_OPTS="$JVM_OPTS -Dcassandra.jmx.local.port=$JMX_PORT -XX:+DisableExplicitGC"
 else
   JVM_OPTS="$JVM_OPTS -Dcassandra.jmx.remote.port=$JMX_PORT"
-  JVM_OPTS="$JVM_OPTS -Dcom.sun.management.jmxremote.port=$JMX_PORT"
   JVM_OPTS="$JVM_OPTS -Dcom.sun.management.jmxremote.rmi.port=$JMX_PORT"
   JVM_OPTS="$JVM_OPTS -Dcom.sun.management.jmxremote.ssl=false"
   JVM_OPTS="$JVM_OPTS -Dcom.sun.management.jmxremote.authenticate=true"

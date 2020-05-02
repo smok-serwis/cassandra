@@ -161,4 +161,4 @@ if __name__ == '__main__':
         fout.write(data)
 
     # Run Cassandra proper
-    os.execv("/usr/sbin/cassandra", ["/usr/sbin/cassandra", "-f"] + sys.argv[1:])
+    os.execv("/usr/sbin/cassandra", ["/usr/sbin/cassandra", "-f", '-R'] + sys.argv[1:])
