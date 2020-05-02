@@ -111,6 +111,8 @@ if __name__ == '__main__':
                     sys.exit(1)
                 else:
                     sys.exit(0)
+        elif sys.argv[1] == 'bash':
+            os.execv('/bin/bash', ['/bin/bash'])
 
 
     # modify cassandra.yaml

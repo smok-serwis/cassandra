@@ -1,1 +1,1 @@
-deb http://debian.datastax.com/community stable main
+deb http://www.apache.org/dist/cassandra/debian 311x main

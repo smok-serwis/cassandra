@@ -121,9 +121,10 @@ JVM_OPTS="$JVM_OPTS -javaagent:$CASSANDRA_HOME/lib/jamm-0.3.0.jar"
 # add Prometheus JMX agent
 JVM_OPTS="$JVM_OPTS -javaagent:$CASSANDRA_HOME/lib/jmx_prometheus_javaagent-0.12.0.jar=0.0.0.0:7198:/etc/cassandra/jmx-exporter.yaml"
 
-# add Jolokia agent
-JVM_OPTS="$JVM_OPTS -javaagent:/usr/share/cassandra/lib/jolokia-jvm-1.6.2-agent.jar=port=8080,host=0.0.0.0"
-
+if [ -z "$DISABLE_JOLOKIA" ]; then
+  # add Jolokia agent
+  JVM_OPTS="$JVM_OPTS -javaagent:/usr/share/cassandra/lib/jolokia-jvm-1.6.2-agent.jar=port=8080,host=0.0.0.0"
+fi
 
 # enable thread priorities, primarily so we can give periodic tasks
 # a lower priority to avoid interfering with client workload

@@ -1,29 +1,28 @@
-FROM debian:stretch-slim
+FROM debian:stretch
 
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=1
 
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends gnupg dirmngr debconf-utils apt-utils ca-certificates && \
+    apt-get install -y --no-install-recommends gnupg apt-transport-https dirmngr debconf-utils apt-utils ca-certificates wget && \
     apt-key adv --keyserver keyserver.ubuntu.com --recv-keys EEA14886 && \
     apt-get clean
 
 
-# Oracle Java. Accept no substitutes.
-ADD java-jre/server-jre-8u221-linux-x64.tar.gz /usr/local/java/
-
-ENV JAVA_HOME=/usr/local/java/jdk1.8.0_221
-RUN update-alternatives --install "/usr/bin/java" "java" "${JAVA_HOME}/bin/java" 1 && \
-    update-alternatives --install "/usr/bin/javac" "javac" "${JAVA_HOME}/bin/javac" 1
-ENV PATH="${PATH}:${JAVA_HOME}/bin"
+ADD java.sources.list /etc/apt/sources.list.d/cassandra.sources.list
+RUN wget -O - http://debian.opennms.org/OPENNMS-GPG-KEY | apt-key add - && \
+    apt-get update && \
+    echo debconf shared/accepted-oracle-license-v1-1 select true | debconf-set-selections && \
+    echo debconf shared/accepted-oracle-license-v1-1 seen true | debconf-set-selections && \
+    apt-get install -y oracle-java8-installer
 
 # Install jemalloc
 RUN apt-get update && \
     apt-get install -y --no-install-recommends libjemalloc1 && \
     apt-get clean
 
-LABEL apache.cassandra.version="3.0.9"
+LABEL apache.cassandra.version="3.11.6"
 
 
 # Install python-support that dsc30 whine about not having
@@ -36,10 +35,10 @@ RUN apt-get update && \
 
 # Cassandra
 ADD cassandra.sources.list /etc/apt/sources.list.d/cassandra.sources.list
-ADD http://debian.datastax.com/debian/repo_key /tmp/repo_key
-RUN  cat /tmp/repo_key |  apt-key add - && \
+ADD https://www.apache.org/dist/cassandra/KEYS /tmp/repo_key
+RUN  apt-key add /tmp/repo_key && \
      apt-get update && \
-     apt-get install -y --no-install-recommends cassandra dsc30 cassandra-tools && \
+     apt-get install -y --no-install-recommends cassandra cassandra-tools && \
      apt-get clean
 
 

@@ -13,7 +13,6 @@ Since this uses Oracle(c) Java(tm) Server JRE 8u221, you need to **define enviro
 This means that you accept the [Oracle Technology Network License Agreement for Oracle Java SE](/java-jre/LICENSE.md).
 This is the only environment variable you need to set in order for this Cassandra to run.
 
-
 You don't need to make your images basing off this one.
 `cassandra.yaml` will be set as you set particular environment variables.
 Just set envs as needed. See [Dockerfile](/Dockerfile) and [entrypoint.py](/entrypoint.py) for details.
@@ -83,7 +82,8 @@ Following env's would be nice to have, but are not required:
 
 # Jolokia
 
-Jolokia is enabled by default and listens on port 8080.
+Jolokia is enabled by default and listens on port 8080. If you define the env `DISABLE_JOLOKIA` 
+t won't be loaded.
 
 # Extra arguments
 This simply launches cassandra with a -f flag, and passes any extra arguments to that cassandra.
@@ -97,6 +97,11 @@ If this is not the case, start the container with suitable `docker run --health-
 To enable health check just set the environment variable `HEALTHCHECK_ENABLE` to `1`.
 
 If you choose not to enable the health check, the container will be always marked as healthy.
+
+# Bash
+
+If you invoke this container with a single argument of "bash", it will drop you to a shell
+without starting anything.
 
 ## Extra JVM_OPTS
 
