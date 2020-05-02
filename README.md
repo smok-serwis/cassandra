@@ -1,8 +1,8 @@
-# Oracle(c) Java(tm) Server JRE 8u221 + Cassandra 3.0.9 + Prometheus JMX exporter + Jolokia exporter
+# Oracle(c) Java(tm) Server JRE 8u221 + Cassandra 3.11.6 + Prometheus JMX exporter + Jolokia exporter
 + jemalloc1
  
-Current version: [Cassandra v3.0.9](https://github.com/smok-serwis/cassandra/releases/tag/v3.0.8), how with more configurability through the envs!
-Even better than [v3.0.8](https://github.com/smok-serwis/cassandra/releases/tag/v3.0.8).
+Current version: [Cassandra v3.11.6](https://github.com/smok-serwis/cassandra/releases/tag/3.11.6), 
+now with more configurability through the envs!
 
 Due to myriad of different licenses employed here, please take a look at
 the [summary detailed here](/LICENSE.md).

@@ -5,17 +5,21 @@ ENV DEBIAN_FRONTEND=noninteractive
 ENV APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=1
 
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends gnupg apt-transport-https dirmngr debconf-utils apt-utils ca-certificates wget && \
+    apt-get install -y --no-install-recommends gnupg apt-transport-https dirmngr debconf-utils apt-utils ca-certificates && \
     apt-key adv --keyserver keyserver.ubuntu.com --recv-keys EEA14886 && \
     apt-get clean
 
 
-ADD java.sources.list /etc/apt/sources.list.d/cassandra.sources.list
-RUN wget -O - http://debian.opennms.org/OPENNMS-GPG-KEY | apt-key add - && \
+ADD java.sources.list /etc/apt/sources.list.d/java.sources.list
+ADD http://debian.opennms.org/OPENNMS-GPG-KEY /tmp/repo_key
+RUN apt-key add /tmp/repo_key && \
     apt-get update && \
     echo debconf shared/accepted-oracle-license-v1-1 select true | debconf-set-selections && \
     echo debconf shared/accepted-oracle-license-v1-1 seen true | debconf-set-selections && \
-    apt-get install -y oracle-java8-installer
+    apt-get install -y oracle-java8-installer && \
+    apt-get clean
+
+ENV JAVA_HOME=/usr/lib/jvm/java-8-oracle
 
 # Install jemalloc
 RUN apt-get update && \
@@ -23,15 +27,6 @@ RUN apt-get update && \
     apt-get clean
 
 LABEL apache.cassandra.version="3.11.6"
-
-
-# Install python-support that dsc30 whine about not having
-
-ADD python-support_1.0.15_all.deb /tmp/python-support_1.0.15_all.deb
-RUN apt-get update && \
-    apt-get install -y python>=2.5 && \
-    dpkg -i /tmp/python-support_1.0.15_all.deb && \
-    apt-get clean
 
 # Cassandra
 ADD cassandra.sources.list /etc/apt/sources.list.d/cassandra.sources.list
