@@ -63,6 +63,8 @@ If you need quotes, bring them with you. See for example how `CLUSTER_NAME` is s
 * **ENABLE_USER_DEFINED_FUNCTIONS'** - defaults to _false_
 * **COMMITLOG_SEGMENT_SIZE** - size of a commit log segment, in MB. Defaults to 32
 * **DISABLE_PROMETHEUS_EXPORTER** - if set, Prometheus' exporter will be disabled
+* **KEY_CACHE_SIZE_IN_MB** - default is *auto*
+* **FILE_CACHE_SIZE_IN_MB** - size of chunk cache, default is 512
 * **COMMITLOG_SYNC** - [RTFM](etc/cassandra/cassandra.yaml). Defaults to _periodic_
 
 # Enabling JMX

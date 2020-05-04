@@ -72,6 +72,8 @@ if __name__ == '__main__':
                AUTHORIZER='AllowAllAuthorizer',
                ENDPOINT_SNITCH='SimpleSnitch',
                DISK_OPTIMIZATION_STRATEGY='solid',
+               KEY_CACHE_SIZE_IN_MB='auto',
+               FILE_CACHE_SIZE_IN_MB='512',
                AUTHENTICATOR='AllowAllAuthenticator',
                TOMBSTONE_WARN_THRESHOLD='1000',
                TOMBSTONE_FAIL_THRESHOLD='100000',
