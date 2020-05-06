@@ -42,6 +42,9 @@ ADD jmx-exporter/jmx_prometheus_javaagent-0.12.0.jar /usr/share/cassandra/lib/jm
 ADD jmx-exporter/jolokia-jvm-1.6.2-agent.jar /usr/share/cassandra/lib/jolokia-jvm-1.6.2-agent.jar
 ADD jmx-exporter/jmx-exporter.yaml /etc/cassandra/jmx-exporter.yaml
 
+# Jaeger tracing
+ADD jaeger/cassandra-jaeger-tracing-1.0-SNAPSHOT.jar /usr/share/cassandra/lib/cassandra-jaeger-tracing-1.0-SNAPSHOT.jar
+
 # Our config - base files
 ADD etc/cassandra/cassandra-env.sh /etc/cassandra/cassandra-env.sh
 ADD etc/cassandra/jmxremote.access /etc/cassandra/jmxremote.access
@@ -56,30 +59,11 @@ ENTRYPOINT ["/entrypoint.py"]
 # Health check - this will work only if env HEALTHCHECK_ENABLE is set to some other value than "0"
 HEALTHCHECK --start-period=30m --retries=3 CMD ["/entrypoint.py", "healthcheck"]
 
-# Exports
-
-## Volumes - data and commit log and logs
-VOLUME /var/lib/cassandra /var/lib/cassandra/commitlog /var/log/cassandra
-
-## JMX exporter port
-EXPOSE 7199
-
-## Prometheus exporter port
-EXPOSE 7198
-
-## Jolokia exporter port
-EXPOSE 8080
-
-## Native transport
-EXPOSE 9042
-
-## Internode
-EXPOSE 7000
-
 # Defaults - these are used to alter cassandra.yaml before start
 ENV LISTEN_ADDRESS=auto \
     BROADCAST_ADDRESS=auto \
     RPC_ADDRESS=0.0.0.0 \
     RPC_BROADCAST_ADDRESS=auto \
     SEED_NODES=auto
+
 

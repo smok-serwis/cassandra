@@ -1,11 +1,25 @@
 # Oracle(c) Java(tm) Server JRE 8u221 + Cassandra 3.11.6 + Prometheus JMX exporter + Jolokia exporter
-+ jemalloc1
++ jemalloc1 + Jaeger tracing
  
 Current version: [Cassandra v3.11.6](https://github.com/smok-serwis/cassandra/releases/tag/3.11.6), 
 now with more configurability through the envs!
 
 Due to myriad of different licenses employed here, please take a look at
 the [summary detailed here](/LICENSE.md).
+
+# Ports it listens on
+
+* 7199 - JMX
+* 7198 - Prometheus exporter
+* 9042 - Native transport
+* 7000 - Internode communications
+* 9160 - Thrift client (disabled by default, set env `START_RPC` to `true` to enable it)
+
+# Volumes of interest
+
+* _/var/lib/cassandra_ - data partition
+* _/var/lib/cassandra/commitlog_ - commitlog partition
+* _/var/lib/cassandra/logs_ - logs
 
 # Usage
 
@@ -99,6 +113,11 @@ If this is not the case, start the container with suitable `docker run --health-
 To enable health check just set the environment variable `HEALTHCHECK_ENABLE` to `1`.
 
 If you choose not to enable the health check, the container will be always marked as healthy.
+
+# Enabling Jaeger tracing
+
+In order to enable Jaeger tracing just define the envs `JAEGER_AGENT_HOST`, and optionally
+`JAEGER_AGENT_PORT`, which is 6831 by default.
 
 # Bash
 

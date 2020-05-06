@@ -72,7 +72,7 @@ if __name__ == '__main__':
                AUTHORIZER='AllowAllAuthorizer',
                ENDPOINT_SNITCH='SimpleSnitch',
                DISK_OPTIMIZATION_STRATEGY='solid',
-               KEY_CACHE_SIZE_IN_MB='auto',
+               KEY_CACHE_SIZE_IN_MB='',
                FILE_CACHE_SIZE_IN_MB='512',
                AUTHENTICATOR='AllowAllAuthenticator',
                TOMBSTONE_WARN_THRESHOLD='1000',
@@ -88,7 +88,11 @@ if __name__ == '__main__':
     # Calculate commitlog total space in MB, as to quote cassandra.yaml:
     # The default value is the smaller of 8192, and 1/4 of the total space
     # of the commitlog volume.
-    commitlog = os.statvfs('/var/lib/cassandra/commitlog')
+    try:
+        commitlog = os.statvfs('/var/lib/cassandra/commitlog')
+    except OSError:
+        commitlog = os.statvfs('/')
+
     free_space_in_mb = min(8192, commitlog.f_frsize * commitlog.f_blocks // 1024 // 1024 // 4)
     setdefault(COMMITLOG_TOTAL_SPACE_IN_MB=str(free_space_in_mb))
 

@@ -169,6 +169,10 @@ if [ "x$LOCAL_JMX" = "x" ]; then
     LOCAL_JMX=yes
 fi
 
+if [ ! -z "$JAEGER_AGENT_HOST" ]; then
+  JVM_OPTS="$JVM_OPTS -Dcassandra.custom_tracing_class=io.infracloud.cassandra.tracing.JaegerTracing"
+fi
+
 # Specifies the default port over which Cassandra will be available for
 # JMX connections.
 # For security reasons, you should not expose this port to the internet.  Firewall it if needed.
