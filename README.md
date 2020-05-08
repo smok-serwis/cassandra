@@ -119,6 +119,10 @@ If you choose not to enable the health check, the container will be always marke
 In order to enable Jaeger tracing just define the envs `JAEGER_AGENT_HOST`, and optionally
 `JAEGER_AGENT_PORT`, which is 6831 by default.
 
+Note that this uses [our custom](https://github.com/smok-serwis/cassandra-jaeger-tracing)
+version of `cassandra-jaeger-tracing`.
+
+
 # Bash
 
 If you invoke this container with a single argument of "bash", it will drop you to a shell
