@@ -64,6 +64,6 @@ ENV LISTEN_ADDRESS=auto \
     BROADCAST_ADDRESS=auto \
     RPC_ADDRESS=0.0.0.0 \
     RPC_BROADCAST_ADDRESS=auto \
-    SEED_NODES=auto
-
+    SEED_NODES=auto \
+    JAEGER_TRACE_KEY=jaeger-trace
 
