@@ -52,7 +52,7 @@ hinted_handoff_enabled: true
 # this defines the maximum amount of time a dead host will have hints
 # generated.  After it has been dead this long, new hints for it will not be
 # created until it has been seen alive and gone down again.
-max_hint_window_in_ms: 10800000 # 3 hours
+max_hint_window_in_ms: $MAX_HINT_WINDOW_IN_MS # 3 hours
 
 # Maximum throttle in KBs per second, per delivery thread.  This will be
 # reduced proportionally to the number of nodes in the cluster.  (If there
@@ -665,10 +665,10 @@ batch_size_fail_threshold_in_kb: $BATCH_SIZE_FAIL_THRESHOLD_IN_KB
 # 16 to 32 times the rate you are inserting data is more than sufficient.
 # Setting this to 0 disables throttling. Note that this account for all types
 # of compaction, including validation compaction.
-compaction_throughput_mb_per_sec: 16
+compaction_throughput_mb_per_sec: $COMPACTION_THROUGHPUT_MB_PER_SEC
 
 # Log a warning when compacting partitions larger than this value
-compaction_large_partition_warning_threshold_mb: 100
+compaction_large_partition_warning_threshold_mb: $COMPACTION_LARGE_PARTITION_WARNING_THRESHOLD_MB
 
 # When compacting, the replacement sstable(s) can be opened before they
 # are completely written, and used in place of the prior sstables for
@@ -690,22 +690,22 @@ sstable_preemptive_open_interval_in_mb: 50
 # inter_dc_stream_throughput_outbound_megabits_per_sec:
 
 # How long the coordinator should wait for read operations to complete
-read_request_timeout_in_ms: 5000
+read_request_timeout_in_ms: $READ_REQUEST_TIMEOUT_IN_MS
 # How long the coordinator should wait for seq or index scans to complete
-range_request_timeout_in_ms: 10000
+range_request_timeout_in_ms: $RANGE_REQUEST_TIMEOUT_IN_MS
 # How long the coordinator should wait for writes to complete
-write_request_timeout_in_ms: 2000
+write_request_timeout_in_ms: $WRITE_REQUEST_TIMEOUT_IN_MS
 # How long the coordinator should wait for counter writes to complete
-counter_write_request_timeout_in_ms: 5000
+counter_write_request_timeout_in_ms: $COUNTER_WRITE_REQUEST_TIMEOUT_IN_MS
 # How long a coordinator should continue to retry a CAS operation
 # that contends with other proposals for the same row
-cas_contention_timeout_in_ms: 1000
+cas_contention_timeout_in_ms: $CAS_CONTENTION_TIMEOUT_IS_MS
 # How long the coordinator should wait for truncates to complete
 # (This can be much longer, because unless auto_snapshot is disabled
 # we need to flush first so we can snapshot before removing the data.)
-truncate_request_timeout_in_ms: 60000
+truncate_request_timeout_in_ms: $TRUNCATE_REQUEST_TIMEOUT_IN_MS
 # The default timeout for other, miscellaneous operations
-request_timeout_in_ms: 10000
+request_timeout_in_ms: $REQUEST_TIMEOUT_IN_MS
 
 # Enable operation timeout information exchange between nodes to accurately
 # measure request timeouts.  If disabled, replicas will assume that requests
@@ -913,7 +913,7 @@ enable_user_defined_functions: $ENABLE_USER_DEFINED_FUNCTIONS
 # Java UDFs are always enabled, if enable_user_defined_functions is true.
 # Enable this option to be able to use UDFs with "language javascript" or any custom JSR-223 provider.
 # This option has no effect, if enable_user_defined_functions is false.
-enable_scripted_user_defined_functions: false
+enable_scripted_user_defined_functions: $ENABLE_SCRIPTED_USER_DEFINED_FUNCTIONS
 
 # The default Windows kernel timer and scheduling resolution is 15.6ms for power conservation.
 # Lowering this value on Windows can provide much tighter latency and better throughput, however

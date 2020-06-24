@@ -74,7 +74,18 @@ If you need quotes, bring them with you. See for example how `CLUSTER_NAME` is s
 * **COLUMN_INDEX_SIZE_IN_KB** - [RTFM](etc/cassandra/cassandra.yaml)
 * **BATCH_SIZE_FAIL_THRESHOLD_IN_KB** - maximum size of the batch that Cassandra will fail. [RTFM](etc/cassandra/cassandra.yaml) 
 * **REQUEST_SCHEDULER** - defaults to _org.apache.cassandra.scheduler.NoScheduler_
+* **READ_REQUEST_TIMEOUT_IN_MS** - defaults to _5000_
+* **RANGE_REQUEST_TIMEOUT_IN_MS** - defaults to _10000_
+* **WRITE_REQUEST_TIMEOUT_IN_MS** - defaults to _2000_
+* **COUNTER_WRITE_REQUEST_TIMEOUT_IN_MS** - defaults to _5000_
+* **CAS_CONTENTION_TIMEOUT_IS_MS** - defaults to _1000_
+* **TRUNCATE_REQUEST_TIMEOUT_IN_MS** - defaults to _60000_
+* **REQUEST_TIMEOUT_IN_MS** - defaults to _10000_
+* **COMPACTION_THROUGHPUT_MB_PER_SEC** - defaults to _16_
+* **COMPACTION_LARGE_PARTITION_WARNING_THRESHOLD_MB** - defaults to _100_
+* **MAX_HINT_WINDOW_IN_MS** - defaults to _10800000_, which is 3 hours
 * **ENABLE_USER_DEFINED_FUNCTIONS'** - defaults to _false_
+* **ENABLE_SCRIPTED_USER_DEFINED_FUNCTIONS** - defaults to _false_
 * **COMMITLOG_SEGMENT_SIZE** - size of a commit log segment, in MB. Defaults to 32
 * **DISABLE_PROMETHEUS_EXPORTER** - if set, Prometheus' exporter will be disabled
 * **KEY_CACHE_SIZE_IN_MB** - default is *auto*
