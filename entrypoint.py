@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # coding=UTF-8
 """
-Copyright (c) 2019 SMOK sp. z o. o.
+Copyright (c) 2019-2020 SMOK sp. z o. o.
 See LICENSE.md for details
 Author: Piotr Maślanka <pmaslanka@smok.co>
 """
@@ -138,8 +138,8 @@ if __name__ == '__main__':
     for k in SUBST_WITH_ENVS:
         data = data.replace('$' + k, os.environ[k])
 
-    with open(CFG_FILE, 'wb') as fout:
-        fout.write(data)
+    with open(CFG_FILE, 'wb') as f_out:
+        f_out.write(data)
 
     # modify cassandra-env.sh
     with open(CFG_ENV_FILE, 'rb') as fin:
@@ -166,16 +166,16 @@ if __name__ == '__main__':
                 newdata.append(line)
         data = '\n'.join(newdata)
 
-    with open(CFG_ENV_FILE, 'wb') as fout:
-        fout.write(data)
+    with open(CFG_ENV_FILE, 'wb') as f_out:
+        f_out.write(data)
 
     # modify cassandra-rackdc.properties
     with open(CFG_RACK_FILE, 'rb') as fin:
         data = fin.read()
     data = data.replace('dc=dc1', 'dc=' + os.environ['CASSANDRA_DC'])
     data = data.replace('rack=rack1', 'rack=' + os.environ['CASSANDRA_RACK'])
-    with open(CFG_RACK_FILE, 'wb') as fout:
-        fout.write(data)
+    with open(CFG_RACK_FILE, 'wb') as f_out:
+        f_out.write(data)
 
     # Run Cassandra proper
     os.execv("/usr/sbin/cassandra", ["/usr/sbin/cassandra", "-f", '-R'] + sys.argv[1:])
