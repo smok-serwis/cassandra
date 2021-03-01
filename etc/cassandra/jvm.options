@@ -88,6 +88,9 @@
 ########################
 # GENERAL JVM SETTINGS #
 ########################
+# Enable compressed oops
+
+-XX:+UseCompressedOops
 
 # enable thread priorities, primarily so we can give periodic tasks
 # a lower priority to avoid interfering with client workload
