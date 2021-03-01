@@ -10,7 +10,7 @@
 ## Main G1GC tunable: lowering the pause target will lower throughput and vise versa.
 ## 200ms is the JVM default and lowest viable setting
 ## 1000ms increases throughput. Keep it smaller than the timeouts in cassandra.yaml.
-#-XX:MaxGCPauseMillis=500
+-XX:MaxGCPauseMillis=500
 
 ## Optional G1 Settings
 
