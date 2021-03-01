@@ -159,3 +159,12 @@ The default garbage collector in Concurrent Mark & Sweep.
 
 Assertions are disabled by default in order to provide a modest speed-up. To enable them, use an
 env called `ENABLE_ASSERTIONS` and set it to `1`.
+
+# Logging GC
+
+GC can be logged to:
+
+* `not logged` (default value of `LOG_GC=none`)
+* file /var/log/cassandra.gc (`LOG_GC=file`)
+* standard output (`LOG_GC=stdout`)
+

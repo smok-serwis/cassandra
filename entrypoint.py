@@ -141,6 +141,16 @@ if __name__ == '__main__':
     with open(CFG_FILE, 'wb') as f_out:
         f_out.write(data)
 
+    log_gc = os.environ.get('LOG_GC', 'none')
+    if log_gc == 'file':
+        with open('/etc/cassandra/jvm.options.log_gc.file', 'r') as f_in:
+            data2 = f_in.read()
+    elif log_gc == 'stdout':
+        with open('/etc/cassandra/jvm.options.log_gc.stdout', 'r') as f_in:
+            data2 = f_in.read()
+    else:
+        data2 = ''
+
     gc_chosen = os.environ.get('GC', 'CMS')
 
     if gc_chosen == 'CMS':
@@ -153,6 +163,7 @@ if __name__ == '__main__':
         raise ValueError('Unknown garbage collector chosen')
 
     with open('/etc/cassandra/jvm.options', 'a') as f_out:
+        f_out.write(data2)
         f_out.write(data)
 
     # modify cassandra-env.sh

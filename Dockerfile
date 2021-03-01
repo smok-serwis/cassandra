@@ -26,7 +26,7 @@ RUN apt-get update && \
     apt-get install -y --no-install-recommends libjemalloc1 && \
     apt-get clean
 
-LABEL apache.cassandra.version="3.11.6"
+LABEL apache.cassandra.version="3.11.10"
 
 # Cassandra
 ADD cassandra.sources.list /etc/apt/sources.list.d/cassandra.sources.list
@@ -50,6 +50,8 @@ ADD etc/cassandra/cassandra-rackdc.properties /etc/cassandra/cassandra-rackdc.pr
 ADD etc/cassandra/jvm.options /etc/cassandra/jvm.options
 ADD etc/cassandra/jvm.options.cms /etc/cassandra/jvm.options.cms
 ADD etc/cassandra/jvm.options.g1 /etc/cassandra/jvm.options.g1
+ADD etc/cassandra/jvm.options.log_gc.file /etc/cassandra/jvm.options.log_gc.file
+ADD etc/cassandra/jvm.options.log_gc.stdout /etc/cassandra/jvm.options.log_gc.stdout
 
 # Entry point
 ADD entrypoint.py /entrypoint.py
@@ -69,5 +71,6 @@ ENV LISTEN_ADDRESS=auto \
     RPC_BROADCAST_ADDRESS=auto \
     SEED_NODES=auto \
     JAEGER_TRACE_KEY=jaeger-trace \
-    GC=CMS
+    GC=CMS \
+    LOG_GC=none
 
