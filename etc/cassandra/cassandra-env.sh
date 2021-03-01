@@ -93,8 +93,8 @@ fi
 
 # enable assertions.  disabling this in production will give a modest
 # performance benefit (around 5%).
-if [ ! -z "$ENABLE_ASSERTIONS" ]; then
-  JVM_OPTS="$JVM_OPTS -ea"
+if [ -z "$ENABLE_ASSERTIONS" ]; then
+  JVM_OPTS="$JVM_OPTS -da"
 fi
 
 # Per-thread stack size.
