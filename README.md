@@ -157,5 +157,5 @@ The default garbage collector in Concurrent Mark & Sweep.
 
 # Enabling assertions
 
-Assertions are disabled by default. To enable them, use an env called
-`ENABLE_ASSERTIONS` and set it to `1`.
+Assertions are disabled by default in order to provide a modest speed-up. To enable them, use an
+env called `ENABLE_ASSERTIONS` and set it to `1`.
