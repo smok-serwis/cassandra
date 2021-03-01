@@ -60,9 +60,12 @@ echo $JVM_OPTS | grep -q Xmx
 DEFINED_XMX=$?
 echo $JVM_OPTS | grep -q Xms
 DEFINED_XMS=$?
-echo $JVM_OPTS | grep -q UseConcMarkSweepGC
-USING_CMS=$?
 
+if [ "$GC" = "G1" ]; then
+else
+  echo $JVM_OPTS | grep -q UseConcMarkSweepGC
+  USING_CMS=$?
+fi
 # We only set -Xms and -Xmx if they were not defined on jvm.options file
 # If defined, both Xmx and Xms should be defined together.
 if [ $DEFINED_XMX -ne 0 ] && [ $DEFINED_XMS -ne 0 ]; then
@@ -76,18 +79,14 @@ fi
 # We only set -Xmn flag if it was not defined in jvm.options file
 # and if the CMS GC is being used
 # If defined, both Xmn and Xmx should be defined together.
-if [ "$GC" = "G1" ]; then
-  JVM_OPTS="$JVM_OPTS -XX:+UseG1GC"
-else
-  if [ $DEFINED_XMN -eq 0 ] && [ $DEFINED_XMX -ne 0 ]; then
-      echo "Please set or unset -Xmx and -Xmn flags in pairs on jvm.options file."
-      exit 1
-  elif [ $DEFINED_XMN -ne 0 ] && [ $USING_CMS -eq 0 ]; then
-      JVM_OPTS="$JVM_OPTS -Xmn${HEAP_NEWSIZE}"
-  fi
-  if [ "$JVM_ARCH" = "64-Bit" ] && [ $USING_CMS -eq 0 ]; then
-      JVM_OPTS="$JVM_OPTS -XX:+UseCondCardMark"
-  fi
+if [ $DEFINED_XMN -eq 0 ] && [ $DEFINED_XMX -ne 0 ]; then
+    echo "Please set or unset -Xmx and -Xmn flags in pairs on jvm.options file."
+    exit 1
+elif [ $DEFINED_XMN -ne 0 ] && [ $USING_CMS -eq 0 ]; then
+    JVM_OPTS="$JVM_OPTS -Xmn${HEAP_NEWSIZE}"
+fi
+if [ "$JVM_ARCH" = "64-Bit" ] && [ $USING_CMS -eq 0 ]; then
+    JVM_OPTS="$JVM_OPTS -XX:+UseCondCardMark"
 fi
 
 # enable assertions.  disabling this in production will give a modest

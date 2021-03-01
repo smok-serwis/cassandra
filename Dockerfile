@@ -47,6 +47,9 @@ ADD etc/cassandra/cassandra-env.sh /etc/cassandra/cassandra-env.sh
 ADD etc/cassandra/jmxremote.access /etc/cassandra/jmxremote.access
 ADD etc/cassandra/cassandra.yaml /etc/cassandra/cassandra.yaml
 ADD etc/cassandra/cassandra-rackdc.properties /etc/cassandra/cassandra-rackdc.properties
+ADD etc/cassandra/jvm.options /etc/cassandra/jvm.options
+ADD etc/cassandra/jvm.options.cms /etc/cassandra/jvm.options.cms
+ADD etc/cassandra/jvm.options.g1 /etc/cassandra/jvm.options.g1
 
 # Entry point
 ADD entrypoint.py /entrypoint.py

@@ -141,6 +141,16 @@ if __name__ == '__main__':
     with open(CFG_FILE, 'wb') as f_out:
         f_out.write(data)
 
+    if os.environ.get('GC', 'CMS') == 'CMS':
+        with open('/etc/cassandra/jvm.options.cms', 'r') as f_in:
+            data = f_in.read()
+    elif os.environ.get('GC', 'CMS') == 'G1':
+        with open('/etc/cassandra/jvm.options.g1', 'r') as f_in:
+            data = f_in.read()
+
+    with open('/etc/cassandra/jvm.options', 'a') as f_out:
+        f_out.write(data)
+
     # modify cassandra-env.sh
     with open(CFG_ENV_FILE, 'rb') as fin:
         data = fin.read()
