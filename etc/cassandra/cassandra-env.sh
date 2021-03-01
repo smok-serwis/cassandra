@@ -62,6 +62,7 @@ echo $JVM_OPTS | grep -q Xms
 DEFINED_XMS=$?
 
 if [ "$GC" = "G1" ]; then
+   echo "Using G1 garbage collector"
 else
   echo $JVM_OPTS | grep -q UseConcMarkSweepGC
   USING_CMS=$?
@@ -85,13 +86,14 @@ if [ $DEFINED_XMN -eq 0 ] && [ $DEFINED_XMX -ne 0 ]; then
 elif [ $DEFINED_XMN -ne 0 ] && [ $USING_CMS -eq 0 ]; then
     JVM_OPTS="$JVM_OPTS -Xmn${HEAP_NEWSIZE}"
 fi
+
 if [ "$JVM_ARCH" = "64-Bit" ] && [ $USING_CMS -eq 0 ]; then
     JVM_OPTS="$JVM_OPTS -XX:+UseCondCardMark"
 fi
 
 # enable assertions.  disabling this in production will give a modest
 # performance benefit (around 5%).
-if [ ! -z "$ENABLE_ASSERTIONS" ]; then
+if [ "x$ENABLE_ASSERTIONS" != "x" ]; then
   JVM_OPTS="$JVM_OPTS -ea"
 fi
 
