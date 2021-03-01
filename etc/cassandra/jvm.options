@@ -89,9 +89,6 @@
 # GENERAL JVM SETTINGS #
 ########################
 
-# enable assertions. highly suggested for correct application functionality.
--ea
-
 # enable thread priorities, primarily so we can give periodic tasks
 # a lower priority to avoid interfering with client workload
 -XX:+UseThreadPriorities
