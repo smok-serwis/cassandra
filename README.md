@@ -149,3 +149,7 @@ JVM_OPTS="$JVM_OPTS ${EXTRA1}"\n
 You can add any number, starting from numbering them EXTRA1, without any limit.
 It's important that they are consecutive numbers. These will simply enlarge your `JVM_OPTS`. You can for example
 use it to [replace a dead node](https://docs.datastax.com/en/archived/cassandra/3.0/cassandra/operations/opsReplaceNode.html).
+
+# Using the G1 Garbage Collector
+
+To use the G1 Garbage Collector just define an env called `GC` and set it to "G1".

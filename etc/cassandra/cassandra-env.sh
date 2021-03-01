@@ -83,8 +83,12 @@ elif [ $DEFINED_XMN -ne 0 ] && [ $USING_CMS -eq 0 ]; then
     JVM_OPTS="$JVM_OPTS -Xmn${HEAP_NEWSIZE}"
 fi
 
-if [ "$JVM_ARCH" = "64-Bit" ] && [ $USING_CMS -eq 0 ]; then
-    JVM_OPTS="$JVM_OPTS -XX:+UseCondCardMark"
+if [ "$GC" = "G1" ]; then
+  JVM_OPTS="$JVM_OPTS -XX:+UseG1GC"
+else
+  if [ "$JVM_ARCH" = "64-Bit" ] && [ $USING_CMS -eq 0 ]; then
+      JVM_OPTS="$JVM_OPTS -XX:+UseCondCardMark"
+  fi
 fi
 
 # enable assertions.  disabling this in production will give a modest
