@@ -194,14 +194,3 @@
 # * CAP_NOWARN: same as previous, except that the client warning will not be emitted.
 #
 #-Dcassandra.expiration_date_overflow_policy=REJECT
-
-
-
-#################
-#  GC SETTINGS  #
-#################
-
-### CMS Settings
-
-## Use the Hotspot garbage-first collector.
-### GC logging options -- uncomment to enable
