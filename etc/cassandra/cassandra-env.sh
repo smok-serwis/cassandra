@@ -64,6 +64,8 @@ DEFINED_XMS=$?
 if [ "$GC" != "G1" ]; then
   echo $JVM_OPTS | grep -q UseConcMarkSweepGC
   USING_CMS=$?
+else
+  USING_CMS=0
 fi
 # We only set -Xms and -Xmx if they were not defined on jvm.options file
 # If defined, both Xmx and Xms should be defined together.
