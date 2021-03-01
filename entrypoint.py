@@ -141,12 +141,16 @@ if __name__ == '__main__':
     with open(CFG_FILE, 'wb') as f_out:
         f_out.write(data)
 
-    if os.environ.get('GC', 'CMS') == 'CMS':
+    gc_chosen = os.environ.get('GC', 'CMS')
+
+    if gc_chosen == 'CMS':
         with open('/etc/cassandra/jvm.options.cms', 'r') as f_in:
             data = f_in.read()
-    elif os.environ.get('GC', 'CMS') == 'G1':
+    elif gc_chosen == 'G1':
         with open('/etc/cassandra/jvm.options.g1', 'r') as f_in:
             data = f_in.read()
+    else:
+        raise ValueError('Unknown garbage collector chosen')
 
     with open('/etc/cassandra/jvm.options', 'a') as f_out:
         f_out.write(data)
