@@ -76,16 +76,15 @@ fi
 # We only set -Xmn flag if it was not defined in jvm.options file
 # and if the CMS GC is being used
 # If defined, both Xmn and Xmx should be defined together.
-if [ $DEFINED_XMN -eq 0 ] && [ $DEFINED_XMX -ne 0 ]; then
-    echo "Please set or unset -Xmx and -Xmn flags in pairs on jvm.options file."
-    exit 1
-elif [ $DEFINED_XMN -ne 0 ] && [ $USING_CMS -eq 0 ]; then
-    JVM_OPTS="$JVM_OPTS -Xmn${HEAP_NEWSIZE}"
-fi
-
 if [ "$GC" = "G1" ]; then
   JVM_OPTS="$JVM_OPTS -XX:+UseG1GC"
 else
+  if [ $DEFINED_XMN -eq 0 ] && [ $DEFINED_XMX -ne 0 ]; then
+      echo "Please set or unset -Xmx and -Xmn flags in pairs on jvm.options file."
+      exit 1
+  elif [ $DEFINED_XMN -ne 0 ] && [ $USING_CMS -eq 0 ]; then
+      JVM_OPTS="$JVM_OPTS -Xmn${HEAP_NEWSIZE}"
+  fi
   if [ "$JVM_ARCH" = "64-Bit" ] && [ $USING_CMS -eq 0 ]; then
       JVM_OPTS="$JVM_OPTS -XX:+UseCondCardMark"
   fi
@@ -93,7 +92,9 @@ fi
 
 # enable assertions.  disabling this in production will give a modest
 # performance benefit (around 5%).
-JVM_OPTS="$JVM_OPTS -ea"
+if [ -v "$ENABLE_ASSERTIONS" ]; then
+  JVM_OPTS="$JVM_OPTS -ea"
+fi
 
 # Per-thread stack size.
 JVM_OPTS="$JVM_OPTS -Xss256k"

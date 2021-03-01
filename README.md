@@ -153,3 +153,8 @@ use it to [replace a dead node](https://docs.datastax.com/en/archived/cassandra/
 # Using the G1 Garbage Collector
 
 To use the G1 Garbage Collector just define an env called `GC` and set it to "G1".
+
+# Enabling assertions
+
+Assertions are disabled by default. To enable them, use an env called
+`ENABLE_ASSERTIONS` and set it to `1`.
