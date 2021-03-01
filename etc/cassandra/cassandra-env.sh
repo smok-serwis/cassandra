@@ -61,9 +61,7 @@ DEFINED_XMX=$?
 echo $JVM_OPTS | grep -q Xms
 DEFINED_XMS=$?
 
-if [ "$GC" = "G1" ]; then
-   echo "Using G1 garbage collector"
-else
+if [ "$GC" != "G1" ]; then
   echo $JVM_OPTS | grep -q UseConcMarkSweepGC
   USING_CMS=$?
 fi
