@@ -151,7 +151,7 @@ if __name__ == '__main__':
     else:
         data2 = ''
 
-    gc_chosen = os.environ.get('GC', 'CMS')
+    gc_chosen = os.environ.get('GC', 'G1')
 
     if gc_chosen == 'CMS':
         with open('/etc/cassandra/jvm.options.cms', 'r') as f_in:

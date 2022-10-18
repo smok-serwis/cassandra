@@ -153,7 +153,7 @@ use it to [replace a dead node](https://docs.datastax.com/en/archived/cassandra/
 # Using the G1 Garbage Collector
 
 To use the G1 Garbage Collector just define an env called `GC` and set it to "G1".
-The default garbage collector in Concurrent Mark & Sweep.
+The default garbage collector has been changed in v4.0.5 to `G1`. Set it to `CMS` to enable old behaviour.
 
 # Enabling assertions
 
