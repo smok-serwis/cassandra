@@ -136,7 +136,7 @@ if __name__ == '__main__':
     with open(CFG_FILE, 'rb') as fin:
         data = fin.read()
     for k in SUBST_WITH_ENVS:
-        data = data.replace('$' + k, os.environ[k])
+        data = data.replace(b'$' + k.encode('utf-8'), os.environ[k].encode('utf-8'))
 
     with open(CFG_FILE, 'wb') as f_out:
         f_out.write(data)
