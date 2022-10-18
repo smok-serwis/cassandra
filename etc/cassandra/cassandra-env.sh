@@ -15,29 +15,10 @@ jvmver=`echo "$java_ver_output" | grep '[openjdk|java] version' | awk -F'"' 'NR=
 JVM_VERSION=${jvmver%_*}
 JVM_PATCH_VERSION=${jvmver#*_}
 jvm=`echo "$java_ver_output" | grep -A 1 'java version' | awk 'NR==2 {print $1}'`
-JVM_VENDOR=Oracle
+JVM_VENDOR=OpenJDK
 # this will be "64-Bit" or "32-Bit"
 JVM_ARCH=`echo "$java_ver_output" | awk 'NR==3 {print $3}'`
 
-# Override these to set the amount of memory to allocate to the JVM at
-# start-up. For production use you may wish to adjust this for your
-# environment. MAX_HEAP_SIZE is the total amount of memory dedicated
-# to the Java heap. HEAP_NEWSIZE refers to the size of the young
-# generation. Both MAX_HEAP_SIZE and HEAP_NEWSIZE should be either set
-# or not (if you set one, set the other).
-#
-# The main trade-off for the young generation is that the larger it
-# is, the longer GC pause times will be. The shorter it is, the more
-# expensive GC will be (usually).
-#
-# The example HEAP_NEWSIZE assumes a modern 8-core+ machine for decent pause
-# times. If in doubt, and if you do not particularly want to tweak, go with
-# 100 MB per physical CPU core.
-
-# provided by container
-
-# MAX_HEAP_SIZE=...
-# HEAP_NEWSIZE=...
 
 if [ "x$MALLOC_ARENA_MAX" = "x" ] ; then
     export MALLOC_ARENA_MAX=4
@@ -52,55 +33,6 @@ for opt in `grep "^-" $JVM_OPTS_FILE`
 do
   JVM_OPTS="$JVM_OPTS $opt"
 done
-
-# Check what parameters were defined on jvm.options file to avoid conflicts
-echo $JVM_OPTS | grep -q Xmn
-DEFINED_XMN=$?
-echo $JVM_OPTS | grep -q Xmx
-DEFINED_XMX=$?
-echo $JVM_OPTS | grep -q Xms
-DEFINED_XMS=$?
-
-if [ "$GC" != "G1" ]; then
-  echo $JVM_OPTS | grep -q UseConcMarkSweepGC
-  USING_CMS=$?
-else
-  USING_CMS=0
-fi
-# We only set -Xms and -Xmx if they were not defined on jvm.options file
-# If defined, both Xmx and Xms should be defined together.
-if [ $DEFINED_XMX -ne 0 ] && [ $DEFINED_XMS -ne 0 ]; then
-     JVM_OPTS="$JVM_OPTS -Xms${MAX_HEAP_SIZE}"
-     JVM_OPTS="$JVM_OPTS -Xmx${MAX_HEAP_SIZE}"
-elif [ $DEFINED_XMX -ne 0 ] || [ $DEFINED_XMS -ne 0 ]; then
-     echo "Please set or unset -Xmx and -Xms flags in pairs on jvm.options file."
-     exit 1
-fi
-
-# We only set -Xmn flag if it was not defined in jvm.options file
-# and if the CMS GC is being used
-# If defined, both Xmn and Xmx should be defined together.
-if [ $DEFINED_XMN -eq 0 ] && [ $DEFINED_XMX -ne 0 ]; then
-    echo "Please set or unset -Xmx and -Xmn flags in pairs on jvm.options file."
-    exit 1
-elif [ $DEFINED_XMN -ne 0 ] && [ $USING_CMS -eq 0 ]; then
-    JVM_OPTS="$JVM_OPTS -Xmn${HEAP_NEWSIZE}"
-fi
-
-if [ "$JVM_ARCH" = "64-Bit" ] && [ $USING_CMS -eq 0 ]; then
-    JVM_OPTS="$JVM_OPTS -XX:+UseCondCardMark"
-fi
-
-# enable assertions.  disabling this in production will give a modest
-# performance benefit (around 5%).
-if [ -z "$ENABLE_ASSERTIONS" ]; then
-  JVM_OPTS="$JVM_OPTS -da"
-else
-  JVM_OPTS="$JVM_OPTS -ea"
-fi
-
-# Per-thread stack size.
-JVM_OPTS="$JVM_OPTS -Xss256k"
 
 # Make sure all memory is faulted and zeroed on startup.
 # This helps prevent soft faults in containers and makes
@@ -124,7 +56,7 @@ JVM_OPTS="$JVM_OPTS -XX:+PerfDisableSharedMem"
 JVM_OPTS="$JVM_OPTS -XX:CompileCommandFile=$CASSANDRA_CONF/hotspot_compiler"
 
 # add the jamm javaagent
-JVM_OPTS="$JVM_OPTS -javaagent:$CASSANDRA_HOME/lib/jamm-0.3.0.jar"
+JVM_OPTS="$JVM_OPTS -javaagent:$CASSANDRA_HOME/lib/jamm-0.3.2.jar"
 
 # add Prometheus JMX agent
 JVM_OPTS="$JVM_OPTS -javaagent:$CASSANDRA_HOME/lib/jmx_prometheus_javaagent-0.12.0.jar=0.0.0.0:7198:/etc/cassandra/jmx-exporter.yaml"
@@ -139,7 +71,6 @@ fi
 JVM_OPTS="$JVM_OPTS -XX:+UseThreadPriorities"
 # allows lowering thread priority without being root.  see
 # http://tech.stolsvik.com/2010/01/linux-java-thread-priorities-workaround.html
-JVM_OPTS="$JVM_OPTS -XX:ThreadPriorityPolicy=42"
 JVM_OPTS="$JVM_OPTS -XX:+ExitOnOutOfMemoryError"
 # set jvm HeapDumpPath with CASSANDRA_HEAPDUMP_DIR
 JVM_OPTS="$JVM_OPTS -XX:+HeapDumpOnOutOfMemoryError"
@@ -187,7 +118,7 @@ fi
 JMX_PORT="7199"
 
 if [ "$LOCAL_JMX" = "yes" ]; then
-  JVM_OPTS="$JVM_OPTS -Dcassandra.jmx.local.port=$JMX_PORT -XX:+DisableExplicitGC"
+  JVM_OPTS="$JVM_OPTS -Dcassandra.jmx.local.port=$JMX_PORT"
 else
   JVM_OPTS="$JVM_OPTS -Dcassandra.jmx.remote.port=$JMX_PORT"
   JVM_OPTS="$JVM_OPTS -Dcom.sun.management.jmxremote.rmi.port=$JMX_PORT"
@@ -209,9 +140,6 @@ fi
 # for SIGAR we have to set the java.library.path
 # to the location of the native libraries.
 JVM_OPTS="$JVM_OPTS -Djava.library.path=$CASSANDRA_HOME/lib/sigar-bin"
-
-# Log GC to /var/log/cassandra/gc.log and not stdout
-JVM_OPTS="$JVM_OPTS -Xloggc:/var/log/cassandra/gc.log"
 
 JVM_OPTS="$JVM_OPTS $JVM_EXTRA_OPTS"
 $$$EXTRA_ARGS

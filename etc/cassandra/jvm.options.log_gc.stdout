@@ -1,6 +1,4 @@
 -XX:+PrintGCDetails
 -XX:+PrintGCDateStamps
--XX:+PrintHeapAtGC
 -XX:+PrintTenuringDistribution
--XX:+PrintGCApplicationStoppedTime
 -XX:+PrintPromotionFailure

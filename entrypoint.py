@@ -41,10 +41,6 @@ if __name__ == '__main__':
         os.environ['BROADCAST_ADDRESS'] = addr
         os.environ['LISTEN_ADDRESS'] = addr
 
-    if 'I_ACCEPT_ORACLE_JAVA_LICENSE' not in os.environ:
-        logger.error('Oracle Java license was not accepted')
-        sys.exit(1)
-
     # Replace the "auto" keyword with current IP address
     for k in SUBST_WITH_ENVS:
         if os.environ.get(k, '').upper() == 'AUTO':
@@ -63,7 +59,6 @@ if __name__ == '__main__':
                HEAP_NEWSIZE='100M',
                BATCH_SIZE_FAIL_THRESHOLD_IN_KB='50',
                CLUSTER_NAME='Test Cluster',
-               STREAMING_SOCKET_TIMEOUT_IN_MS='360000000',
                NUM_TOKENS='256',
                CASSANDRA_DC='dc1',
                PARTITIONER='org.apache.cassandra.dht.Murmur3Partitioner',
@@ -78,8 +73,6 @@ if __name__ == '__main__':
                TOMBSTONE_WARN_THRESHOLD='1000',
                TOMBSTONE_FAIL_THRESHOLD='100000',
                COMMITLOG_TOTAL_SPACE_IN_MB='4096',
-               START_RPC='false',
-               RPC_PORT='9160',
                READ_REQUEST_TIMEOUT_IN_MS='5000',
                RANGE_REQUEST_TIMEOUT_IN_MS='10000',
                WRITE_REQUEST_TIMEOUT_IN_MS='2000',
@@ -92,8 +85,8 @@ if __name__ == '__main__':
                MAX_HINT_WINDOW_IN_MS='10800000',    # 3 hours
                COLUMN_INDEX_SIZE_IN_KB='64',
                REQUEST_SCHEDULER='org.apache.cassandra.scheduler.NoScheduler',
-               ENABLE_SCRIPTED_USER_DEFINED_FUNCTIONS='false',
-               ENABLE_USER_DEFINED_FUNCTIONS='false',
+               ENABLE_SCRIPTED_USER_DEFINED_FUNCTIONS='true',
+               ENABLE_USER_DEFINED_FUNCTIONS='true',
                COMMITLOG_SEGMENT_SIZE='32',
                COMMITLOG_SYNC='periodic')
     # Calculate commitlog total space in MB, as to quote cassandra.yaml:
@@ -153,10 +146,7 @@ if __name__ == '__main__':
 
     gc_chosen = os.environ.get('GC', 'G1')
 
-    if gc_chosen == 'CMS':
-        with open('/etc/cassandra/jvm.options.cms', 'r') as f_in:
-            data = f_in.read()
-    elif gc_chosen == 'G1':
+    if gc_chosen == 'G1':
         with open('/etc/cassandra/jvm.options.g1', 'r') as f_in:
             data = f_in.read()
     else:
@@ -164,7 +154,7 @@ if __name__ == '__main__':
 
     with open('/etc/cassandra/jvm.options', 'a') as f_out:
         f_out.write(data2)
-        f_out.write(data)
+        f_out.write('JVM_OPTS="$JVM_OPTS -Xms512m -Xmx512m -XX:+UseG1GC -XX:InitiatingHeapOccupancyPercent=75\n')
 
     # modify cassandra-env.sh
     with open(CFG_ENV_FILE, 'rb') as fin:

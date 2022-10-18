@@ -1,5 +1,4 @@
-# Oracle(c) Java(tm) Server JRE 8u221 + Cassandra 4.0.5 + Prometheus JMX exporter + Jolokia exporter
-+ jemalloc2 + Jaeger tracing
+# OpenJDK 11 + Cassandra 4.0.5 + Prometheus JMX exporter + Jolokia exporter + jemalloc2 + Jaeger tracing
  
 Current version: [Cassandra v4.0.5](https://github.com/smok-serwis/cassandra/releases/tag/4.0.5), 
 now with more configurability through the envs!
@@ -23,9 +22,7 @@ the [summary detailed here](/LICENSE.md).
 
 # Usage
 
-Since this uses Oracle(c) Java(tm) JDK 8, you need to **define environment variable `I_ACCEPT_ORACLE_JAVA_LICENSE` in order for container to run.**
-This means that you accept the [Oracle Technology Network License Agreement for Oracle Java SE](/java-jre/LICENSE.md).
-This is the only environment variable you need to set in order for this Cassandra to run.
+Since this uses OpenJDK 11, you do not need to set anymore any weird environment variables. Just enjoy!
 
 You don't need to make your images basing off this one.
 `cassandra.yaml` will be set as you set particular environment variables.
@@ -133,7 +130,6 @@ In order to enable Jaeger tracing just define the envs `JAEGER_AGENT_HOST`, and 
 Note that this uses [our custom](https://github.com/smok-serwis/cassandra-jaeger-tracing)
 version of `cassandra-jaeger-tracing`.
 
-
 # Bash
 
 If you invoke this container with a single argument of "bash", it will drop you to a shell
@@ -152,8 +148,8 @@ use it to [replace a dead node](https://docs.datastax.com/en/archived/cassandra/
 
 # Using the G1 Garbage Collector
 
-To use the G1 Garbage Collector just define an env called `GC` and set it to "G1".
-The default garbage collector has been changed in v4.0.5 to `G1`. Set it to `CMS` to enable old behaviour.
+The G1 garbage collector is shipped as default by Cassandra 4.0.5. There's no need to set it explicitly,
+as there's no need to revert to earlier concurrent mark'n'sweep.
 
 # Enabling assertions
 
@@ -167,4 +163,3 @@ GC can be logged to:
 * `not logged` (default value of `LOG_GC=none`)
 * file /var/log/cassandra.gc (`LOG_GC=file`)
 * standard output (`LOG_GC=stdout`)
-

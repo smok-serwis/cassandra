@@ -1,30 +1,15 @@
-FROM debian:buster
+FROM debian:bullseye
 
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=1
 
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends gnupg apt-transport-https dirmngr debconf-utils apt-utils ca-certificates && \
-    apt-key adv --keyserver keyserver.ubuntu.com --recv-keys EEA14886 && \
+    apt-get install -y --no-install-recommends default-jre-headless gnupg2 python3 libjemalloc2 && \
     apt-get clean
 
 
-ADD java.sources.list /etc/apt/sources.list.d/java.sources.list
-ADD http://debian.opennms.org/OPENNMS-GPG-KEY /tmp/repo_key
-RUN apt-key add /tmp/repo_key && \
-    apt-get update && \
-    echo debconf shared/accepted-oracle-license-v1-1 select true | debconf-set-selections && \
-    echo debconf shared/accepted-oracle-license-v1-1 seen true | debconf-set-selections && \
-    apt-get install -y oracle-java8-installer && \
-    apt-get clean
-
-ENV JAVA_HOME=/usr/lib/jvm/java-8-oracle
-
-# Install jemalloc
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends python3 libjemalloc2 && \
-    apt-get clean
+ENV JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
 
 LABEL apache.cassandra.version="4.0.5"
 
@@ -48,7 +33,6 @@ ADD etc/cassandra/jmxremote.access /etc/cassandra/jmxremote.access
 ADD etc/cassandra/cassandra.yaml /etc/cassandra/cassandra.yaml
 ADD etc/cassandra/cassandra-rackdc.properties /etc/cassandra/cassandra-rackdc.properties
 ADD etc/cassandra/jvm.options /etc/cassandra/jvm.options
-ADD etc/cassandra/jvm.options.cms /etc/cassandra/jvm.options.cms
 ADD etc/cassandra/jvm.options.g1 /etc/cassandra/jvm.options.g1
 ADD etc/cassandra/jvm.options.log_gc.file /etc/cassandra/jvm.options.log_gc.file
 ADD etc/cassandra/jvm.options.log_gc.stdout /etc/cassandra/jvm.options.log_gc.stdout
@@ -62,7 +46,7 @@ ENTRYPOINT ["/entrypoint.py"]
 HEALTHCHECK --start-period=30m --retries=3 CMD ["/entrypoint.py", "healthcheck"]
 
 # Jaeger tracing
-ADD jaeger/cassandra-jaeger-tracing-1.0-SNAPSHOT.jar /usr/share/cassandra/lib/cassandra-jaeger-tracing-1.0-SNAPSHOT.jar
+ADD jaeger/cassandra-jaeger-tracing-1.2-SNAPSHOT.jar /usr/share/cassandra/lib/cassandra-jaeger-tracing-1.2-SNAPSHOT.jar
 
 # Defaults - these are used to alter cassandra.yaml before start
 ENV LISTEN_ADDRESS=auto \
@@ -71,6 +55,5 @@ ENV LISTEN_ADDRESS=auto \
     RPC_BROADCAST_ADDRESS=auto \
     SEED_NODES=auto \
     JAEGER_TRACE_KEY=jaeger-trace \
-    GC=CMS \
+    GC=G1 \
     LOG_GC=none
-

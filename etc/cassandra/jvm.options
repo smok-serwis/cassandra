@@ -73,7 +73,7 @@
 
 # For testing new compaction and compression strategies. It allows you to experiment with different
 # strategies and benchmark write performance differences without affecting the production workload.
-#-Dcassandra.write_survey=true
+-Dcassandra.write_survey=true
 
 # To disable configuration via JMX of auth caches (such as those for credentials, permissions and
 # roles). This will mean those config options can only be set (persistently) in cassandra.yaml
@@ -83,50 +83,23 @@
 # To disable dynamic calculation of the page size used when indexing an entire partition (during
 # initial index build/rebuild). If set to true, the page size will be fixed to the default of
 # 10000 rows per page.
-#-Dcassandra.force_default_indexing_page_size=true
+-Dcassandra.force_default_indexing_page_size=true
 
 ########################
 # GENERAL JVM SETTINGS #
 ########################
 # Enable compressed oops
 
--XX:+UseCompressedOops
-
 # enable thread priorities, primarily so we can give periodic tasks
 # a lower priority to avoid interfering with client workload
--XX:+UseThreadPriorities
 
 # allows lowering thread priority without being root on linux - probably
 # not necessary on Windows but doesn't harm anything.
 # see http://tech.stolsvik.com/2010/01/linux-java-thread-priorities-workar
--XX:ThreadPriorityPolicy=42
-
-# Enable heap-dump if there's an OOM
--XX:+HeapDumpOnOutOfMemoryError
-
-# Per-thread stack size.
--Xss256k
-
-# Larger interned string table, for gossip's benefit (CASSANDRA-6410)
--XX:StringTableSize=1000003
 
 # Make sure all memory is faulted and zeroed on startup.
 # This helps prevent soft faults in containers and makes
 # transparent hugepage allocation more effective.
--XX:+AlwaysPreTouch
-
-# Disable biased locking as it does not benefit Cassandra.
--XX:-UseBiasedLocking
-
-# Enable thread-local allocation blocks and allow the JVM to automatically
-# resize them at runtime.
--XX:+UseTLAB
--XX:+ResizeTLAB
--XX:+UseNUMA
-
-
-# http://www.evanjones.ca/jvm-mmap-pause.html
--XX:+PerfDisableSharedMem
 
 # Prefer binding to IPv4 network intefaces (when net.ipv6.bindv6only=1). See
 # http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6342561 (short version:
@@ -194,3 +167,5 @@
 # * CAP_NOWARN: same as previous, except that the client warning will not be emitted.
 #
 #-Dcassandra.expiration_date_overflow_policy=REJECT
+
+JVM_OPTS="$JVM_OPTS -Xmx1024m -Xms1024m"
