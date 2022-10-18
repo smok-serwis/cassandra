@@ -1,7 +1,7 @@
 # Oracle(c) Java(tm) Server JRE 8u221 + Cassandra 4.0.5 + Prometheus JMX exporter + Jolokia exporter
 + jemalloc2 + Jaeger tracing
  
-Current version: [Cassandra v4.0.5](https://github.com/smok-serwis/cassandra/releases/tag/v4.0.5), 
+Current version: [Cassandra v4.0.5](https://github.com/smok-serwis/cassandra/releases/tag/4.0.5), 
 now with more configurability through the envs!
 
 Due to myriad of different licenses employed here, please take a look at
