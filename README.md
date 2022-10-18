@@ -1,7 +1,7 @@
-# Oracle(c) Java(tm) Server JRE 8u221 + Cassandra 3.11.6 + Prometheus JMX exporter + Jolokia exporter
-+ jemalloc1 + Jaeger tracing
+# Oracle(c) Java(tm) Server JRE 8u221 + Cassandra 4.0.5 + Prometheus JMX exporter + Jolokia exporter
++ jemalloc2 + Jaeger tracing
  
-Current version: [Cassandra v3.11.6](https://github.com/smok-serwis/cassandra/releases/tag/3.11.6), 
+Current version: [Cassandra v4.0.5](https://github.com/smok-serwis/cassandra/releases/tag/v4.0.5), 
 now with more configurability through the envs!
 
 Due to myriad of different licenses employed here, please take a look at
@@ -123,7 +123,7 @@ If this is not the case, start the container with suitable `docker run --health-
 
 To enable health check just set the environment variable `HEALTHCHECK_ENABLE` to `1`.
 
-If you choose not to enable the health check, the container will be always marked as healthy.
+If you choose not to enable the health check, the container will always be marked as healthy.
 
 # Enabling Jaeger tracing
 
