@@ -535,7 +535,7 @@ broadcast_rpc_address: $RPC_BROADCAST_ADDRESS
 
 # enable or disable keepalive on rpc/native connections
 rpc_keepalive: true
-materialized_views_enabled: true
+
 # Cassandra provides two out-of-the-box options for the RPC Server:
 #
 # sync  -> One thread per thrift connection. For a very large number of clients, memory
@@ -553,7 +553,7 @@ materialized_views_enabled: true
 # sync/hsha performance is about the same, with hsha of course using less memory.
 #
 # Alternatively,  can provide your own RPC server by providing the fully-qualified class name
-
+enable_materialized_views: true
 # Uncomment rpc_min|max_thread to set request pool size limits.
 #
 # Regardless of your choice of RPC server (see above), the number of maximum requests in the
