@@ -46,7 +46,7 @@ ENTRYPOINT ["/entrypoint.py"]
 HEALTHCHECK --start-period=30m --retries=3 CMD ["/entrypoint.py", "healthcheck"]
 
 # Jaeger tracing
-ADD jaeger/cassandra-jaeger-tracing-1.2-SNAPSHOT.jar /usr/share/cassandra/lib/cassandra-jaeger-tracing-1.2-SNAPSHOT.jar
+ADD jaeger/cassandra-jaeger-tracing-1.2-SNAPSHOT-jar-with-dependencies.jar /usr/share/cassandra/lib/cassandra-jaeger-tracing-1.2-SNAPSHOT-jar-with-dependencies.jar
 
 # Defaults - these are used to alter cassandra.yaml before start
 ENV LISTEN_ADDRESS=auto \
