@@ -197,8 +197,8 @@ if __name__ == '__main__':
     # modify cassandra-rackdc.properties
     with open(CFG_RACK_FILE, 'rb') as fin:
         data = fin.read()
-    data = data.replace('dc=dc1', 'dc=' + os.environ['CASSANDRA_DC'])
-    data = data.replace('rack=rack1', 'rack=' + os.environ['CASSANDRA_RACK'])
+    data = data.replace(b'dc=dc1', ('dc=' + os.environ['CASSANDRA_DC']).encode('utf-8'))
+    data = data.replace(b'rack=rack1', ('rack=' + os.environ['CASSANDRA_RACK']).encode('utf-8'))
     with open(CFG_RACK_FILE, 'wb') as f_out:
         f_out.write(data)
 
