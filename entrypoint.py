@@ -189,7 +189,7 @@ if __name__ == '__main__':
         for line in data:
             if 'prometheus_javaagent' not in line:
                 newdata.append(line)
-        data = '\n'.join(newdata)
+        data = '\n'.join(newdata).encode('utf-8')
 
     with open(CFG_ENV_FILE, 'wb') as f_out:
         f_out.write(data)
