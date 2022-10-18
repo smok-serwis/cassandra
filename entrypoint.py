@@ -1,7 +1,6 @@
-#!/usr/bin/python
-# coding=UTF-8
+#!/usr/bin/python3
 """
-Copyright (c) 2019-2020 SMOK sp. z o. o.
+Copyright (c) 2019-2022 SMOK sp. z o. o.
 See LICENSE.md for details
 Author: Piotr Maślanka <pmaslanka@smok.co>
 """
@@ -14,6 +13,7 @@ import subprocess
 import stat
 import sys
 
+logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 CFG_FILE = '/etc/cassandra/cassandra.yaml'

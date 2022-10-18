@@ -1,4 +1,4 @@
-FROM debian:stretch
+FROM debian:buster
 
 
 ENV DEBIAN_FRONTEND=noninteractive
@@ -23,10 +23,10 @@ ENV JAVA_HOME=/usr/lib/jvm/java-8-oracle
 
 # Install jemalloc
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends libjemalloc1 && \
+    apt-get install -y --no-install-recommends python3 libjemalloc2 && \
     apt-get clean
 
-LABEL apache.cassandra.version="3.11.10"
+LABEL apache.cassandra.version="4.0.5"
 
 # Cassandra
 ADD cassandra.sources.list /etc/apt/sources.list.d/cassandra.sources.list
