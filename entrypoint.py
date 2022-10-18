@@ -175,7 +175,7 @@ if __name__ == '__main__':
             extras.append('JVM_OPTS="$JVM_OPTS %s"\n' % (os.environ['EXTRA%s' % (i,)],))
             i += 1
 
-        data = data.replace('$$$EXTRA_ARGS', ''.join(extras))
+        data = data.replace(b'$$$EXTRA_ARGS', ''.join(extras).encode('utf-8'))
 
     if os.environ.get('LOCAL_JMX', 'yes') == 'no':
         with open('/etc/cassandra/jmxremote.password', 'w') as f_out:
