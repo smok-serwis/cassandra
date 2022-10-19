@@ -1,7 +1,11 @@
-# OpenJDK 11 + Cassandra 4.0.5 + Prometheus JMX exporter + Jolokia exporter + jemalloc2 + Jaeger tracing
+# OpenJDK 11 + Cassandra 4.0.5 + Prometheus JMX exporter + Jolokia exporter + jemalloc2 
  
 Current version: [Cassandra v4.0.5](https://github.com/smok-serwis/cassandra/releases/tag/4.0.5), 
 now with more configurability through the envs!
+
+**Jaeger tracing is not available now due to the fact that in Cassandra 4 the tracing system as completely changed
+and I still did not have time to write a suitable replacement**.
+
 
 Due to myriad of different licenses employed here, please take a look at
 the [summary detailed here](/LICENSE.md).
