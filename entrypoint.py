@@ -144,14 +144,6 @@ if __name__ == '__main__':
     else:
         data2 = ''
 
-    gc_chosen = os.environ.get('GC', 'G1')
-
-    if gc_chosen == 'G1':
-        with open('/etc/cassandra/jvm.options.g1', 'r') as f_in:
-            data = f_in.read()
-    else:
-        raise ValueError('Unknown garbage collector chosen')
-
     with open('/etc/cassandra/jvm.options', 'a') as f_out:
         f_out.write(data2)
         f_out.write('JVM_OPTS="$JVM_OPTS -Xms512m -Xmx512m -XX:+UseG1GC -XX:InitiatingHeapOccupancyPercent=75\n')
