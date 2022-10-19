@@ -33,7 +33,6 @@ ADD etc/cassandra/jmxremote.access /etc/cassandra/jmxremote.access
 ADD etc/cassandra/cassandra.yaml /etc/cassandra/cassandra.yaml
 ADD etc/cassandra/cassandra-rackdc.properties /etc/cassandra/cassandra-rackdc.properties
 ADD etc/cassandra/jvm.options /etc/cassandra/jvm.options
-ADD etc/cassandra/jvm.options.g1 /etc/cassandra/jvm.options.g1
 ADD etc/cassandra/jvm.options.log_gc.file /etc/cassandra/jvm.options.log_gc.file
 ADD etc/cassandra/jvm.options.log_gc.stdout /etc/cassandra/jvm.options.log_gc.stdout
 
