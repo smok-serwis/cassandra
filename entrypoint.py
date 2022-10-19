@@ -146,7 +146,6 @@ if __name__ == '__main__':
 
     with open('/etc/cassandra/jvm.options', 'a') as f_out:
         f_out.write(data2)
-        f_out.write('JVM_OPTS="$JVM_OPTS -Xms512m -Xmx512m -XX:+UseG1GC -XX:InitiatingHeapOccupancyPercent=75\n')
 
     # modify cassandra-env.sh
     with open(CFG_ENV_FILE, 'rb') as fin:
