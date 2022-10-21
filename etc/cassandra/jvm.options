@@ -119,10 +119,6 @@
 #-XX:+UnlockDiagnosticVMOptions
 #-XX:+LogCompilation
 
-# Java will automatically default to G1
-
-
-
 ###################################
 # EXPIRATION DATE OVERFLOW POLICY #
 ###################################
@@ -134,4 +130,4 @@
 #
 #-Dcassandra.expiration_date_overflow_policy=REJECT
 
-JVM_OPTS="$JVM_OPTS -Xmx1024m -Xms1024m"
+JVM_OPTS="$JVM_OPTS -XX:+UseG1GC -XX:MaxGCPauseMillis=200"
