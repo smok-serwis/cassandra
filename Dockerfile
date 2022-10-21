@@ -27,12 +27,16 @@ ADD jmx-exporter/jmx_prometheus_javaagent-0.12.0.jar /usr/share/cassandra/lib/jm
 ADD jmx-exporter/jolokia-jvm-1.6.2-agent.jar /usr/share/cassandra/lib/jolokia-jvm-1.6.2-agent.jar
 ADD jmx-exporter/jmx-exporter.yaml /etc/cassandra/jmx-exporter.yaml
 
+# Jaeger tracing
+ADD jaeger/cassandra-jaeger-tracing-4.0.5.jar /usr/share/cassandra/lib/cassandra-jaeger-tracing-4.0.5.jar
+
 # Our config - base files
 ADD etc/cassandra/cassandra-env.sh /etc/cassandra/cassandra-env.sh
 ADD etc/cassandra/jmxremote.access /etc/cassandra/jmxremote.access
 ADD etc/cassandra/cassandra.yaml /etc/cassandra/cassandra.yaml
 ADD etc/cassandra/cassandra-rackdc.properties /etc/cassandra/cassandra-rackdc.properties
 ADD etc/cassandra/jvm.options /etc/cassandra/jvm.options
+ADD etc/cassandra/jvm11-server.options /etc/cassandra/jvm11-server.options
 ADD etc/cassandra/jvm.options.log_gc.file /etc/cassandra/jvm.options.log_gc.file
 ADD etc/cassandra/jvm.options.log_gc.stdout /etc/cassandra/jvm.options.log_gc.stdout
 
@@ -43,9 +47,6 @@ ENTRYPOINT ["/entrypoint.py"]
 
 # Health check - this will work only if env HEALTHCHECK_ENABLE is set to some other value than "0"
 HEALTHCHECK --start-period=30m --retries=3 CMD ["/entrypoint.py", "healthcheck"]
-
-# Jaeger tracing
-ADD jaeger/cassandra-jaeger-tracing-4.0.5.jar /usr/share/cassandra/lib/cassandra-jaeger-tracing-4.0.5.jar
 
 # Defaults - these are used to alter cassandra.yaml before start
 ENV LISTEN_ADDRESS=auto \

@@ -89,6 +89,7 @@
 # GENERAL JVM SETTINGS #
 ########################
 # Enable compressed oops
+-Djava.net.preferIPv4Stack=true
 
 # enable thread priorities, primarily so we can give periodic tasks
 # a lower priority to avoid interfering with client workload
@@ -104,7 +105,6 @@
 # Prefer binding to IPv4 network intefaces (when net.ipv6.bindv6only=1). See
 # http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6342561 (short version:
 # comment out this entry to enable IPv6 support).
--Djava.net.preferIPv4Stack=true
 
 ### Debug options
 
@@ -119,6 +119,7 @@
 #-XX:+UnlockDiagnosticVMOptions
 #-XX:+LogCompilation
 
+
 ###################################
 # EXPIRATION DATE OVERFLOW POLICY #
 ###################################
@@ -129,5 +130,3 @@
 # * CAP_NOWARN: same as previous, except that the client warning will not be emitted.
 #
 #-Dcassandra.expiration_date_overflow_policy=REJECT
-
-JVM_OPTS="$JVM_OPTS -XX:+UseG1GC -XX:MaxGCPauseMillis=200"

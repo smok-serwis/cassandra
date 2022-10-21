@@ -3,3 +3,6 @@
 *.jar -text
 *.gz -text
 *.py text eol=lf
+*.options text eol=lf
+*.file text eol=lf
+*.stdout text eol=lf

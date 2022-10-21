@@ -70,7 +70,7 @@ if __name__ == '__main__':
                KEY_CACHE_SIZE_IN_MB='',
                FILE_CACHE_SIZE_IN_MB='512',
                AUTHENTICATOR='AllowAllAuthenticator',
-               TOMBSTONE_WARN_THRESHOLD='1000',
+               TOMBSTONE_WARN_THRESHOLD='10000',
                TOMBSTONE_FAIL_THRESHOLD='100000',
                COMMITLOG_TOTAL_SPACE_IN_MB='4096',
                READ_REQUEST_TIMEOUT_IN_MS='5000',
