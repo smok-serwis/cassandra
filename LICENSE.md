@@ -3,9 +3,9 @@
 Since this software bundles a few elements, I tought I'd display the licenses here:
 
 1. [**Apache Cassandra**](https://cassandra.apache.org/) is (c) by The Apache Software Foundation, made available under [Apache License 2.0](/etc/cassandra/LICENSE.md).
-2. [**OpenJDK 11 is by marvelous team behind itK**](https://openjdk.org/projects/jdk/11/).
+2. [**OpenJDK 11 is by marvelous team behind itK**](https://openjdk.org/projects/jdk/11/). 
 3. [**Prometheus JMX exporter**](/jmx-exporter) is (c) by the wonderful community of Prometheus, made available under the [Apache License 2.0](/jmx-exporter/LICENSE.md).
-4. [**Cassandra-Jaeger-Tracer**](jaeger/LICENSE)
+4. [**Cassandra-Jaeger-Tracer**](https://github.com/infracloudio/cassandra-jaeger-tracing), made available under [Apache License 2.0](jaeger/LICENSE)
 
 
 # The license for [my software](/entrypoint.py)
