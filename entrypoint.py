@@ -55,7 +55,6 @@ if __name__ == '__main__':
 
     # define sane defaults
     setdefault(HEALTHCHECK_ENABLE='0',
-               MAX_HEAP_SIZE='1G',
                HEAP_NEWSIZE='100M',
                BATCH_SIZE_FAIL_THRESHOLD_IN_KB='50',
                CLUSTER_NAME='Test Cluster',
