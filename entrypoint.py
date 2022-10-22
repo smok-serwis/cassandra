@@ -61,6 +61,7 @@ if __name__ == '__main__':
                CLUSTER_NAME='Test Cluster',
                NUM_TOKENS='256',
                CASSANDRA_DC='dc1',
+               G1_MAXIMUM_HEAP_SIZE='48G',
                PARTITIONER='org.apache.cassandra.dht.Murmur3Partitioner',
                ROW_CACHE_SIZE_IN_MB='0',
                CASSANDRA_RACK='rack1',
@@ -155,7 +156,7 @@ if __name__ == '__main__':
         while ('EXTRA%s' % (i,)) in os.environ:
             extras.append('JVM_OPTS="$JVM_OPTS %s"\n' % (os.environ['EXTRA%s' % (i,)],))
             i += 1
-
+        extras.append(f'JVM_OPTS="$JVM_OPTS -Xms{os.environ["G1_MAXIMUM_HEAP_SIZE"]} -Xmx{os.environ["G1_MAXIMUM_HEAP_SIZE"]}"\n')
         data = data.replace(b'$$$EXTRA_ARGS', ''.join(extras).encode('utf-8'))
 
     if os.environ.get('LOCAL_JMX', 'yes') == 'no':
