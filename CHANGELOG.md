@@ -11,3 +11,5 @@
 * enabled trickle_fsync
 * default TOMBSTONE_WARN_THRESHOLD set to 10000
 * switched to G1 garbage collector
+* added cross_node_timeout, make sure that your machines run NTP
+* restored jemalloc

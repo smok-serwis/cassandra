@@ -8,7 +8,6 @@ RUN apt-get update && \
     apt-get install -y --no-install-recommends default-jre-headless gnupg2 python3 libjemalloc2 && \
     apt-get clean
 
-
 ENV JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
 
 LABEL apache.cassandra.version="4.0.5"
@@ -39,7 +38,7 @@ ADD etc/cassandra/jvm.options /etc/cassandra/jvm.options
 ADD etc/cassandra/jvm11-server.options /etc/cassandra/jvm11-server.options
 ADD etc/cassandra/jvm.options.log_gc.file /etc/cassandra/jvm.options.log_gc.file
 ADD etc/cassandra/jvm.options.log_gc.stdout /etc/cassandra/jvm.options.log_gc.stdout
-
+RUN ln -s /usr/lib/x86_64-linux-gnu/libjemalloc.so.2 /usr/local/lib/libjemalloc.so
 # Entry point
 ADD entrypoint.py /entrypoint.py
 RUN chmod ugo+x /entrypoint.py
