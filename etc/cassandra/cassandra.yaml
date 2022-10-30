@@ -91,7 +91,7 @@ batchlog_replay_throttle_in_kb: 1024
 #   Please increase system_auth keyspace replication factor if you use this authenticator.
 #   If using PasswordAuthenticator, CassandraRoleManager must also be used (see below)
 authenticator: $AUTHENTICATOR
-
+auto_bootstrap: $AUTOBOOTSTRAP
 # Authorization backend, implementing IAuthorizer; used to limit access/provide permissions
 # Out of the box, Cassandra provides org.apache.cassandra.auth.{AllowAllAuthorizer,
 # CassandraAuthorizer}.
