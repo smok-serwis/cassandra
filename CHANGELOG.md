@@ -13,3 +13,7 @@
 * switched to G1 garbage collector
 * added cross_node_timeout, make sure that your machines run NTP
 * restored jemalloc
+
+# v4.0.5.1
+
+* added _NEW_HEAP_SIZE_

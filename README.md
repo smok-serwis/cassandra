@@ -78,10 +78,13 @@ If you need quotes, bring them with you. See for example how `CLUSTER_NAME` is s
 * **READ_REQUEST_TIMEOUT_IN_MS** - defaults to _5000_
 * **RANGE_REQUEST_TIMEOUT_IN_MS** - defaults to _10000_
 * **WRITE_REQUEST_TIMEOUT_IN_MS** - defaults to _2000_
-* **MAX_HEAP_SIZE** - defaults to _48G_
+* **MAX_HEAP_SIZE** - defaults to _48g_
+* **NEW_HEAP_SIZE** - defaults to _10g_ **don't confuse with HEAP_NEWSIZE**!!
 * **COUNTER_WRITE_REQUEST_TIMEOUT_IN_MS** - defaults to _5000_
+* **AUTO_BOOTSTRAP** - defaults to _true_
 * **CAS_CONTENTION_TIMEOUT_IS_MS** - defaults to _1000_
 * **TRUNCATE_REQUEST_TIMEOUT_IN_MS** - defaults to _60000_
+* **AUTOBOOTSTRAP** - defaults to _true_. Use only when you know what you are doing!
 * **REQUEST_TIMEOUT_IN_MS** - defaults to _10000_
 * **COMPACTION_THROUGHPUT_MB_PER_SEC** - defaults to _16_
 * **COMPACTION_LARGE_PARTITION_WARNING_THRESHOLD_MB** - defaults to _100_

@@ -70,6 +70,7 @@ if __name__ == '__main__':
                KEY_CACHE_SIZE_IN_MB='',
                FILE_CACHE_SIZE_IN_MB='512',
                AUTHENTICATOR='AllowAllAuthenticator',
+               HINTEDHANDOFFENABLE='true',
                AUTOBOOTSTRAP='true',
                TOMBSTONE_WARN_THRESHOLD='10000',
                TOMBSTONE_FAIL_THRESHOLD='100000',
@@ -156,7 +157,7 @@ if __name__ == '__main__':
         while ('EXTRA%s' % (i,)) in os.environ:
             extras.append('JVM_OPTS="$JVM_OPTS %s"\n' % (os.environ['EXTRA%s' % (i,)],))
             i += 1
-        extras.append(f'JVM_OPTS="$JVM_OPTS -Xms{os.environ["MAX_HEAP_SIZE"]} -Xmx{os.environ["MAX_HEAP_SIZE"]}"\n')
+        extras.append(f'JVM_OPTS="$JVM_OPTS -Xms{os.environ["NEW_HEAP_SIZE"]} -Xmx{os.environ["MAX_HEAP_SIZE"]}"\n')
         data = data.replace(b'$$$EXTRA_ARGS', ''.join(extras).encode('utf-8'))
 
     if os.environ.get('LOCAL_JMX', 'yes') == 'no':

@@ -44,6 +44,8 @@ ADD entrypoint.py /entrypoint.py
 RUN chmod ugo+x /entrypoint.py
 ENTRYPOINT ["/entrypoint.py"]
 
+RUN chown -R cassandra:cassandra /var/lib/cassandra
+
 # Health check - this will work only if env HEALTHCHECK_ENABLE is set to some other value than "0"
 HEALTHCHECK --start-period=30m --retries=3 CMD ["/entrypoint.py", "healthcheck"]
 
