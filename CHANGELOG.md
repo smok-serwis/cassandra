@@ -17,3 +17,4 @@
 # v4.0.5.1
 
 * added _NEW_HEAP_SIZE_
+* removed write survey by default

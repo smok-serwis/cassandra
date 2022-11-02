@@ -71,10 +71,6 @@
 # Set the default location for the trigger JARs. (Default: conf/triggers)
 #-Dcassandra.triggers_dir=directory
 
-# For testing new compaction and compression strategies. It allows you to experiment with different
-# strategies and benchmark write performance differences without affecting the production workload.
--Dcassandra.write_survey=true
-
 # To disable configuration via JMX of auth caches (such as those for credentials, permissions and
 # roles). This will mean those config options can only be set (persistently) in cassandra.yaml
 # and will require a restart for new values to take effect.
