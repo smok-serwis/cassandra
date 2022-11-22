@@ -77,7 +77,7 @@ if __name__ == '__main__':
                COMMITLOG_TOTAL_SPACE_IN_MB='4096',
                READ_REQUEST_TIMEOUT_IN_MS='5000',
                RANGE_REQUEST_TIMEOUT_IN_MS='10000',
-               WRITE_REQUEST_TIMEOUT_IN_MS='6000',
+               WRITE_REQUEST_TIMEOUT_IN_MS='10000',
                COUNTER_WRITE_REQUEST_TIMEOUT_IN_MS='5000',
                CAS_CONTENTION_TIMEOUT_IS_MS='2000',
                TRUNCATE_REQUEST_TIMEOUT_IN_MS='60000',

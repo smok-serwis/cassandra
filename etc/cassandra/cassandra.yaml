@@ -80,7 +80,7 @@ max_hints_file_size_in_mb: 128
 
 # Maximum throttle in KBs per second, total. This will be
 # reduced proportionally to the number of nodes in the cluster.
-batchlog_replay_throttle_in_kb: 1024
+batchlog_replay_throttle_in_kb: 32768
 
 # Authentication backend, implementing IAuthenticator; used to identify users
 # Out of the box, Cassandra provides org.apache.cassandra.auth.{AllowAllAuthenticator,
@@ -347,12 +347,12 @@ seed_provider:
 # number of "concurrent_writes" is dependent on the number of cores in
 # your system; (8 * number_of_cores) is a good rule of thumb.
 concurrent_reads: 32
-concurrent_writes: 32
+concurrent_writes: 64
 concurrent_counter_writes: 32
 
 # For materialized view writes, as there is a read involved, so this should
 # be limited by the less of concurrent reads or concurrent writes.
-concurrent_materialized_view_writes: 32
+concurrent_materialized_view_writes: 64
 
 # Maximum memory to use for pooling sstable buffers. Defaults to the smaller
 # of 1/4 of heap or 512MB. This pool is allocated off-heap, so is in addition
@@ -379,7 +379,7 @@ cross_node_timeout: true
 # If omitted, Cassandra will set both to 1/4 the size of the heap.
 # memtable_heap_space_in_mb: 2048
 # memtable_offheap_space_in_mb: 2048
-
+concurrent_materialized_view_builders: 4
 # Ratio of occupied non-flushing memtable size to total permitted size
 # that will trigger a flush of the largest memtable. Larger mct will
 # mean larger flushes and hence less compaction, but also less concurrent
@@ -681,7 +681,6 @@ stream_throughput_outbound_megabits_per_sec: 0
 # to throttling all network stream traffic as configured with
 # stream_throughput_outbound_megabits_per_sec
 # inter_dc_stream_throughput_outbound_megabits_per_sec:
-
 # How long the coordinator should wait for read operations to complete
 read_request_timeout_in_ms: $READ_REQUEST_TIMEOUT_IN_MS
 # How long the coordinator should wait for seq or index scans to complete
