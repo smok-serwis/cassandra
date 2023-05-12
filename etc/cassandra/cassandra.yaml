@@ -80,7 +80,7 @@ max_hints_file_size_in_mb: 128
 
 # Maximum throttle in KBs per second, total. This will be
 # reduced proportionally to the number of nodes in the cluster.
-batchlog_replay_throttle_in_kb: 32768
+batchlog_replay_throttle_in_kb: $BATCHLOG_REPLAY_THROTTLE
 
 # Authentication backend, implementing IAuthenticator; used to identify users
 # Out of the box, Cassandra provides org.apache.cassandra.auth.{AllowAllAuthenticator,
@@ -707,7 +707,6 @@ request_timeout_in_ms: $REQUEST_TIMEOUT_IN_MS
 #
 # Warning: before enabling this property make sure to ntp is installed
 # and the times are synchronized between the nodes.
-cross_node_timeout: false
 
 # Enable socket timeout for streaming operation.
 # When a timeout occurs during streaming, streaming is retried from the start

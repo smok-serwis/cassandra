@@ -72,6 +72,7 @@ if __name__ == '__main__':
                AUTHENTICATOR='AllowAllAuthenticator',
                HINTEDHANDOFFENABLE='true',
                AUTOBOOTSTRAP='true',
+               BATCHLOG_REPLAY_THROTTLE='524288',           # 512 MBit should suffice
                TOMBSTONE_WARN_THRESHOLD='10000',
                TOMBSTONE_FAIL_THRESHOLD='100000',
                COMMITLOG_TOTAL_SPACE_IN_MB='4096',

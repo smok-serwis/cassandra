@@ -18,3 +18,7 @@
 
 * added _NEW_HEAP_SIZE_
 * removed write survey by default
+
+# v4.0.5.2
+
+* added _BATCHLOG_REPLAY_THROTTLE_ and set it to more reasonable value
