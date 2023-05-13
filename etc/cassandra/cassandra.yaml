@@ -369,7 +369,7 @@ file_cache_size_in_mb: $FILE_CACHE_SIZE_IN_MB
 # Possible values are:
 # ssd (for solid state disks, the default)
 # spinning (for spinning disks)
-# disk_optimization_strategy: ssd
+disk_optimization_strategy: $DISK_OPTIMIZATION_STRATEGY
 
 cross_node_timeout: true
 
@@ -674,7 +674,7 @@ sstable_preemptive_open_interval_in_mb: 50
 # mostly sequential IO when streaming data during bootstrap or repair, which
 # can lead to saturating the network connection and degrading rpc performance.
 # When unset, the default is 200 Mbps or 25 MB/s.
-stream_throughput_outbound_megabits_per_sec: 0
+stream_throughput_outbound_megabits_per_sec: $STREAM_THROUGHPUT_OUTBOUND_MEGABITS_PER_SEC
 
 # Throttles all streaming file transfer between the datacenters,
 # this setting allows users to throttle inter dc stream throughput in addition

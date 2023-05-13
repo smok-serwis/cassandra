@@ -23,3 +23,8 @@
 
 * added _BATCHLOG_REPLAY_THROTTLE_ and set it to more reasonable value
 * added _JMX_AUTH_
+
+# v4.0.5.3
+
+* added _STREAM_THROUGHPUT_OUTBOUND_MEGABITS_PER_SEC_
+* added _DISK_OPTIMIZATION_STRATEGY_

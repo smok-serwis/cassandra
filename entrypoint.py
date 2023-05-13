@@ -66,8 +66,9 @@ if __name__ == '__main__':
                CASSANDRA_RACK='rack1',
                AUTHORIZER='AllowAllAuthorizer',
                ENDPOINT_SNITCH='SimpleSnitch',
-               DISK_OPTIMIZATION_STRATEGY='solid',
+               DISK_OPTIMIZATION_STRATEGY='ssd',
                KEY_CACHE_SIZE_IN_MB='',
+               STREAM_THROUGHPUT_OUTBOUND_MEGABITS_PER_SEC='25',
                FILE_CACHE_SIZE_IN_MB='512',
                AUTHENTICATOR='AllowAllAuthenticator',
                HINTEDHANDOFFENABLE='true',
@@ -93,6 +94,10 @@ if __name__ == '__main__':
                ENABLE_USER_DEFINED_FUNCTIONS='true',
                COMMITLOG_SEGMENT_SIZE='32',
                COMMITLOG_SYNC='periodic')
+    if os.environ['DISK_OPTIMIZATION_STRATEGY'] not in ('ssd', 'spinning'):
+        print('Invalid DISK_OPTIMIZATION_STRATEGY valid options are ssd and spinning')
+        sys.exit(1)
+
     # Calculate commitlog total space in MB, as to quote cassandra.yaml:
     # The default value is the smaller of 8192, and 1/4 of the total space
     # of the commitlog volume.

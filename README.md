@@ -1,11 +1,7 @@
 # OpenJDK 11 + Cassandra 4.0.5 + Prometheus JMX exporter + Jolokia exporter + jemalloc2 
  
-Current version: [Cassandra v4.0.5](https://github.com/smok-serwis/cassandra/releases/tag/4.0.5), 
+Current version: [Cassandra v4.0.5](https://github.com/smok-serwis/cassandra/releases/tag/4.0.5.2), 
 now with more configurability through the envs!
-
-**Jaeger tracing is not available now due to the fact that in Cassandra 4 the tracing system as completely changed
-and I still did not have time to write a suitable replacement**.
-
 
 Due to myriad of different licenses employed here, please take a look at
 the [summary detailed here](/LICENSE.md).
@@ -65,7 +61,7 @@ If you need quotes, bring them with you. See for example how `CLUSTER_NAME` is s
 * **NUM_TOKENS** - by default 256, but take care
 * **START_RPC** - whether to start classic Cassandra Thrift RPC. Default is _false_, but you might wish to use _true_
 * **RPC_PORT** - port to which start Thrift RPC, if it is requested.
-* **DISK_OPTIMIZATION_STRATEGY** - pass _solid_ or _ssd_
+* **DISK_OPTIMIZATION_STRATEGY** - pass _spinning_ or _ssd_, any other option will fail with an error. Default is _ssd_
 * **ENDPOINT_SNITCH** - endpoint snitch to use, by default it's _SimpleSnitch_
 * **AUTHENTICATOR** - by default _AllowAllAuthenticator_, can use also _PasswordAuthenticator_
 * **AUTHORIZER** - by default _AllowAllAuthorizer_, can use also _CassandraAuthorizer_
@@ -77,6 +73,7 @@ If you need quotes, bring them with you. See for example how `CLUSTER_NAME` is s
 * **REQUEST_SCHEDULER** - defaults to _org.apache.cassandra.scheduler.NoScheduler_
 * **READ_REQUEST_TIMEOUT_IN_MS** - defaults to _5000_
 * **RANGE_REQUEST_TIMEOUT_IN_MS** - defaults to _10000_
+* **STREAM_THROUGHPUT_OUTBOUND_MEGABITS_PER_SEC** - defaults to _25_
 * **WRITE_REQUEST_TIMEOUT_IN_MS** - defaults to _2000_
 * **MAX_HEAP_SIZE** - defaults to _48g_
 * **NEW_HEAP_SIZE** - defaults to _10g_ **don't confuse with HEAP_NEWSIZE**!!
