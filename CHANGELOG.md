@@ -22,3 +22,4 @@
 # v4.0.5.2
 
 * added _BATCHLOG_REPLAY_THROTTLE_ and set it to more reasonable value
+* added _JMX_AUTH_

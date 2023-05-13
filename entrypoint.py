@@ -72,6 +72,7 @@ if __name__ == '__main__':
                AUTHENTICATOR='AllowAllAuthenticator',
                HINTEDHANDOFFENABLE='true',
                AUTOBOOTSTRAP='true',
+               JMX_AUTH='yes',
                BATCHLOG_REPLAY_THROTTLE='524288',           # 512 MBit should suffice
                TOMBSTONE_WARN_THRESHOLD='10000',
                TOMBSTONE_FAIL_THRESHOLD='100000',

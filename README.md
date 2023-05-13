@@ -82,6 +82,7 @@ If you need quotes, bring them with you. See for example how `CLUSTER_NAME` is s
 * **NEW_HEAP_SIZE** - defaults to _10g_ **don't confuse with HEAP_NEWSIZE**!!
 * **COUNTER_WRITE_REQUEST_TIMEOUT_IN_MS** - defaults to _5000_
 * **AUTO_BOOTSTRAP** - defaults to _true_
+* **JMX_AUTH** - defaults to _yes_, set to _no_ to disable JMX auth
 * **CAS_CONTENTION_TIMEOUT_IS_MS** - defaults to _1000_
 * **TRUNCATE_REQUEST_TIMEOUT_IN_MS** - defaults to _60000_
 * **AUTOBOOTSTRAP** - defaults to _true_. Use only when you know what you are doing!
