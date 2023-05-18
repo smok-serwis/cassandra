@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-Copyright (c) 2019-2022 SMOK sp. z o. o.
+Copyright (c) 2019-2023 SMOK sp. z o. o.
 See LICENSE.md for details
 Author: Piotr Maślanka <pmaslanka@smok.co>
 """
@@ -59,6 +59,7 @@ if __name__ == '__main__':
                BATCH_SIZE_FAIL_THRESHOLD_IN_KB='50',
                CLUSTER_NAME='Test Cluster',
                NUM_TOKENS='256',
+               CASSANDRA_HOME='/usr/share/cassandra',
                CASSANDRA_DC='dc1',
                MAX_HEAP_SIZE='48G',
                PARTITIONER='org.apache.cassandra.dht.Murmur3Partitioner',

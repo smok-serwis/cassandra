@@ -1,1 +1,1 @@
-deb http://www.apache.org/dist/cassandra/debian 40x main
+deb https://debian.cassandra.apache.org 41x main

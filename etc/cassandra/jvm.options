@@ -11,6 +11,7 @@
 ######################
 # STARTUP PARAMETERS #
 ######################
+-Dcassandra.CASSANDRA_HOME=/usr/share/cassandra
 
 # Uncomment any of the following properties to enable specific startup parameters
 

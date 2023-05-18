@@ -4,19 +4,26 @@ FROM debian:bullseye
 ENV DEBIAN_FRONTEND=noninteractive
 ENV APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=1
 
+
+
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends default-jre-headless gnupg2 python3 libjemalloc2 && \
+    apt-get install -y --no-install-recommends openjdk-17-jre-headless gnupg2 python3 libjemalloc2 && \
     apt-get clean
 
-ENV JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+RUN mkdir -p /etc/ssl/certs/java/ && \
+    apt install --reinstall -o Dpkg::Options::="--force-confask,confnew,confmiss" --reinstall ca-certificates-java ssl-cert openssl ca-certificates
 
-LABEL apache.cassandra.version="4.0.5"
 
-# Cassandra
+ENV JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+
+LABEL apache.cassandra.version="4.1.0"
+
+
+# Cassandraapt-get
 ADD cassandra.sources.list /etc/apt/sources.list.d/cassandra.sources.list
 ADD https://www.apache.org/dist/cassandra/KEYS /tmp/repo_key
 RUN  apt-key add /tmp/repo_key && \
-     apt-get update && \
+     apt-get update --fix-missing && \
      apt-get install -y --no-install-recommends cassandra cassandra-tools && \
      apt-get clean
 
@@ -30,6 +37,7 @@ ADD jmx-exporter/jmx-exporter.yaml /etc/cassandra/jmx-exporter.yaml
 ADD jaeger/cassandra-jaeger-tracing-4.0.5.jar /usr/share/cassandra/lib/cassandra-jaeger-tracing-4.0.5.jar
 
 # Our config - base files
+
 ADD etc/cassandra/cassandra-env.sh /etc/cassandra/cassandra-env.sh
 ADD etc/cassandra/jmxremote.access /etc/cassandra/jmxremote.access
 ADD etc/cassandra/cassandra.yaml /etc/cassandra/cassandra.yaml
@@ -42,6 +50,7 @@ RUN ln -s /usr/lib/x86_64-linux-gnu/libjemalloc.so.2 /usr/local/lib/libjemalloc.
 # Entry point
 ADD entrypoint.py /entrypoint.py
 RUN chmod ugo+x /entrypoint.py
+RUN chmod ugo+x /usr/share/cassandra/lib/*.jar /usr/share/cassandra/*.jar
 ENTRYPOINT ["/entrypoint.py"]
 
 RUN chown -R cassandra:cassandra /var/lib/cassandra

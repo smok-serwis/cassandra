@@ -131,6 +131,14 @@ else
   fi
 fi
 
+CASSANDRA_HOME=/usr/share/cassandra
+chmod ugo+rx /usr/share/cassandra/*.jar /usr/share/cassandra/lib/*.jar
+# The java classpath (required)
+if [ -n "$CLASSPATH" ]; then
+    CLASSPATH=$CLASSPATH:$CASSANDRA_CONF
+else
+    CLASSPATH=$CASSANDRA_CONF
+fi
 # Cassandra uses SIGAR to capture OS metrics CASSANDRA-7838
 # for SIGAR we have to set the java.library.path
 # to the location of the native libraries.
