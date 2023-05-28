@@ -110,7 +110,7 @@ fi
 
 if [ ! -z "$JAEGER_AGENT_HOST" ]; then
   JVM_OPTS="$JVM_OPTS -Dcassandra.custom_tracing_class=io.infracloud.cassandra.tracing.JaegerTracing"
-  CLASSPATH="$CLASSPATH:/usr/share/cassandra/lib/cassandra-jaeger-tracing-4.0.5-SNAPSHOT.jar"
+  CLASSPATH="$CLASSPATH:/usr/share/cassandra/lib/cassandra-jaeger-tracing-4.1.0.jar"
 fi
 
 # Specifies the default port over which Cassandra will be available for
@@ -139,6 +139,8 @@ if [ -n "$CLASSPATH" ]; then
 else
     CLASSPATH=$CASSANDRA_CONF
 fi
+
+JVM_OPTS="$JVM_OPTS "
 # Cassandra uses SIGAR to capture OS metrics CASSANDRA-7838
 # for SIGAR we have to set the java.library.path
 # to the location of the native libraries.

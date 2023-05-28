@@ -34,7 +34,7 @@ ADD jmx-exporter/jolokia-jvm-1.6.2-agent.jar /usr/share/cassandra/lib/jolokia-jv
 ADD jmx-exporter/jmx-exporter.yaml /etc/cassandra/jmx-exporter.yaml
 
 # Jaeger tracing
-ADD jaeger/cassandra-jaeger-tracing-4.0.5.jar /usr/share/cassandra/lib/cassandra-jaeger-tracing-4.0.5.jar
+ADD jaeger/cassandra-jaeger-tracing-4.1.0.jar /usr/share/cassandra/lib/cassandra-jaeger-tracing-4.1.0.jar
 
 # Our config - base files
 
