@@ -377,7 +377,7 @@ cross_node_timeout: true
 # accepting writes when the limit is exceeded until a flush completes,
 # and will trigger a flush based on memtable_cleanup_threshold
 # If omitted, Cassandra will set both to 1/4 the size of the heap.
-# memtable_heap_space_in_mb: 2048
+memtable_heap_space_in_mb: $MEMTABLE_HEAP_SIZE_IN_MB
 # memtable_offheap_space_in_mb: 2048
 concurrent_materialized_view_builders: 4
 # Ratio of occupied non-flushing memtable size to total permitted size

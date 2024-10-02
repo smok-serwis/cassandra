@@ -95,6 +95,10 @@ if __name__ == '__main__':
                ENABLE_USER_DEFINED_FUNCTIONS='true',
                COMMITLOG_SEGMENT_SIZE='32',
                COMMITLOG_SYNC='periodic')
+
+    if 'MEMTABLE_HEAP_SIZE_IN_MB' not in os.environ:
+        setdefault(MEMTABLE_HEAP_SIZE_IN_MB=str(int(os.environ['MAX_HEAP_SIZE'])//4))
+
     if os.environ['DISK_OPTIMIZATION_STRATEGY'] not in ('ssd', 'spinning'):
         print('Invalid DISK_OPTIMIZATION_STRATEGY valid options are ssd and spinning')
         sys.exit(1)

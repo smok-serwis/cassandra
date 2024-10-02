@@ -1,3 +1,8 @@
+# v4.1.7
+
+* bump Cassandra to 4.1.7
+* added extra options to set memtable size
+
 # v3.11.6
 
 * still used Oracle JRE

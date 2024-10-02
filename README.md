@@ -1,6 +1,6 @@
-# OpenJDK 11 + Cassandra 4.0.5 + Prometheus JMX exporter + Jolokia exporter + jemalloc2 
+# OpenJDK 11 + Cassandra 4.1.7 + Prometheus JMX exporter + Jolokia exporter + jemalloc2 
  
-Current version: [Cassandra v4.0.5](https://github.com/smok-serwis/cassandra/releases/tag/4.0.5.2), 
+Current version: [Cassandra v4.1.7](https://github.com/smok-serwis/cassandra/releases/tag/4.0.5.2), 
 now with more configurability through the envs!
 
 Due to myriad of different licenses employed here, please take a look at
@@ -154,7 +154,7 @@ use it to [replace a dead node](https://docs.datastax.com/en/archived/cassandra/
 
 # Using the G1 Garbage Collector
 
-The G1 garbage collector is shipped as default by Cassandra 4.0.5. There's no need to set it explicitly,
+The G1 garbage collector is shipped as default by Cassandra 4.1.7. There's no need to set it explicitly,
 as there's no need to revert to earlier concurrent mark'n'sweep.
 
 # Enabling assertions
