@@ -10,7 +10,7 @@ Since this software bundles a few elements, I tought I'd display the licenses he
 
 # The license for [my software](/entrypoint.py)
 
-                         Copyright (c) 2019-2023 SMOK sp. z o. o.
+                         Copyright (c) 2019-2024 SMOK sp. z o. o.
                                   Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/

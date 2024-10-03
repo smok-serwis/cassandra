@@ -6,7 +6,9 @@ now with more configurability through the envs!
 Due to myriad of different licenses employed here, please take a look at
 the [summary detailed here](/LICENSE.md).
 
-# Ports it listens on
+#
+
+## Ports it listens on
 
 * 7199 - JMX
 * 7198 - Prometheus exporter
@@ -14,13 +16,13 @@ the [summary detailed here](/LICENSE.md).
 * 7000 - Internode communications
 * 9160 - Thrift client (disabled by default, set env `START_RPC` to `true` to enable it)
 
-# Volumes of interest
+## Volumes of interest
 
 * _/var/lib/cassandra_ - data partition
 * _/var/lib/cassandra/commitlog_ - commitlog partition
 * _/var/lib/cassandra/logs_ - logs
 
-# Usage
+## Usage
 
 Since this uses OpenJDK 11, you do not need to set anymore any weird environment variables. Just enjoy!
 
@@ -41,7 +43,7 @@ IP in _BROADCAST_ADDRESSes_ and using _auto_ for normal addresses works fine wit
 Any arguments passed to the entry point will be called as through a Cassandra was called. Any extra arguments
 will be passed there, after a `cassandra -f`.
 
-# Parameters
+## Parameters
 
 Set `ADDRESS_FOR_ALL` for a variable that will replace all _ADDRESS.
 
@@ -94,8 +96,9 @@ If you need quotes, bring them with you. See for example how `CLUSTER_NAME` is s
 * **KEY_CACHE_SIZE_IN_MB** - default is *auto*
 * **FILE_CACHE_SIZE_IN_MB** - size of chunk cache, default is 512
 * **COMMITLOG_SYNC** - [RTFM](etc/cassandra/cassandra.yaml). Defaults to _periodic_
+* **MEMTABLE_HEAP_SIZE_IN_MB** - size of heap size for memtables
 
-# Enabling JMX
+## Enabling JMX
 
 To enable JMX [without SSL] set the environment variable _LOCAL_JMX_ to _no_, and the
 environment variable _JMX_REMOTE_PASSWORD_ to target remote password.
@@ -103,22 +106,22 @@ environment variable _JMX_REMOTE_PASSWORD_ to target remote password.
 This way you will have two users created - `monitorRole` with read-only permissions, and `controlRole`
 with read-write JMX permissions, both having the password that you set.
 
-# Optionals
+## Optionals
 
 Following env's would be nice to have, but are not required:
 
 * **CASSANDRA_DC** - name of this DC that Cassandra is in. _dc1_ by default.
 * **CASSANDRA_RACK** - name of the rack that Cassandra is in, _rack1_ by default.
 
-# Jolokia
+## Jolokia
 
 Jolokia is enabled by default and listens on port 8080. If you define the env `DISABLE_JOLOKIA` 
 t won't be loaded.
 
-# Extra arguments
+## Extra arguments
 This simply launches cassandra with a -f flag, and passes any extra arguments to that cassandra.
 
-# Health check
+## Health check
 
 This container spots a built-in healthcheck. It is done by invoking "nodetool status" and seeing it's exit code.
 This assumes that 30 minutes will be a sufficient time for your Cassandra to get up and read it's commit logs and initialize.
@@ -152,20 +155,27 @@ You can add any number, starting from numbering them EXTRA1, without any limit.
 It's important that they are consecutive numbers. These will simply enlarge your `JVM_OPTS`. You can for example
 use it to [replace a dead node](https://docs.datastax.com/en/archived/cassandra/3.0/cassandra/operations/opsReplaceNode.html).
 
-# Using the G1 Garbage Collector
+## Using the G1 Garbage Collector
 
 The G1 garbage collector is shipped as default by Cassandra 4.1.7. There's no need to set it explicitly,
 as there's no need to revert to earlier concurrent mark'n'sweep.
 
-# Enabling assertions
+## Enabling assertions
 
 Assertions are disabled by default in order to provide a modest speed-up. To enable them, use an
 env called `ENABLE_ASSERTIONS` and set it to `1`.
 
-# Logging GC
+## Logging GC
 
 GC can be logged to:
 
 * `not logged` (default value of `LOG_GC=none`)
 * file /var/log/cassandra.gc (`LOG_GC=file`)
 * standard output (`LOG_GC=stdout`)
+
+
+## correct sysctl settings
+
+* vm.max_map_count = 1048575
+* echo 8 > /sys/block/sda/queue/read_ahead_kb for the drive storing Cassandra data
+* 

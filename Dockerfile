@@ -5,13 +5,13 @@ ENV DEBIAN_FRONTEND=noninteractive
 ENV APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=1
 
 
-
 RUN apt-get update && \
     apt-get install -y --no-install-recommends openjdk-11-jre-headless gnupg2 python3 libjemalloc2 && \
     apt-get clean
 
 RUN mkdir -p /etc/ssl/certs/java/ && \
-    apt install --reinstall -o Dpkg::Options::="--force-confask,confnew,confmiss" --reinstall ca-certificates-java ssl-cert openssl ca-certificates
+    apt install --reinstall -o Dpkg::Options::="--force-confask,confnew,confmiss" --reinstall ca-certificates-java ssl-cert openssl ca-certificates && \
+    apt-get clean
 
 
 ENV JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64

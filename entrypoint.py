@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-Copyright (c) 2019-2023 SMOK sp. z o. o.
+Copyright (c) 2019-2024 SMOK sp. z o. o.
 See LICENSE.md for details
 Author: Piotr Maślanka <pmaslanka@smok.co>
 """
@@ -94,10 +94,8 @@ if __name__ == '__main__':
                ENABLE_SCRIPTED_USER_DEFINED_FUNCTIONS='true',
                ENABLE_USER_DEFINED_FUNCTIONS='true',
                COMMITLOG_SEGMENT_SIZE='32',
-               COMMITLOG_SYNC='periodic')
-
-    if 'MEMTABLE_HEAP_SIZE_IN_MB' not in os.environ:
-        setdefault(MEMTABLE_HEAP_SIZE_IN_MB=str(int(os.environ['MAX_HEAP_SIZE'])//4))
+               COMMITLOG_SYNC='periodic',
+               MEMTABLE_HEAP_SIZE_IN_MB='1024MB')
 
     if os.environ['DISK_OPTIMIZATION_STRATEGY'] not in ('ssd', 'spinning'):
         print('Invalid DISK_OPTIMIZATION_STRATEGY valid options are ssd and spinning')

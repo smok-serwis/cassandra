@@ -86,3 +86,5 @@
 -Dio.netty.tryReflectionSetAccessible=true
 
 # The newline in the end of file is intentional
+
+-XX:+UseLargePages

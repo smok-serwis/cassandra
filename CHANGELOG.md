@@ -2,6 +2,7 @@
 
 * bump Cassandra to 4.1.7
 * added extra options to set memtable size
+* added support for large pages
 
 # v3.11.6
 
