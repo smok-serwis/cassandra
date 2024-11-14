@@ -27,6 +27,8 @@ RUN tar zxf apache-cassandra-5.0.2-bin.tar.gz && \
     mv conf /etc/cassandra && \
     mkdir -p /usr/share/cassandra && \
     mv lib /usr/share/cassandra/lib/ && \
+    cd pylib && \
+    python3 setup.py install && \
     rm -rf /tmp/apache*
 
 
