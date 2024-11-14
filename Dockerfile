@@ -33,7 +33,7 @@ RUN tar zxf apache-cassandra-5.0.2-bin.tar.gz && \
     pip install Cython && \
     apt-get clean && \
     python3 setup.py install && \
-    cd \ &&
+    cd / && \
     rm -rf /tmp/apache*
 
 
