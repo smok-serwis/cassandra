@@ -41,6 +41,8 @@ IP in _BROADCAST_ADDRESSes_ and using _auto_ for normal addresses works fine wit
 Any arguments passed to the entry point will be called as through a Cassandra was called. Any extra arguments
 will be passed there, after a `cassandra -f`.
 
+Or, if you pass `bash` command, a bash shell will be set for you with required envs.
+
 ## Parameters
 
 Set `ADDRESS_FOR_ALL` for a variable that will replace all _ADDRESS.
@@ -192,3 +194,4 @@ For every node:
 Now for every node:
     1. Stop it
     2. Change `STORAGE_COMPATIBILITY_MODE` to `NONE`
+    3. Start it
