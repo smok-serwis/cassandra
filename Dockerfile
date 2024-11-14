@@ -6,7 +6,7 @@ ENV APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=1
 
 
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends openjdk-11-jre-headless gnupg2 python3 libjemalloc2 && \
+    apt-get install -y --no-install-recommends openjdk-17-jre-headless gnupg2 python3 libjemalloc2 python3-distutils python3-pip python3-dev build-essential && \
     apt-get clean
 
 RUN mkdir -p /etc/ssl/certs/java/ && \
@@ -14,48 +14,53 @@ RUN mkdir -p /etc/ssl/certs/java/ && \
     apt-get clean
 
 
-ENV JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+ENV JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
 
-LABEL apache.cassandra.version="4.1.7"
+LABEL apache.cassandra.version="5.0.2"
 
-# Cassandra apt-get
-ADD cassandra.sources.list /etc/apt/sources.list.d/cassandra.sources.list
-ADD https://www.apache.org/dist/cassandra/KEYS /tmp/repo_key
-RUN  apt-key add /tmp/repo_key && \
-     apt-get update --fix-missing && \
-     apt-get install -y --no-install-recommends cassandra cassandra-tools && \
-     apt-get clean
+WORKDIR /tmp
+COPY apache-cassandra-5.0.2-bin.tar.gz /tmp/apache-cassandra-5.0.2-bin.tar.gz
+RUN tar zxf apache-cassandra-5.0.2-bin.tar.gz && \
+    cd apache-cassandra-5.0.2 && \
+    chmod ugo+rx bin/* && \
+    cp bin/* /usr/sbin/ && \
+    mv conf /etc/cassandra && \
+    mkdir -p /usr/share/cassandra && \
+    mv lib /usr/share/cassandra/lib/ && \
+    cd pylib && \
+    pip install Cython && \
+    python3 setup.py install && \
+    cd / && \
+    rm -rf /tmp/apache*
+
 
 # JMX agent
-ADD jmx-exporter/jmx_prometheus_javaagent-0.12.0.jar /usr/share/cassandra/lib/jmx_prometheus_javaagent-0.12.0.jar
-ADD jmx-exporter/jolokia-jvm-1.6.2-agent.jar /usr/share/cassandra/lib/jolokia-jvm-1.6.2-agent.jar
-ADD jmx-exporter/jmx-exporter.yaml /etc/cassandra/jmx-exporter.yaml
+COPY jmx-exporter/jmx_prometheus_javaagent-0.12.0.jar /usr/share/cassandra/lib/jmx_prometheus_javaagent-0.12.0.jar
+COPY jmx-exporter/jolokia-jvm-1.6.2-agent.jar /usr/share/cassandra/lib/jolokia-jvm-1.6.2-agent.jar
+COPY jmx-exporter/jmx-exporter.yaml /etc/cassandra/jmx-exporter.yaml
 
 # Jaeger tracing
-ADD jaeger/cassandra-jaeger-tracing-4.1.0.jar /usr/share/cassandra/lib/cassandra-jaeger-tracing-4.1.0.jar
+COPY jaeger/cassandra-jaeger-tracing-4.1.0.jar /usr/share/cassandra/lib/cassandra-jaeger-tracing-4.1.0.jar
 
 # Our config - base files
 
-ADD etc/cassandra/cassandra-env.sh /etc/cassandra/cassandra-env.sh
-ADD etc/cassandra/jmxremote.access /etc/cassandra/jmxremote.access
-ADD etc/cassandra/cassandra.yaml /etc/cassandra/cassandra.yaml
-ADD etc/cassandra/cassandra-rackdc.properties /etc/cassandra/cassandra-rackdc.properties
-ADD etc/cassandra/jvm.options /etc/cassandra/jvm.options
-ADD etc/cassandra/jvm11-server.options /etc/cassandra/jvm11-server.options
-ADD etc/cassandra/jvm.options.log_gc.file /etc/cassandra/jvm.options.log_gc.file
-ADD etc/cassandra/jvm.options.log_gc.stdout /etc/cassandra/jvm.options.log_gc.stdout
+ADD etc/cassandra/* /etc/cassandra/
 RUN ln -s /usr/lib/x86_64-linux-gnu/libjemalloc.so.2 /usr/local/lib/libjemalloc.so
 # Entry point
 ADD entrypoint.py /entrypoint.py
-RUN chmod ugo+x /entrypoint.py /usr/share/cassandra/lib/*.jar /usr/share/cassandra/*.jar
-RUN chown -R cassandra:cassandra /var/lib/cassandra
+RUN chmod ugo+x /entrypoint.py /usr/share/cassandra/lib/*.jar /usr/share/cassandra/lib/*.jar && \
+    ln -s /usr/share/cassandra/lib/jamm-0.4.0.jar /usr/sbin/jamm-0.4.0.jar
+
 ENTRYPOINT ["/entrypoint.py"]
 
-
+WORKDIR /usr/share/cassandra
 # Health check - this will work only if env HEALTHCHECK_ENABLE is set to some other value than "0"
 HEALTHCHECK --start-period=30m --retries=3 CMD ["/entrypoint.py", "healthcheck"]
 
-ENV LISTEN_ADDRESS=auto \
+
+ENV CASSANDRA_HOME=/usr/share/cassandra \
+    CASSANDRA_CONF=/etc/cassandra \
+    LISTEN_ADDRESS=auto \
     BROADCAST_ADDRESS=auto \
     RPC_ADDRESS=0.0.0.0 \
     RPC_BROADCAST_ADDRESS=auto \
