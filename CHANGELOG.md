@@ -1,9 +1,9 @@
 # v5.0.2
 
 * We're now running Cassandra 5.0.2
-* Major configuration changes, please read [migration guide](MIGRATING.md)
+* Major configuration changes, please read [the end of README](READNE.md)
 * CMS GC was removed
-
+* user scripted defined functions were removed
 
 # v4.1.7
 

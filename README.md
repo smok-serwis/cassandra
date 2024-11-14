@@ -1,12 +1,10 @@
-# OpenJDK 11 + Cassandra 4.1.7 + Prometheus JMX exporter + Jolokia exporter + jemalloc2 
+# OpenJDK 11 + Cassandra 5.0.2 + Prometheus JMX exporter + Jolokia exporter + jemalloc2 
  
-Current version: [Cassandra v4.1.7](https://github.com/smok-serwis/cassandra/releases/tag/4.0.5.2), 
+Current version: [Cassandra v5.0.2](https://github.com/smok-serwis/cassandra/releases/tag/5.0.2), 
 now with more configurability through the envs!
 
 Due to myriad of different licenses employed here, please take a look at
 the [summary detailed here](/LICENSE.md).
-
-#
 
 ## Ports it listens on
 
@@ -24,7 +22,7 @@ the [summary detailed here](/LICENSE.md).
 
 ## Usage
 
-Since this uses OpenJDK 11, you do not need to set anymore any weird environment variables. Just enjoy!
+Since this uses OpenJDK 17, you do not need to set anymore any weird environment variables. Just enjoy!
 
 You don't need to make your images basing off this one.
 `cassandra.yaml` will be set as you set particular environment variables.
@@ -69,10 +67,11 @@ Note that where sizes are required, you should postfix them with MiB or KiB. Whe
 * **AUTHENTICATOR** - by default _AllowAllAuthenticator_, can use also _PasswordAuthenticator_
 * **AUTHORIZER** - by default _AllowAllAuthorizer_, can use also _CassandraAuthorizer_
 * **PARTITIONER** - partitioner to use, by default _org.apache.cassandra.dht.Murmur3Partitioner_
-* **ROW_CACHE_SIZE** - row cache size to use. By default is 0, which means disabled.
-* **TOMBSTONE_WARN_THRESHOLD** and **TOMBSTONE_FAIL_THRESHOLD** - [RTFM](etc/cassandra/cassandra.yaml)
-* **COLUMN_INDEX_SIZE_IN_KB** - [RTFM](etc/cassandra/cassandra.yaml)
-* **BATCH_SIZE_FAIL_THRESHOLD** - maximum size of the batch that Cassandra will fail. [RTFM](etc/cassandra/cassandra.yaml) 
+* **ROW_CACHE_SIZE** - row cache size to use. By default is 0MiB, which means disabled.
+* **TOMBSTONE_WARN_THRESHOLD** and **TOMBSTONE_FAIL_THRESHOLD** - there's no unit. [RTFM](etc/cassandra/cassandra.yaml)
+* **COLUMN_INDEX_SIZE** - [RTFM](etc/cassandra/cassandra.yaml), default is 64KiB
+* **BATCH_SIZE_FAIL_THRESHOLD** - maximum size of the batch that Cassandra will fail. Unit is KiB. [RTFM](etc/cassandra/cassandra.yaml)
+* **BATCHLOG_REPLAY_THROTTLE** - maximum speed at which commit log will be replayed. Default is 512 MiB, which means 512 MiB/s.
 * **REQUEST_SCHEDULER** - defaults to _org.apache.cassandra.scheduler.NoScheduler_
 * **READ_REQUEST_TIMEOUT** - defaults to _5000_
 * **RANGE_REQUEST_TIMEOUT** - defaults to _10000_
@@ -80,23 +79,24 @@ Note that where sizes are required, you should postfix them with MiB or KiB. Whe
 * **WRITE_REQUEST_TIMEOUT** - defaults to _2000_
 * **MAX_HEAP_SIZE** - defaults to _48g_
 * **NEW_HEAP_SIZE** - defaults to _10g_ **don't confuse with HEAP_NEWSIZE**!!
-* **COUNTER_WRITE_REQUEST_TIMEOUT_IN_MS** - defaults to _5000_
+* **COUNTER_WRITE_REQUEST_TIMEOUTS** - defaults to _5000ms_
 * **JMX_AUTH** - defaults to _yes_, set to _no_ to disable JMX auth
-* **CAS_CONTENTION_TIMEOUT_IS_MS** - defaults to _1000_
-* **TRUNCATE_REQUEST_TIMEOUT_IN_MS** - defaults to _60000_
-* **REQUEST_TIMEOUT_IN_MS** - defaults to _10000_
+* **CAS_CONTENTION_TIMEOUT** - defaults to _2000ms_
+* **TRUNCATE_REQUEST_TIMEOUT** - defaults to _60000ms_
+* **REQUEST_TIMEOUT** - defaults to _15000ms_
 * **COMPACTION_THROUGHPUT** - defaults to _64MiB/s_
-* **MAX_HINT_WINDOW_IN_MS** - defaults to _10800000_, which is 3 hours
+* **MAX_HINT_WINDOW** - defaults to _3h_
 * **ENABLE_USER_DEFINED_FUNCTIONS'** - defaults to _false_
 * **ENABLE_SCRIPTED_USER_DEFINED_FUNCTIONS** - defaults to _false_
-* **COMMITLOG_SEGMENT_SIZE** - size of a commit log segment, in MB. Defaults to 32
+* **COMMITLOG_SEGMENT_SIZE** - size of a commit log segment. Defaults to 32MiB.
 * **DISABLE_PROMETHEUS_EXPORTER** - if set, Prometheus' exporter will be disabled
-* **KEY_CACHE_SIZE_IN_MB** - default is *auto*
-* **FILE_CACHE_SIZE_IN_MB** - size of chunk cache, default is 512
-* **COMMITLOG_TOTAL_SPACE_IN_MB** - space to use for commit log. Postfix with MiB. 
+* **KEY_CACHE_SIZE** - default is *auto*, unit is MiB
+* **FILE_CACHE_SIZE** - size of chunk cache, unit is MiB
+* **COMMITLOG_TOTAL_SPACE** - space to use for commit log. Please specify the values, the defaults are difficult to explain.
 * **COMMITLOG_SYNC** - [RTFM](etc/cassandra/cassandra.yaml). Defaults to _periodic_
-* **MEMTABLE_HEAP_SIZE_IN_MB** - size of heap size for memtables. Default is 1024MiB. Postfix it with MiB please.
-* **MEMTABLE_OFF_HEAP_SIZE_IN_MB** - size of off-heap memtables. Default is 512MiB. Postfix it with MiB please.
+* **MEMTABLE_HEAP_SIZE** - size of heap size for memtables. Default is 1024MiB. Postfix it with MiB please.
+* **MEMTABLE_OFF_HEAP_SIZE** - size of off-heap memtables. Default is 512MiB. Postfix it with MiB please.
+* **STORAGE_COMPATIBILITY_MODE** - one used for updating. Please read the end of this article.
 
 ## Enabling JMX
 
@@ -178,4 +178,17 @@ GC can be logged to:
 
 * vm.max_map_count = 1048575
 * echo 8 > /sys/block/sda/queue/read_ahead_kb for the drive storing Cassandra data
-* 
+
+
+# Migrating to Cassandra 5
+
+For every node:
+    1. Stop it
+    2. Check that environment variables match (they changed a lot, they added units, this README details them all)
+    3. Set `STORAGE_COMPATIBILITY_MODE` to `UPGRADING`
+    4. Start the node, wait for it to join the cluster.
+    5. Run `nodetool upgradesstables` on all SSTables that this node has.
+
+Now for every node:
+    1. Stop it
+    2. Change `STORAGE_COMPATIBILITY_MODE` to `NONE`

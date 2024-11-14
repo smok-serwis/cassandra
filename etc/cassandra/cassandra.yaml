@@ -65,7 +65,7 @@ allocate_tokens_for_local_replication_factor: 3
 # initial_token:
 
 # May either be "true" or "false" to enable globally
-hinted_handoff_enabled: true
+hinted_handoff_enabled: $HINTEDHANDOFFENABLE
 
 # When hinted_handoff_enabled is true, a black list of data centers that will not
 # perform hinted handoff
@@ -77,7 +77,7 @@ hinted_handoff_enabled: true
 # generated.  After it has been dead this long, new hints for it will not be
 # created until it has been seen alive and gone down again.
 # Min unit: ms
-max_hint_window: 3h
+max_hint_window: $MAX_HINT_WINDOW
 
 # Maximum throttle in KiBs per second, per delivery thread.  This will be
 # reduced proportionally to the number of nodes in the cluster.  (If there
@@ -496,7 +496,7 @@ prepared_statements_cache_size:
 #
 # This is only relevant to SSTable formats that use key cache, e.g. BIG.
 # Min unit: MiB
-key_cache_size: $KEY_CACHE_SIZE_IN_MB
+key_cache_size: $KEY_CACHE_SIZE
 
 # Duration in seconds after which Cassandra should
 # save the key cache. Caches are saved to saved_caches_directory as
@@ -724,7 +724,7 @@ concurrent_materialized_view_writes: 32
 # if the default 64k chunk size is used).
 # Memory is only allocated when needed.
 # Min unit: MiB
-file_cache_size: $FILE_CACHE_SIZE_IN_MB
+file_cache_size: $FILE_CACHE_SIZE
 
 # Flag indicating whether to allocate on or off heap when the sstable buffer
 # pool is exhausted, that is when it has exceeded the maximum memory

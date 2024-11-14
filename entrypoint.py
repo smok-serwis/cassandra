@@ -88,10 +88,9 @@ if __name__ == '__main__':
                TRUNCATE_REQUEST_TIMEOUT='60000ms',
                REQUEST_TIMEOUT='15000ms',
                COMPACTION_THROUGHPUT='64MiB/s',
-               MAX_HINT_WINDOW_IN_MS='10800000',    # 3 hours
+               MAX_HINT_WINDOW='3h',    # 3 hours
                COLUMN_INDEX_SIZE='64KiB',
                REQUEST_SCHEDULER='org.apache.cassandra.scheduler.NoScheduler',
-               ENABLE_SCRIPTED_USER_DEFINED_FUNCTIONS='true',
                ENABLE_USER_DEFINED_FUNCTIONS='true',
                COMMITLOG_SEGMENT_SIZE='32MiB',
                COMMITLOG_SYNC='periodic',
