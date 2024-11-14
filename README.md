@@ -51,7 +51,6 @@ Following env's values will be placed in _cassandra.yaml_ verbatim (ie, withouti
 * **BROADCAST_ADDRESS**, **LISTEN_ADDRESS**, **RPC_ADDRESS**, **RPC_BROADCAST_ADDRESS** (unless `ADDRESS_FOR_ALL` was given, in that case it will take precedence)
 * **CLUSTER_NAME** (will be automatically escaped with quotes), default is _Test Cluster_
 * **SEED_NODES** - list of comma separated IP addresses to bootstrap the cluster from
-* **STREAMING_SOCKET_TIMEOUT_IN_MS** - prereably set it to a large large timeout to prevent disconnections during streaming large fixes. Minimally 24 hours. Default is one hour
 
 In general, if it's found in [cassandra.yaml](/etc/cassandra/cassandra.yaml) with a dollar sign preceding it, it is safe to assume
 that environment variable with a given name will be substituted for it.
@@ -59,6 +58,8 @@ that environment variable with a given name will be substituted for it.
 If you need quotes, bring them with you. See for example how `CLUSTER_NAME` is set.
 
 ## Extra parameters for [RTFM](etc/cassandra/cassandra.yaml)
+
+Note that where sizes are required, you should postfix them with MiB or KiB. Where tiems are requires, use milliseconds (ms)
 
 * **NUM_TOKENS** - by default 256, but take care
 * **START_RPC** - whether to start classic Cassandra Thrift RPC. Default is _false_, but you might wish to use _true_
@@ -68,26 +69,23 @@ If you need quotes, bring them with you. See for example how `CLUSTER_NAME` is s
 * **AUTHENTICATOR** - by default _AllowAllAuthenticator_, can use also _PasswordAuthenticator_
 * **AUTHORIZER** - by default _AllowAllAuthorizer_, can use also _CassandraAuthorizer_
 * **PARTITIONER** - partitioner to use, by default _org.apache.cassandra.dht.Murmur3Partitioner_
-* **ROW_CACHE_SIZE_IN_MB** - row cache size to use. By default is 0, which means disabled
+* **ROW_CACHE_SIZE** - row cache size to use. By default is 0, which means disabled.
 * **TOMBSTONE_WARN_THRESHOLD** and **TOMBSTONE_FAIL_THRESHOLD** - [RTFM](etc/cassandra/cassandra.yaml)
 * **COLUMN_INDEX_SIZE_IN_KB** - [RTFM](etc/cassandra/cassandra.yaml)
-* **BATCH_SIZE_FAIL_THRESHOLD_IN_KB** - maximum size of the batch that Cassandra will fail. [RTFM](etc/cassandra/cassandra.yaml) 
+* **BATCH_SIZE_FAIL_THRESHOLD** - maximum size of the batch that Cassandra will fail. [RTFM](etc/cassandra/cassandra.yaml) 
 * **REQUEST_SCHEDULER** - defaults to _org.apache.cassandra.scheduler.NoScheduler_
-* **READ_REQUEST_TIMEOUT_IN_MS** - defaults to _5000_
-* **RANGE_REQUEST_TIMEOUT_IN_MS** - defaults to _10000_
-* **STREAM_THROUGHPUT_OUTBOUND_MEGABITS_PER_SEC** - defaults to _25_
-* **WRITE_REQUEST_TIMEOUT_IN_MS** - defaults to _2000_
+* **READ_REQUEST_TIMEOUT** - defaults to _5000_
+* **RANGE_REQUEST_TIMEOUT** - defaults to _10000_
+* **STREAM_THROUGHPUT_OUTBOUND** - defaults to _25MiB/s_
+* **WRITE_REQUEST_TIMEOUT** - defaults to _2000_
 * **MAX_HEAP_SIZE** - defaults to _48g_
 * **NEW_HEAP_SIZE** - defaults to _10g_ **don't confuse with HEAP_NEWSIZE**!!
 * **COUNTER_WRITE_REQUEST_TIMEOUT_IN_MS** - defaults to _5000_
-* **AUTO_BOOTSTRAP** - defaults to _true_
 * **JMX_AUTH** - defaults to _yes_, set to _no_ to disable JMX auth
 * **CAS_CONTENTION_TIMEOUT_IS_MS** - defaults to _1000_
 * **TRUNCATE_REQUEST_TIMEOUT_IN_MS** - defaults to _60000_
-* **AUTOBOOTSTRAP** - defaults to _true_. Use only when you know what you are doing!
 * **REQUEST_TIMEOUT_IN_MS** - defaults to _10000_
-* **COMPACTION_THROUGHPUT_MB_PER_SEC** - defaults to _16_
-* **COMPACTION_LARGE_PARTITION_WARNING_THRESHOLD_MB** - defaults to _100_
+* **COMPACTION_THROUGHPUT** - defaults to _64MiB/s_
 * **MAX_HINT_WINDOW_IN_MS** - defaults to _10800000_, which is 3 hours
 * **ENABLE_USER_DEFINED_FUNCTIONS'** - defaults to _false_
 * **ENABLE_SCRIPTED_USER_DEFINED_FUNCTIONS** - defaults to _false_
@@ -95,8 +93,10 @@ If you need quotes, bring them with you. See for example how `CLUSTER_NAME` is s
 * **DISABLE_PROMETHEUS_EXPORTER** - if set, Prometheus' exporter will be disabled
 * **KEY_CACHE_SIZE_IN_MB** - default is *auto*
 * **FILE_CACHE_SIZE_IN_MB** - size of chunk cache, default is 512
+* **COMMITLOG_TOTAL_SPACE_IN_MB** - space to use for commit log. Postfix with MiB. 
 * **COMMITLOG_SYNC** - [RTFM](etc/cassandra/cassandra.yaml). Defaults to _periodic_
-* **MEMTABLE_HEAP_SIZE_IN_MB** - size of heap size for memtables
+* **MEMTABLE_HEAP_SIZE_IN_MB** - size of heap size for memtables. Default is 1024MiB. Postfix it with MiB please.
+* **MEMTABLE_OFF_HEAP_SIZE_IN_MB** - size of off-heap memtables. Default is 512MiB. Postfix it with MiB please.
 
 ## Enabling JMX
 

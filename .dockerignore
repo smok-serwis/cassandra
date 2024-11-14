@@ -3,3 +3,4 @@ README.md
 .gitignore
 .git/
 .idea/
+apache-cassandra-5.0.2/*

@@ -46,6 +46,7 @@ if __name__ == '__main__':
         if os.environ.get(k, '').upper() == 'AUTO':
             os.environ[k] = socket.gethostbyname(socket.gethostname())
 
+    was_commitlog_size_defined = 'COMMITLOG_TOTAL_SPACE' in os.environ
 
     def setdefault(**kwargs):
         for key, value in kwargs.items():
@@ -56,46 +57,45 @@ if __name__ == '__main__':
     # define sane defaults
     setdefault(HEALTHCHECK_ENABLE='0',
                HEAP_NEWSIZE='180M',
-               BATCH_SIZE_FAIL_THRESHOLD_IN_KB='50',
+               BATCH_SIZE_FAIL_THRESHOLD='500KiB',
                CLUSTER_NAME='Test Cluster',
                NUM_TOKENS='256',
                CASSANDRA_HOME='/usr/share/cassandra',
                CASSANDRA_DC='dc1',
                MAX_HEAP_SIZE='48G',
                PARTITIONER='org.apache.cassandra.dht.Murmur3Partitioner',
-               ROW_CACHE_SIZE_IN_MB='0',
+               ROW_CACHE_SIZE_IN_MB='0MiB',
                CASSANDRA_RACK='rack1',
                AUTHORIZER='AllowAllAuthorizer',
                ENDPOINT_SNITCH='SimpleSnitch',
                DISK_OPTIMIZATION_STRATEGY='ssd',
                KEY_CACHE_SIZE_IN_MB='',
-               STREAM_THROUGHPUT_OUTBOUND_MEGABITS_PER_SEC='25',
-               FILE_CACHE_SIZE_IN_MB='512',
+               STREAM_THROUGHPUT_OUTBOUND='25MiB/s',
+               FILE_CACHE_SIZE_IN_MB='512MiB',
                AUTHENTICATOR='AllowAllAuthenticator',
                HINTEDHANDOFFENABLE='true',
-               AUTOBOOTSTRAP='true',
                JMX_AUTH='yes',
-               BATCHLOG_REPLAY_THROTTLE='524288',           # 512 MBit should suffice
+               BATCHLOG_REPLAY_THROTTLE='512MiB',           # 512 MBit should suffice
                TOMBSTONE_WARN_THRESHOLD='10000',
                TOMBSTONE_FAIL_THRESHOLD='100000',
-               COMMITLOG_TOTAL_SPACE_IN_MB='4096',
-               READ_REQUEST_TIMEOUT_IN_MS='5000',
-               RANGE_REQUEST_TIMEOUT_IN_MS='10000',
-               WRITE_REQUEST_TIMEOUT_IN_MS='10000',
-               COUNTER_WRITE_REQUEST_TIMEOUT_IN_MS='5000',
-               CAS_CONTENTION_TIMEOUT_IS_MS='2000',
-               TRUNCATE_REQUEST_TIMEOUT_IN_MS='60000',
-               REQUEST_TIMEOUT_IN_MS='15000',
-               COMPACTION_THROUGHPUT_MB_PER_SEC='64',
-               COMPACTION_LARGE_PARTITION_WARNING_THRESHOLD_MB='100',
+               COMMITLOG_TOTAL_SPACE='4096MiB',
+               READ_REQUEST_TIMEOUT='5000ms',
+               RANGE_REQUEST_TIMEOUT='10000ms',
+               WRITE_REQUEST_TIMEOUT='10000ms',
+               COUNTER_WRITE_REQUEST_TIMEOUT='5000ms',
+               CAS_CONTENTION_TIMEOUT='2000ms',
+               TRUNCATE_REQUEST_TIMEOUT='60000ms',
+               REQUEST_TIMEOUT='15000ms',
+               COMPACTION_THROUGHPUT='64MiB/s',
                MAX_HINT_WINDOW_IN_MS='10800000',    # 3 hours
-               COLUMN_INDEX_SIZE_IN_KB='64',
+               COLUMN_INDEX_SIZE='64KiB',
                REQUEST_SCHEDULER='org.apache.cassandra.scheduler.NoScheduler',
                ENABLE_SCRIPTED_USER_DEFINED_FUNCTIONS='true',
                ENABLE_USER_DEFINED_FUNCTIONS='true',
-               COMMITLOG_SEGMENT_SIZE='32',
+               COMMITLOG_SEGMENT_SIZE='32MiB',
                COMMITLOG_SYNC='periodic',
-               MEMTABLE_HEAP_SIZE_IN_MB='1024MB')
+               MEMTABLE_HEAP_SIZE='1024MiB',
+               MEMTABLE_OFF_HEAP_SIZE='512MiB')
 
     if os.environ['DISK_OPTIMIZATION_STRATEGY'] not in ('ssd', 'spinning'):
         print('Invalid DISK_OPTIMIZATION_STRATEGY valid options are ssd and spinning')
@@ -104,13 +104,15 @@ if __name__ == '__main__':
     # Calculate commitlog total space in MB, as to quote cassandra.yaml:
     # The default value is the smaller of 8192, and 1/4 of the total space
     # of the commitlog volume.
-    try:
-        commitlog = os.statvfs('/var/lib/cassandra/commitlog')
-    except OSError:
-        commitlog = os.statvfs('/')
 
-    free_space_in_mb = min(8192, commitlog.f_frsize * commitlog.f_blocks // 1024 // 1024 // 4)
-    setdefault(COMMITLOG_TOTAL_SPACE_IN_MB=str(free_space_in_mb))
+    if not was_commitlog_size_defined:
+        try:
+            commitlog = os.statvfs('/var/lib/cassandra/commitlog')
+        except OSError:
+            commitlog = os.statvfs('/')
+
+        free_space_in_mb = min(8192, commitlog.f_frsize * commitlog.f_blocks // 1024 // 1024 // 4)
+        setdefault(COMMITLOG_TOTAL_SPACE_IN_MB=str(free_space_in_mb)+'MiB')
 
     # Do the optional health check
     if len(sys.argv) > 1:
@@ -147,12 +149,14 @@ if __name__ == '__main__':
         f_out.write(data)
 
     log_gc = os.environ.get('LOG_GC', 'none')
+    with open('/etc/cassandra/jvm.options', 'r') as f_in:
+        data = f_in.read()
     if log_gc == 'file':
         with open('/etc/cassandra/jvm.options.log_gc.file', 'r') as f_in:
-            data2 = f_in.read()
+            data2 = data+'\n'+f_in.read()
     elif log_gc == 'stdout':
         with open('/etc/cassandra/jvm.options.log_gc.stdout', 'r') as f_in:
-            data2 = f_in.read()
+            data2 = data+'\n'+f_in.read()
     else:
         data2 = ''
 

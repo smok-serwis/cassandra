@@ -1,3 +1,10 @@
+# v5.0.2
+
+* We're now running Cassandra 5.0.2
+* Major configuration changes, please read README
+* CMS GC was removed
+
+
 # v4.1.7
 
 * bump Cassandra to 4.1.7
