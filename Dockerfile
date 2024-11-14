@@ -55,7 +55,8 @@ WORKDIR /usr/share/cassandra
 # Health check - this will work only if env HEALTHCHECK_ENABLE is set to some other value than "0"
 HEALTHCHECK --start-period=30m --retries=3 CMD ["/entrypoint.py", "healthcheck"]
 
-ENV CASSANDRA_CONF=/etc/cassandra \
+ENV CASSANDRA_HOME=/usr/share/cassandra \
+    CASSANDRA_CONF=/etc/cassandra \
     LISTEN_ADDRESS=auto \
     BROADCAST_ADDRESS=auto \
     RPC_ADDRESS=0.0.0.0 \
