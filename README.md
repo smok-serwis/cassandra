@@ -6,6 +6,8 @@ now with more configurability through the envs!
 Due to myriad of different licenses employed here, please take a look at
 the [summary detailed here](/LICENSE.md).
 
+If you're migrating from Cassandra 4, just scroll to the bottom.
+
 ## Ports it listens on
 
 * 7199 - JMX
