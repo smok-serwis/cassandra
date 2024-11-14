@@ -30,7 +30,7 @@ RUN tar zxf apache-cassandra-5.0.2-bin.tar.gz && \
     cd pylib && \
     apt-get update && \
     apt-get install -y --no-install-recommends python3-distutils && \
-    apt-get clean
+    apt-get clean && \
     python3 setup.py install && \
     rm -rf /tmp/apache*
 
