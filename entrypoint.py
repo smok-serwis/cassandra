@@ -64,7 +64,7 @@ if __name__ == '__main__':
                CASSANDRA_DC='dc1',
                MAX_HEAP_SIZE='48G',
                PARTITIONER='org.apache.cassandra.dht.Murmur3Partitioner',
-               ROW_CACHE_SIZE_IN_MB='0MiB',
+               ROW_CACHE_SIZE='0MiB',
                CASSANDRA_RACK='rack1',
                AUTHORIZER='AllowAllAuthorizer',
                ENDPOINT_SNITCH='SimpleSnitch',
