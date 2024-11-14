@@ -28,6 +28,9 @@ RUN tar zxf apache-cassandra-5.0.2-bin.tar.gz && \
     mkdir -p /usr/share/cassandra && \
     mv lib /usr/share/cassandra/lib/ && \
     cd pylib && \
+    apt-get update && \
+    apt-get install -y --no-install-recommends python3-distutils && \
+    apt-get clean
     python3 setup.py install && \
     rm -rf /tmp/apache*
 
@@ -54,6 +57,7 @@ ENTRYPOINT ["/entrypoint.py"]
 WORKDIR /usr/share/cassandra
 # Health check - this will work only if env HEALTHCHECK_ENABLE is set to some other value than "0"
 HEALTHCHECK --start-period=30m --retries=3 CMD ["/entrypoint.py", "healthcheck"]
+
 
 ENV CASSANDRA_HOME=/usr/share/cassandra \
     CASSANDRA_CONF=/etc/cassandra \
