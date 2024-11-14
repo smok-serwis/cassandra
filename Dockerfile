@@ -6,7 +6,7 @@ ENV APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=1
 
 
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends openjdk-17-jre-headless gnupg2 python3 libjemalloc2 wget && \
+    apt-get install -y --no-install-recommends openjdk-17-jre-headless gnupg2 python3 libjemalloc2 python3-distutils python3-pip python3-dev build-essential && \
     apt-get clean
 
 RUN mkdir -p /etc/ssl/certs/java/ && \
@@ -28,10 +28,7 @@ RUN tar zxf apache-cassandra-5.0.2-bin.tar.gz && \
     mkdir -p /usr/share/cassandra && \
     mv lib /usr/share/cassandra/lib/ && \
     cd pylib && \
-    apt-get update && \
-    apt-get install -y --no-install-recommends python3-distutils python3-pip python3-dev build-essential && \
     pip install Cython && \
-    apt-get clean && \
     python3 setup.py install && \
     cd / && \
     rm -rf /tmp/apache*

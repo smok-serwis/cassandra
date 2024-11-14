@@ -73,8 +73,8 @@ Note that where sizes are required, you should postfix them with MiB or KiB. Whe
 * **BATCH_SIZE_FAIL_THRESHOLD** - maximum size of the batch that Cassandra will fail. Unit is KiB. [RTFM](etc/cassandra/cassandra.yaml)
 * **BATCHLOG_REPLAY_THROTTLE** - maximum speed at which commit log will be replayed. Default is 512 MiB, which means 512 MiB/s.
 * **REQUEST_SCHEDULER** - defaults to _org.apache.cassandra.scheduler.NoScheduler_
-* **READ_REQUEST_TIMEOUT** - defaults to _5000_
-* **RANGE_REQUEST_TIMEOUT** - defaults to _10000_
+* **READ_REQUEST_TIMEOUT** - defaults to _5000ms_
+* **RANGE_REQUEST_TIMEOUT** - defaults to _10000ms_
 * **STREAM_THROUGHPUT_OUTBOUND** - defaults to _25MiB/s_
 * **WRITE_REQUEST_TIMEOUT** - defaults to _2000_
 * **MAX_HEAP_SIZE** - defaults to _48g_
