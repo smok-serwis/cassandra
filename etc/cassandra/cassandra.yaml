@@ -2246,4 +2246,4 @@ drop_compact_storage_enabled: true
 #   and ensures stability. If Cassandra was started at the previous version by accident, a node with disabled
 #   compatibility mode would no longer toggle behaviors as when it was running in the UPGRADING mode.
 #
-storage_compatibility_mode: STORAGE_COMPATIBILITY_MODE
+storage_compatibility_mode: $STORAGE_COMPATIBILITY_MODE
