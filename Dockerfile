@@ -29,7 +29,7 @@ RUN tar zxf apache-cassandra-5.0.2-bin.tar.gz && \
     mv lib /usr/share/cassandra/lib/ && \
     cd pylib && \
     apt-get update && \
-    apt-get install -y --no-install-recommends python3-distutils python3-pip && \
+    apt-get install -y --no-install-recommends python3-distutils python3-pip python3-dev && \
     pip install Cython && \
     apt-get clean && \
     python3 setup.py install && \
