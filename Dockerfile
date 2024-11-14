@@ -46,7 +46,8 @@ ADD etc/cassandra/* /etc/cassandra/
 RUN ln -s /usr/lib/x86_64-linux-gnu/libjemalloc.so.2 /usr/local/lib/libjemalloc.so
 # Entry point
 ADD entrypoint.py /entrypoint.py
-RUN chmod ugo+x /entrypoint.py /usr/share/cassandra/lib/*.jar /usr/share/cassandra/lib/*.jar
+RUN chmod ugo+x /entrypoint.py /usr/share/cassandra/lib/*.jar /usr/share/cassandra/lib/*.jar && \
+    ln -s /usr/share/cassandra/lib/jamm-0.4.0.jar /usr/sbin/jamm-0.4.0.jar
 
 ENTRYPOINT ["/entrypoint.py"]
 
