@@ -68,6 +68,7 @@ if __name__ == '__main__':
                CASSANDRA_RACK='rack1',
                AUTHORIZER='AllowAllAuthorizer',
                ENDPOINT_SNITCH='SimpleSnitch',
+               STORAGE_COMPATIBILITY_MODE='CASSANDRA_4',
                DISK_OPTIMIZATION_STRATEGY='ssd',
                KEY_CACHE_SIZE_IN_MB='',
                STREAM_THROUGHPUT_OUTBOUND='25MiB/s',
