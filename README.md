@@ -11,7 +11,7 @@ If you're migrating from Cassandra 4, just scroll to the bottom.
 ## Ports it listens on
 
 * 7199 - JMX
-* 7198 - Prometheus exporter
+* 7198 - Prometheus metrics exporter
 * 9042 - Native transport
 * 7000 - Internode communications
 * 9160 - Thrift client (disabled by default, set env `START_RPC` to `true` to enable it)
@@ -21,11 +21,12 @@ If you're migrating from Cassandra 4, just scroll to the bottom.
 * _/var/lib/cassandra_ - data partition
 * _/var/lib/cassandra/commitlog_ - commitlog partition
 * _/var/lib/cassandra/logs_ - logs
+* _/var/lib/cassandra/heapdump_ - heap dumps in case Cassandra crashes
 
 ## Usage
 
 Since this uses OpenJDK 17, you do not need to set anymore any weird environment variables. Just enjoy!
-
+G1 garbage collector is enabled by default.
 You don't need to make your images basing off this one.
 `cassandra.yaml` will be set as you set particular environment variables.
 Just set envs as needed. See [Dockerfile](/Dockerfile) and [entrypoint.py](/entrypoint.py) for details.
@@ -159,11 +160,6 @@ You can add any number, starting from numbering them EXTRA1, without any limit.
 It's important that they are consecutive numbers. These will simply enlarge your `JVM_OPTS`. You can for example
 use it to [replace a dead node](https://docs.datastax.com/en/archived/cassandra/3.0/cassandra/operations/opsReplaceNode.html).
 
-## Using the G1 Garbage Collector
-
-The G1 garbage collector is shipped as default by Cassandra 4.1.7. There's no need to set it explicitly,
-as there's no need to revert to earlier concurrent mark'n'sweep.
-
 ## Enabling assertions
 
 Assertions are disabled by default in order to provide a modest speed-up. To enable them, use an
@@ -186,7 +182,10 @@ GC can be logged to:
 
 # Migrating to Cassandra 5
 
+Remember to change the env of `JAVA_HOME` to `/usr/lib/jvm/java-11-openjdk-amd64`!
+
 For every node:
+
     1. Stop it
     2. Check that environment variables match (they changed a lot, they added units, this README details them all)
     3. Set `STORAGE_COMPATIBILITY_MODE` to `UPGRADING`
@@ -194,6 +193,7 @@ For every node:
     5. Run `nodetool upgradesstables` on all SSTables that this node has.
 
 Now for every node:
+
     1. Stop it
     2. Change `STORAGE_COMPATIBILITY_MODE` to `NONE`
     3. Start it

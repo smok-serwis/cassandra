@@ -5,14 +5,11 @@ ENV DEBIAN_FRONTEND=noninteractive
 ENV APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=1
 
 
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends openjdk-17-jre-headless gnupg2 python3 libjemalloc2 python3-distutils python3-pip python3-dev build-essential && \
-    apt-get clean
-
 RUN mkdir -p /etc/ssl/certs/java/ && \
+    apt-get update && \
+    apt-get install -y --no-install-recommends openjdk-17-jre-headless gnupg2 python3 libjemalloc2 python3-distutils python3-pip python3-dev build-essential && \
     apt install --reinstall -o Dpkg::Options::="--force-confask,confnew,confmiss" --reinstall ca-certificates-java ssl-cert openssl ca-certificates && \
     apt-get clean
-
 
 ENV JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
 
@@ -49,7 +46,8 @@ RUN ln -s /usr/lib/x86_64-linux-gnu/libjemalloc.so.2 /usr/local/lib/libjemalloc.
 # Entry point
 ADD entrypoint.py /entrypoint.py
 RUN chmod ugo+x /entrypoint.py /usr/share/cassandra/lib/*.jar /usr/share/cassandra/lib/*.jar && \
-    ln -s /usr/share/cassandra/lib/jamm-0.4.0.jar /usr/sbin/jamm-0.4.0.jar
+    ln -s /usr/share/cassandra/lib/jamm-0.4.0.jar /usr/sbin/jamm-0.4.0.jar && \
+    mkdir -p /var/log/cassandra
 
 ENTRYPOINT ["/entrypoint.py"]
 
