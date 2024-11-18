@@ -299,7 +299,7 @@ fi
 
 if [ ! -z "$JAEGER_AGENT_HOST" ]; then
   JVM_OPTS="$JVM_OPTS -Dcassandra.custom_tracing_class=io.infracloud.cassandra.tracing.JaegerTracing"
-  CLASSPATH="$CLASSPATH:/usr/share/cassandra/lib/cassandra-jaeger-tracing-4.1.0.jar"
+  CLASSPATH="$CLASSPATH:/usr/share/cassandra/lib/cassandra-jaeger-tracing-4.1.1.jar"
 fi
 
 

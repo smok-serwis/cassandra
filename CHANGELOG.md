@@ -4,6 +4,7 @@
 * Major configuration changes, please read [the end of README](READNE.md)
 * CMS GC was removed
 * user scripted defined functions were removed
+* [casssandra-jaeger-tracer](https://github.com/smok-serwis/cassandra-jaeger-tracing.git) bumped to 4.1.1
 
 # v4.1.7
 
