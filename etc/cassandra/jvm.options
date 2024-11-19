@@ -12,8 +12,6 @@
 # STARTUP PARAMETERS #
 ######################
 -Dcassandra.CASSANDRA_HOME=/usr/share/cassandra
--Dcom.sun.management.jmxremote.ssl=false
--Dcom.sun.management.jmxremote.host=$JMX_REMOTE_HOST
 # Uncomment any of the following properties to enable specific startup parameters
 
 # In a multi-instance deployment, multiple Cassandra instances will independently assume that all
