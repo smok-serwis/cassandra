@@ -163,7 +163,7 @@ if __name__ == '__main__':
     if os.environ.get('LOCAL_JMX', 'yes') == 'yes':
         data2 = data2.replace('$JMX_REMOTE_HOST', os.environ.get('JMX_ADDRESS', '0.0.0.0'))
     else:
-        data2 = data2.replace('$JMX_REMOTE_HOST', 'JMX_ADDRESS', '127.0.0.1')
+        data2 = data2.replace('$JMX_REMOTE_HOST', '127.0.0.1')
 
     with open('/etc/cassandra/jvm.options', 'a') as f_out:
         f_out.write(data2)
