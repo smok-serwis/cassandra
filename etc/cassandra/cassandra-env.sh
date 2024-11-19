@@ -184,7 +184,9 @@ JVM_OPTS="$JVM_OPTS -XX:CompileCommandFile=$CASSANDRA_CONF/hotspot_compiler"
 JVM_OPTS="$JVM_OPTS -javaagent:$CASSANDRA_HOME/lib/jamm-0.4.0.jar"
 
 # add Prometheus JMX agent
-JVM_OPTS="$JVM_OPTS -javaagent:$CASSANDRA_HOME/lib/jmx_prometheus_javaagent-0.12.0.jar=0.0.0.0:7198:/etc/cassandra/jmx-exporter.yaml"
+if [ -z "$DISABLE_PROMETHEUS" ]; then
+  JVM_OPTS="$JVM_OPTS -javaagent:$CASSANDRA_HOME/lib/jmx_prometheus_javaagent-0.12.0.jar=0.0.0.0:7198:/etc/cassandra/jmx-exporter.yaml"
+fi
 
 # set jvm HeapDumpPath with CASSANDRA_HEAPDUMP_DIR
 if [ "x$CASSANDRA_HEAPDUMP_DIR" != "x" ]; then

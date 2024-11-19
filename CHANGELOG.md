@@ -6,6 +6,7 @@
 * user scripted defined functions were removed
 * [casssandra-jaeger-tracer](https://github.com/smok-serwis/cassandra-jaeger-tracing.git) bumped to 4.1.1
 * enabled submitting traces directly to Jaeger-Collector
+* it's now possible to disable prometheus
 
 # v4.1.7
 
