@@ -111,6 +111,8 @@ environment variable _JMX_REMOTE_PASSWORD_ to target remote password.
 This way you will have two users created - `monitorRole` with read-only permissions, and `controlRole`
 with read-write JMX permissions, both having the password that you set.
 
+IF you want JMX to bind to a specific interface, define `JMX_ADDRESS`.
+
 ## Optionals
 
 Following env's would be nice to have, but are not required:
@@ -136,10 +138,15 @@ To enable health check just set the environment variable `HEALTHCHECK_ENABLE` to
 
 If you choose not to enable the health check, the container will always be marked as healthy.
 
+# Disabling Prometheus exporter
+
+Just define an env called `DISABLE_PROMETHEUS`.
+
 # Enabling Jaeger tracing
 
 In order to enable Jaeger tracing just define the envs `JAEGER_AGENT_HOST`, and optionally
 `JAEGER_AGENT_PORT`, which is 6831 by default.
+If you want to submit directly to collector, don't define these, define `JAEGER_ENDPOINT` instead.
 
 Note that this uses [our custom](https://github.com/smok-serwis/cassandra-jaeger-tracing)
 version of `cassandra-jaeger-tracing`.
