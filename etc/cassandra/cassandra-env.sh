@@ -233,7 +233,6 @@ if [ "$LOCAL_JMX" = "yes" ]; then
   JVM_OPTS="$JVM_OPTS -Dcom.sun.management.jmxremote.authenticate=false"
 else
   JVM_OPTS="$JVM_OPTS -Dcassandra.jmx.remote.port=$JMX_PORT"
-  JVM_OPTS="$JVM_OPTS -Dcassandra.jmx.remote.host=$JMX_ADDRESS"
   JVM_OPTS="$JVM_OPTS -Dcom.sun.management.jmxremote.host=$JMX_ADDRESS"
   # if ssl is enabled the same port cannot be used for both jmx and rmi so either
   # pick another value for this property or comment out to use a random port (though see CASSANDRA-7087 for origins)
