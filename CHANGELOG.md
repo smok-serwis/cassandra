@@ -1,3 +1,7 @@
+# v5.0.3
+
+* minor fix for setups that did not define nodetool, which still runs under the CMS collector
+
 # v5.0.2
 
 * We're now running Cassandra 5.0.2

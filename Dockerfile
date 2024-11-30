@@ -14,6 +14,9 @@ RUN mkdir -p /etc/ssl/certs/java/ && \
 ENV JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
 
 LABEL apache.cassandra.version="5.0.2"
+LABEL apache.cassandra.image.version="5.0.3a1"
+LABEL image.author="Piotr Maślanka"
+LABEL image.author.email="pmaslanka@smok.co"
 
 WORKDIR /tmp
 COPY apache-cassandra-5.0.2-bin.tar.gz /tmp/apache-cassandra-5.0.2-bin.tar.gz
@@ -47,7 +50,10 @@ RUN ln -s /usr/lib/x86_64-linux-gnu/libjemalloc.so.2 /usr/local/lib/libjemalloc.
 ADD entrypoint.py /entrypoint.py
 RUN chmod ugo+x /entrypoint.py /usr/share/cassandra/lib/*.jar /usr/share/cassandra/lib/*.jar && \
     ln -s /usr/share/cassandra/lib/jamm-0.4.0.jar /usr/sbin/jamm-0.4.0.jar && \
-    mkdir -p /var/log/cassandra
+    mkdir -p /var/log/cassandra && \
+    mv /usr/sbin/nodenool /usr/sbin/_nodetool \
+ADD nodetool.sh /usr/sbin/nodetool
+RUN chmod ugo+x /usr/sbin/nodetool
 
 ENTRYPOINT ["/entrypoint.py"]
 
