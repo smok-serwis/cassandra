@@ -48,6 +48,9 @@ Or, if you pass `bash` command, a bash shell will be set for you with required e
 
 ## Parameters
 
+For the love of God, disable ADDRESS_FOR_ALL while setting up a second or third node. It sets SEED_NODES to point to 
+this node. It's also deprecated.
+
 Set `ADDRESS_FOR_ALL` for a variable that will replace all _ADDRESS.
 
 Following env's values will be placed in _cassandra.yaml_ verbatim (ie, withouting quotes)

@@ -9,6 +9,7 @@ from __future__ import division
 import logging
 import os
 import socket
+import warnings
 import subprocess
 import stat
 import sys
@@ -33,9 +34,10 @@ if __name__ == '__main__':
 
     if 'ADDRESS_FOR_ALL' in os.environ:
         logger.warning('ADDRESS_FOR_ALL set, substituting all addresses for this one')
+        warnings.warn('This is deprecated for fucks sake', DeprecationWarning)
 
         addr = os.environ['ADDRESS_FOR_ALL']
-        os.environ['SEED_NODES'] = addr
+        os.environ['SEED_NODES'] = os.environ.get('SEED_NODES', addr)
         os.environ['RPC_ADDRESS'] = addr
         os.environ['RPC_BROADCAST_ADDRESS'] = addr
         os.environ['BROADCAST_ADDRESS'] = addr
