@@ -146,10 +146,16 @@ Just define an env called `DISABLE_PROMETHEUS`.
 
 In order to enable Jaeger tracing just define the envs `JAEGER_AGENT_HOST`, and optionally
 `JAEGER_AGENT_PORT`, which is 6831 by default.
-If you want to submit directly to collector, don't define these, define `JAEGER_ENDPOINT` instead.
 
 Note that this uses [our custom](https://github.com/smok-serwis/cassandra-jaeger-tracing)
 version of `cassandra-jaeger-tracing`.
+
+In order to trace spans that don't fit within an UDP packet (you'll see lots of logs saying that frame is too large),
+just define an env called `JAEGER_ENDPOINT` that will point directly to collector, eg. `http://jaeger_collector:14268/api/traces`.
+In this case you don't need to set either `JAEGER_AGENT_HOST` and `JAEGER_AGENT_PORT`.
+
+Not setting any of these will result in Cassandra's tracker being used.
+
 
 # Bash
 

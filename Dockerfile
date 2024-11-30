@@ -45,15 +45,14 @@ COPY jaeger/cassandra-jaeger-tracing-5.0.2.jar /usr/share/cassandra/lib/cassandr
 # Our config - base files
 
 ADD etc/cassandra/* /etc/cassandra/
-RUN ln -s /usr/lib/x86_64-linux-gnu/libjemalloc.so.2 /usr/local/lib/libjemalloc.so
-# Entry point
-ADD entrypoint.py /entrypoint.py
-RUN chmod ugo+x /entrypoint.py /usr/share/cassandra/lib/*.jar /usr/share/cassandra/lib/*.jar && \
-    ln -s /usr/share/cassandra/lib/jamm-0.4.0.jar /usr/sbin/jamm-0.4.0.jar && \
-    mkdir -p /var/log/cassandra && \
-    mv /usr/sbin/nodenool /usr/sbin/_nodetool \
+RUN mv /usr/sbin/nodetool /usr/sbin/_nodetool
 ADD nodetool.sh /usr/sbin/nodetool
-RUN chmod ugo+x /usr/sbin/nodetool
+ADD entrypoint.py /entrypoint.py
+RUN chmod ugo+x /usr/sbin/nodetool && \
+    ln -s /usr/lib/x86_64-linux-gnu/libjemalloc.so.2 /usr/local/lib/libjemalloc.so && \
+    chmod ugo+x /entrypoint.py /usr/share/cassandra/lib/*.jar /usr/share/cassandra/lib/*.jar && \
+    ln -s /usr/share/cassandra/lib/jamm-0.4.0.jar /usr/sbin/jamm-0.4.0.jar && \
+    mkdir -p /var/log/cassandra
 
 ENTRYPOINT ["/entrypoint.py"]
 
