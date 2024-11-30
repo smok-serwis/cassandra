@@ -106,7 +106,7 @@ Note that where sizes are required, you should postfix them with MiB or KiB. Whe
 * **COMMITLOG_SYNC** - [RTFM](etc/cassandra/cassandra.yaml). Defaults to _periodic_
 * **MEMTABLE_HEAP_SIZE** - size of heap size for memtables. Default is 1024MiB. Postfix it with MiB please.
 * **MEMTABLE_OFF_HEAP_SIZE** - size of off-heap memtables. Default is 512MiB. Postfix it with MiB please.
-* **STORAGE_COMPATIBILITY_MODE** - one used for updating. Please read the end of this article.
+* **STORAGE_COMPATIBILITY_MODE** - one used for updating. Please read the end of this article. Default is None (bootstrap in a Cassandra 5 cluster)
 
 ## Enabling JMX
 
