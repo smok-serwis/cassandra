@@ -1,6 +1,7 @@
 # v5.0.3
 
 * minor fix for setups that did not define nodetool, which still runs under the CMS collector
+* deprecated ADDRESS_FOR_ALL and auto in addresses
 
 # v5.0.2
 

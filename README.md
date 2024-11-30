@@ -39,7 +39,9 @@ This exports three volumes -
 Best mount them as bind.
 
 Recommended options are `--network host --privileged`, althrough passing the external host
-IP in _BROADCAST_ADDRESSes_ and using _auto_ for normal addresses works fine with a bridge network.
+IP in _BROADCAST_ADDRESSes_ and using _auto_ ONLY for normal addresses works fine with a bridge network.
+
+NEVER USE _auto_ if HOST NETWORKING IS ENABLED!
 
 Any arguments passed to the entry point will be called as through a Cassandra was called. Any extra arguments
 will be passed there, after a `cassandra -f`.
@@ -54,7 +56,7 @@ this node. It's also deprecated.
 Set `ADDRESS_FOR_ALL` for a variable that will replace all _ADDRESS.
 
 Following env's values will be placed in _cassandra.yaml_ verbatim (ie, withouting quotes)
-* **BROADCAST_ADDRESS**, **LISTEN_ADDRESS**, **RPC_ADDRESS**, **RPC_BROADCAST_ADDRESS** (unless `ADDRESS_FOR_ALL` was given, in that case it will take precedence)
+* **BROADCAST_ADDRESS**, **LISTEN_ADDRESS**, **RPC_ADDRESS**, **RPC_BROADCAST_ADDRESS**
 * **CLUSTER_NAME** (will be automatically escaped with quotes), default is _Test Cluster_
 * **SEED_NODES** - list of comma separated IP addresses to bootstrap the cluster from
 

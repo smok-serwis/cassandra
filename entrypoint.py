@@ -46,6 +46,7 @@ if __name__ == '__main__':
     # Replace the "auto" keyword with current IP address
     for k in SUBST_WITH_ENVS:
         if os.environ.get(k, '').upper() == 'AUTO':
+            warnings.warn('This is deprecated, dont use it for fucks sake', DeprecationWarning)
             os.environ[k] = socket.gethostbyname(socket.gethostname())
 
     was_commitlog_size_defined = 'COMMITLOG_TOTAL_SPACE' in os.environ
