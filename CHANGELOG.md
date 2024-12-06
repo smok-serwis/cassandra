@@ -1,11 +1,9 @@
-# v5.0.3
-
-* minor fix for setups that did not define nodetool, which still runs under the CMS collector
-* deprecated ADDRESS_FOR_ALL and auto in addresses
-
 # v5.0.2
 
-* We're now running Cassandra 5.0.2
+* heap dump is disabled by default (the data just accumulates too fast)
+* minor fix for setups that did not define nodetool, which still runs under the CMS collector
+* deprecated ADDRESS_FOR_ALL and auto in addresses* minor fix for setups that did not define nodetool, which still runs under the CMS collector
+* deprecated ADDRESS_FOR_ALL and auto in addresses* We're now running Cassandra 5.0.2
 * Major configuration changes, please read [the end of README](READNE.md)
 * CMS GC was removed
 * user scripted defined functions were removed
