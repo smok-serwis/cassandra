@@ -135,7 +135,7 @@ heap_dump_path: /var/lib/cassandra/heapdump
 
 # Enable / disable automatic dump of heap on first uncaught exception
 # If not set, the default value is false
-dump_heap_on_uncaught_exception: true
+dump_heap_on_uncaught_exception: false
 
 # Enable / disable persistent hint windows.
 #
