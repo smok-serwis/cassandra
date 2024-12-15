@@ -4,7 +4,7 @@
 * minor fix for setups that did not define nodetool, which still runs under the CMS collector
 * deprecated ADDRESS_FOR_ALL and auto in addresses* minor fix for setups that did not define nodetool, which still runs under the CMS collector
 * deprecated ADDRESS_FOR_ALL and auto in addresses* We're now running Cassandra 5.0.2
-* Major configuration changes, please read [the end of README](READNE.md)
+* Major configuration changes, please read [the end of README](README.md)
 * CMS GC was removed
 * user scripted defined functions were removed
 * [casssandra-jaeger-tracer](https://github.com/smok-serwis/cassandra-jaeger-tracing.git) bumped to 4.1.1
